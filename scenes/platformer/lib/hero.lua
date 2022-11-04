@@ -11,6 +11,7 @@ local properties = {
 function M.new(instance)
     instance.isVisible = false
 	local parent = instance.parent
+
 	local x, y = instance.x, instance.y
 
 	local sheetData = { width = 16, height = 16, numFrames = 6 }
@@ -102,8 +103,8 @@ function M.new(instance)
 	end
 
 	Runtime:addEventListener("enterFrame", enterFrame)
-    Runtime:addEventListener("key", key)
-    instance:addEventListener("collision")
+	Runtime:addEventListener("key", key)
+	instance:addEventListener("collision")
 	instance:addEventListener("finalize")
 
     instance.name = "hero"

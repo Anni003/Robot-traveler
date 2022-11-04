@@ -3,12 +3,14 @@ local physics = require("physics")
 local tiled = require("com.ponywolf.ponytiled")
 local json = require("json")
 
-local map, hero
+local door, map, hero
 
 local scene = composer.newScene()
 
 function scene:create(event)
     local sceneGroup = self.view
+
+    local options = event.params
 
 	physics.start()
 	physics.setGravity(0, 30)
@@ -22,7 +24,15 @@ function scene:create(event)
 	map:extend("hero")
     hero = map:findObject("hero")
 
+    if options then
+        hero.x, hero.y = options.hero_x, options.hero_y
+    end
+
     map:extend("door")
+    door = map:findObject("door")
+    if options then
+        door.isClosed = true
+    end
 
     sceneGroup:insert(map)
 
@@ -70,6 +80,7 @@ function scene:hide(event)
     if (phase == "will") then
 
     elseif (phase == "did") then
+        hero:finalize()
         Runtime:removeEventListener("enterFrame", scrollCamera)
     end
 end

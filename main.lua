@@ -1,20 +1,15 @@
--- Include the Composer library
-local composer = require("composer")
+-----------------------------------------------------------------------------------------
+--
+-- main.lua
+--
+-----------------------------------------------------------------------------------------
 
--- Removes status bar
-display.setStatusBar(display.HiddenStatusBar)
+-- hide the status bar
+display.setStatusBar( display.HiddenStatusBar )
 
--- Removes bottom bar on Android
-if system.getInfo("androidApiLevel") and system.getInfo("androidApiLevel") < 19 then
-	native.setProperty("androidSystemUiVisibility", "lowProfile")
-else
-	native.setProperty("androidSystemUiVisibility", "immersiveSticky")
-end
+-- include the Corona "composer" module
+local composer = require "composer"
 
--- Platform detection
-local isSimulator = "simulator" == system.getInfo("environment")
-local isMobile = ("ios" == system.getInfo("platform")) or ("android" == system.getInfo("platform"))
-
--- Go to platformer screen
-composer.gotoScene("scenes.platformer")
--- composer.gotoScene("scenes.menu")
+-- load menu screen
+musicGlobal = true --глобальная проверка того, можно ли включать музыку! true - музыку можно
+composer.gotoScene( "menu" )

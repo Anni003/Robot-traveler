@@ -318,6 +318,16 @@
                  "name":"door",
                  "properties":[
                         {
+                         "name":"bodyType",
+                         "type":"string",
+                         "value":"static"
+                        }, 
+                        {
+                         "name":"isSensor",
+                         "type":"string",
+                         "value":"true"
+                        }, 
+                        {
                          "name":"map",
                          "type":"string",
                          "value":"scenes.level"

@@ -1,11 +1,20 @@
+--
+-- For more information on build.settings, see the Project Build Settings guide at:
+-- https://docs.coronalabs.com/guide/distribution/buildSettings
+--
+
 settings =
 {
 	orientation =
 	{
+		-- portrait, portraitUpsideDown, landscapeLeft, landscapeRight
 		default = "landscapeRight",
 		supported = { "landscapeRight", },
 	},
 
+	--
+	-- Android section
+	--
 	android =
 	{
 		usesPermissions =
@@ -14,6 +23,9 @@ settings =
 		},
 	},
 
+	--
+	-- iOS section
+	--
 	iphone =
 	{
 		xcassets = "Images.xcassets",
@@ -24,13 +36,20 @@ settings =
 		},
 	},
 
+	--
+	-- Plugins section
+	--
 	plugins =
 	{
 
 	},
 
+	--
+	-- Project section
+	--
 	excludeFiles =
 	{
+		-- Exclude unnecessary files for each platform
 		all = { "Icon.png", "Icon-*dpi.png", "Images.xcassets", },
 		android = { "LaunchScreen.storyboardc", },
 	},
