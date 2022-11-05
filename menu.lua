@@ -24,14 +24,14 @@ function scene:create( event )
 	local background = display.newImageRect( "background.jpg", display.actualContentWidth, display.actualContentHeight )
 	background.anchorX = 0
 	background.anchorY = 0
-	background.x = 0 + display.screenOriginX 
+	background.x = 0 + display.screenOriginX
 	background.y = 0 + display.screenOriginY
-	
+
 	-- create/position logo/title image on upper-half of the screen
 	local titleLogo = display.newImageRect( "logo.png", 200, 32 )
 	titleLogo.x = display.contentCenterX - 150
 	titleLogo.y = 40
-	
+
 	-- create a widget button (which will loads level1.lua on release)
 	playBtn = widget.newButton {
 		label = "Играть",
@@ -43,7 +43,7 @@ function scene:create( event )
 	}
 	playBtn.x = display.contentCenterX - 205
 	playBtn.y = display.contentHeight - 60
-	
+
 
 
 
@@ -70,15 +70,15 @@ function scene:create( event )
 					print( "switch" )
 					print( musicGlobal )
 					print( "switch" )
-				else 
+				else
 					timer.performWithDelay( 10, function()
 						audio.play( bgMusic, { loops = -1, channel = 2 } )
 						musicGlobal = true
 						print( "switch" )
 						print( musicGlobal )
 						print( "switch" )
-					end)	
-					
+					end)
+
 				end
 
 			end
@@ -103,7 +103,7 @@ function scene:create( event )
 			})
 		end
 	}
-	
+
 	textHowPlay.x = display.contentCenterX - 180
 	textHowPlay.y = display.contentHeight - 180
 
@@ -124,12 +124,12 @@ function scene:create( event )
 			})
 		end
 	}
-	
+
 	aboutGameBtn.x = display.contentCenterX - 180
 	aboutGameBtn.y = display.contentHeight - 120
 
 
-	
+
 	-- all display objects must be inserted into group
 	sceneGroup:insert( background )
 	sceneGroup:insert( titleLogo )
@@ -153,7 +153,7 @@ function scene:show( event )
 		-- Called when the scene is still off screen and is about to move on screen
 	elseif phase == "did" then
 		-- Called when the scene is now on screen
-		-- 
+		--
 		-- INSERT code here to make the scene come alive
 		-- e.g. start timers, begin animation, play audio, etc.
 		print("это фаза show")
@@ -166,21 +166,18 @@ function scene:show( event )
 				audio.fade({ channel = 1, time = 333, volume = 1.0 } )
 
 			end)
-			print("это фаза show. заход в функцию с вкл звука был")	
+			print("это фаза show. заход в функцию с вкл звука был")
 			print(musicGlobal)
-			print("это фаза show. заход в функцию с вкл звука был")	
+			print("это фаза show. заход в функцию с вкл звука был")
 		end
-	end	
+	end
 end
 
 function scene:hide( event )
 	local sceneGroup = self.view
 	local phase = event.phase
-	
-	if event.phase == "will" then
 
-	elseif phase == "did" then
-		
+	if event.phase == "will" then
 		if musicGlobal == true then
 			-- audio.fadeOut( { channel = 2, time = 1500 } )
 			audio.stop()  -- Stop all audio
@@ -188,18 +185,20 @@ function scene:hide( event )
 		print("это фаза hide")
 		print(musicGlobal)
 		print("это фаза hide")
-	end	
+	elseif phase == "did" then
+
+	end
 
 
 end
 
 function scene:destroy( event )
 	local sceneGroup = self.view
-	
+
 	audio.stop()  -- Stop all audio
 	audio.dispose( bgMusic )  -- Release music handle
 
-	
+
 	if playBtn then
 		playBtn:removeSelf()	-- widgets must be manually removed
 		playBtn = nil

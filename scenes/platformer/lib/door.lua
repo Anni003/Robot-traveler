@@ -1,24 +1,49 @@
 local composer = require("composer")
+local custom = require("modules.button")
 
 local M = {}
 
 function M.new(instance)
-	if not instance.bodyType then
-		physics.addBody(instance, "static")
-		instance.isSensor = true
+	local scene = composer.getScene(composer.getSceneName("current"))
+	local sounds = scene.sounds
+
+	local button, text
+
+	local isMobile = ("ios" == system.getInfo("platform")) or ("android" == system.getInfo("platform"))
+
+	button = custom.newButton("E", "e", display.contentWidth - 40, display.contentHeight - 130)
+	text = display.newText("Для входа нажмите E", 0, 0, "scenes/platformer/font/geometria_bold.otf", 12)
+
+	local function showButton()
+		button.isVisible = true
 	end
 
-	local text
-	local text2
+	local function hideButton()
+		button.isVisible = false
+	end
 
-	local function key(event)
+	local function showText(content)
+		text.text = content
+		text.x = display.contentWidth / 2
+		text.y = 40
+		text.isVisible = true
+	end
+
+	local function hideText()
+		text.isVisible = false
+	end
+
+	hideButton()
+	hideText()
+
+	local function action(event)
 		local phase, keyName = event.phase, event.keyName
-		if phase == "down" then
-			if keyName == "e" then
-				Runtime:removeEventListener("key", key)
-				display.remove(text)
-				composer.gotoScene("hidden_object")
-			end
+		if phase == "down" and keyName == "e" then
+			audio.play(sounds.door)
+			Runtime:removeEventListener("key", action)
+			hideButton()
+			hideText()
+			composer.gotoScene("hidden_object")
 		end
 	end
 
@@ -26,21 +51,19 @@ function M.new(instance)
 		local phase, other = event.phase, event.other
 		if phase == "began" and other.name == "hero" then
 			if not self.isClosed then
-				Runtime:addEventListener("key", key)
-				local x, y = instance:localToContent(0, 0)
-				text = display.newText("Для входа нажмите E", x, y - 30, native.systemFont, 10)
+				Runtime:addEventListener("key", action)
+				showText("Для входа нажмите E")
+				if isMobile then
+					showButton()
+				end
 			else
-				local x, y = instance:localToContent(0, 0)
-				text2 = display.newText("Дверь закрыта", x, y - 30, native.systemFont, 10)
+				showText("Дверь закрыта")
 			end
 		end
 		if phase == "ended" and other.name == "hero" then
-			if not self.isClosed then
-				Runtime:removeEventListener("key", key)
-				display.remove(text)
-			else
-				display.remove(text2)
-			end
+			Runtime:removeEventListener("key", action)
+			hideButton()
+			hideText()
 		end
 	end
 

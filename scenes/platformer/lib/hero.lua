@@ -1,3 +1,5 @@
+local composer = require("composer")
+
 local M = {}
 
 local properties = {
@@ -9,6 +11,12 @@ local properties = {
 }
 
 function M.new(instance)
+	local scene = composer.getScene(composer.getSceneName("current"))
+	local sounds = scene.sounds
+
+	local walkSoundChannel = audio.play(sounds.walk, { loops = -1, channel = 12 })
+	audio.pause(walkSoundChannel)
+
     instance.isVisible = false
 	local parent = instance.parent
 
@@ -62,9 +70,10 @@ function M.new(instance)
 	end
 
     function instance:jump()
-		if not instance.jumping then
+		if not instance.jumping and not instance.fall then
 			instance:applyLinearImpulse(0, -4.5)
 			instance:setSequence("jump")
+			audio.play(sounds.jumping)
 			instance.jumping = true
 		end
 	end
@@ -72,11 +81,14 @@ function M.new(instance)
     local function enterFrame()
 		local vx, vy = instance:getLinearVelocity()
 		local dx = left + right
+		if vy > 0 then instance.fall = true else instance.fall = false end
 		if instance.jumping then dx = dx / 4 end
 		if (dx < 0 and vx > -properties.maxSpeed) or (dx > 0 and vx < properties.maxSpeed) then
 			instance:applyForce(dx or 0, 0, instance.x, instance.y)
 		end
+		if not (left == 0 and right == 0) then audio.resume(walkSoundChannel) else audio.pause(walkSoundChannel) end
 		instance.xScale = math.min(1, math.max(instance.xScale + flip, -1))
+		if instance.jumping or instance.fall then audio.pause(walkSoundChannel) end
 	end
 
     function instance:collision(event)
@@ -97,6 +109,7 @@ function M.new(instance)
 	end
 
 	function instance:finalize()
+		audio.stop(walkSoundChannel)
 		instance:removeEventListener("collision")
 		Runtime:removeEventListener("enterFrame", enterFrame)
 		Runtime:removeEventListener("key", key)
