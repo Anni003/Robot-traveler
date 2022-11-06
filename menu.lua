@@ -1,82 +1,70 @@
 local composer = require( "composer" )
 local scene = composer.newScene()
 local widget = require "widget"
-local bgMusic
 local playBtn
 
+bgMusic = audio.loadStream( "menu/menu-bg.mp3" ) -- ПОДГРУЗКА МУЗЫКИ
+audio.reserveChannels( 1 )
 
+audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
+
+local options
 
 local function onPlayBtnRelease()
-	composer.gotoScene( "scenes.platformer", "fade", 400 )
+	composer.gotoScene( "scenes.refresh", { params = options }, "fade", 400 )
 	return true	-- indicates successful touch
 end
-
-print("musicGlobal до фаз" )
-print(musicGlobal )
-print("musicGlobal до фаз" )
-
-
-
 
 function scene:create( event )
 	local sceneGroup = self.view
 
-	local background = display.newImageRect( "background.jpg", display.actualContentWidth, display.actualContentHeight )
+	local background = display.newImageRect( "background.png", display.actualContentWidth, display.actualContentHeight )
 	background.anchorX = 0
 	background.anchorY = 0
 	background.x = 0 + display.screenOriginX
 	background.y = 0 + display.screenOriginY
 
-	-- create/position logo/title image on upper-half of the screen
-	local titleLogo = display.newImageRect( "logo.png", 200, 32 )
-	titleLogo.x = display.contentCenterX - 150
-	titleLogo.y = 40
 
-	-- create a widget button (which will loads level1.lua on release)
 	playBtn = widget.newButton {
 		label = "Играть",
-		labelColor = { default={ 1.0 }, over={ 0.5 } },
-		defaultFile = "button.png",
-		overFile = "button-over.png",
+		fontSize = 35,
+		font = "geometria_bold",
+		labelColor = { default={ 0.0 }, over={ 0.0 } },
+		defaultFile = "background.png",
+		overFile = "background.png",
 		width = 154, height = 40,
-		onRelease = onPlayBtnRelease	-- event listener function
+		onRelease = onPlayBtnRelease
 	}
-	playBtn.x = display.contentCenterX - 205
-	playBtn.y = display.contentHeight - 60
+	playBtn.x = display.contentCenterX
+	playBtn.y = display.contentHeight - 270
 
 
+	local onOffMusic = display.newText( "музыка выкл/вкл", 65, 120, "geometria_medium", 20 )
+    onOffMusic:setFillColor( 0, 0, 0 )
 
 
-	onOffText = display.newText( {
-		fontSize = 24,
-		text = "Звук выкл/вкл"
-	})
+	local onOffZvuk = display.newText( "звук выкл/вкл", 50, 180, "geometria_medium", 20 )
+    onOffZvuk:setFillColor( 0, 0, 0 )
 
-	onOffText.x = display.contentCenterX - 200
-	onOffText.y = display.contentHeight - 230
-	onOffText:setFillColor( 0, 0.5, 1 )
 
-	local onOffSwitch = widget.newSwitch(
+	onOffMusicSwitch = widget.newSwitch(
 		{
 			style = "onOff",
 			id = "onOffSwitch",
 			onPress = function( event )
 				local switch = event.target
+
 				print( "Switch with ID is on: "..tostring(switch.isOn) )
 
 				if (tostring(switch.isOn) == "false") then
-					audio.stop()  -- Stop all audio
+					audio.stop( 1 )  -- Stop all audio
+-- ЗДЕСЬ СДЕЛАТЬ ОТКЛЮЧЕНИЕ ТОЛЬКО АУДИОДОРОЖКИ МУЗЫКИ
+
 					musicGlobal = false
-					print( "switch" )
-					print( musicGlobal )
-					print( "switch" )
 				else
 					timer.performWithDelay( 10, function()
-						audio.play( bgMusic, { loops = -1, channel = 2 } )
+						audio.play( bgMusic, { loops = -1, channel = 1 } )
 						musicGlobal = true
-						print( "switch" )
-						print( musicGlobal )
-						print( "switch" )
 					end)
 
 				end
@@ -84,60 +72,86 @@ function scene:create( event )
 			end
 		}
 	)
-	onOffSwitch.x = display.contentCenterX - 90
-	onOffSwitch.y = display.contentHeight - 230
+	onOffMusicSwitch.x = display.contentCenterX - 30
+	onOffMusicSwitch.y = display.contentHeight - 200
 
 
-	local textHowPlay = widget.newButton{
-		label = "как играть?",
-		fontSize = 24,
-		labelColor = { default={ 0, 0.5, 1 }, over={ 0, 0.5, 1 } },
-		defaultFile = "bbb.jpeg",
-		overFile = "snd2.png",
-		width = 200, height = 50,
+	local onOffZvukSwitch = widget.newSwitch(
+		{
+			style = "onOff",
+			id = "onOffSwitch",
+			onPress = function( event )
+				local switch = event.target
+
+				print( "Switch with ID is on: "..tostring(switch.isOn) )
+
+				if (tostring(switch.isOn) == "false") then
+					audio.stop( 1 )  -- Stop all audio
+					-- ЗДЕСЬ СДЕЛАТЬ ОТКЛЮЧЕНИЕ ТОЛЬКО АУДИОДОРОЖКИ ЗВУКА
+					zvukGlobal = false
+				else
+					timer.performWithDelay( 10, function()
+						audio.play( bgMusic, { loops = -1, channel = 1 } )
+						zvukGlobal = true
+					end)
+
+				end
+
+			end
+		}
+	)
+	onOffZvukSwitch.x = display.contentCenterX - 30
+	onOffZvukSwitch.y = display.contentHeight - 140
+
+
+	local settingsBtn = widget.newButton{
+		label = "Настройки",
+		font = "geometria_medium",
+		fontSize = 30,
+		labelColor = { default={ 0.0 }, over={ 0.0 } },
+		defaultFile = "background.png",
+		overFile = "background.png",
+		width = 154, height = 40,
 		onPress = function(event)
-			composer.showOverlay("howPlay", {
+			composer.showOverlay("settingsModal", {
 				isModal = true,
 				effect = "fade",
 				time = 400,
 			})
 		end
 	}
-
-	textHowPlay.x = display.contentCenterX - 180
-	textHowPlay.y = display.contentHeight - 180
-
+	settingsBtn.x = display.contentCenterX - 180
+	settingsBtn.y = display.contentCenterY + 85
 
 
-	local aboutGameBtn = widget.newButton{
-		label = "об авторах",
-		fontSize = 24,
-		labelColor = { default={ 0, 0.5, 1 }, over={ 0, 0.5, 1 } },
-		defaultFile = "bbb.jpeg",
-		overFile = "snd2.png",
-		width = 200, height = 50,
+	local referenceBtn = widget.newButton{
+		label = "Cправка",
+		font = "geometria_medium",
+		fontSize = 30,
+		labelColor = { default={ 0.0 }, over={ 0.0 } },
+		defaultFile = "background.png",
+		overFile = "background.png",
+		width = 154, height = 40,
 		onPress = function(event)
-			composer.showOverlay("abGame", {
+			composer.showOverlay("referenceModal", {
 				isModal = true,
 				effect = "fade",
 				time = 400,
 			})
 		end
 	}
-
-	aboutGameBtn.x = display.contentCenterX - 180
-	aboutGameBtn.y = display.contentHeight - 120
-
+	referenceBtn.x = display.contentCenterX + 180
+	referenceBtn.y = display.contentCenterY + 85
 
 
-	-- all display objects must be inserted into group
 	sceneGroup:insert( background )
-	sceneGroup:insert( titleLogo )
-	sceneGroup:insert( onOffText )
-	sceneGroup:insert( onOffSwitch )
-	sceneGroup:insert( textHowPlay )
-	sceneGroup:insert( aboutGameBtn )
 	sceneGroup:insert( playBtn )
+	sceneGroup:insert( onOffZvuk )
+	sceneGroup:insert( onOffMusic )
+	sceneGroup:insert( onOffZvukSwitch )
+	sceneGroup:insert( onOffMusicSwitch )
+	sceneGroup:insert( settingsBtn )
+	sceneGroup:insert( referenceBtn )
 end
 
 
@@ -146,29 +160,24 @@ end
 function scene:show( event )
 	local sceneGroup = self.view
 	local phase = event.phase
+
+	options = event.params
+
 	if musicGlobal == true then
-		bgMusic = audio.loadStream( "menu/menu-bg.mp3" )
+
 	end
 	if phase == "will" then
-		-- Called when the scene is still off screen and is about to move on screen
+
 	elseif phase == "did" then
-		-- Called when the scene is now on screen
-		--
-		-- INSERT code here to make the scene come alive
-		-- e.g. start timers, begin animation, play audio, etc.
-		print("это фаза show")
-		print(musicGlobal)
+
 		print("это фаза show")
 
 		if musicGlobal == true then
-			timer.performWithDelay( 10, function()
-				audio.play( bgMusic, { loops = -1, channel = 2 } )
-				audio.fade({ channel = 1, time = 333, volume = 1.0 } )
+			timer.performWithDelay( 5, function()
+				audio.play( bgMusic, { loops = -1, channel = 1 } ) -- НАСТРОЙКИ ПРОИГРЫВАТЕЛЯ
+				-- audio.fade({ channel = 1, time = 100, volume = 0.1 } )
 
 			end)
-			print("это фаза show. заход в функцию с вкл звука был")
-			print(musicGlobal)
-			print("это фаза show. заход в функцию с вкл звука был")
 		end
 	end
 end
@@ -180,12 +189,10 @@ function scene:hide( event )
 	if event.phase == "will" then
 		if musicGlobal == true then
 			-- audio.fadeOut( { channel = 2, time = 1500 } )
-			audio.stop()  -- Stop all audio
+			audio.stop( 1 )    -- НАСТРОИТЬ ОТКЛЮЧЕНИЕ МУЗЫКИ
 		end
-		print("это фаза hide")
-		print(musicGlobal)
-		print("это фаза hide")
 	elseif phase == "did" then
+
 
 	end
 
@@ -195,12 +202,10 @@ end
 function scene:destroy( event )
 	local sceneGroup = self.view
 
-	audio.stop()  -- Stop all audio
-	audio.dispose( bgMusic )  -- Release music handle
-
+	audio.stop(1)  -- НАСТРОИТЬ ОТКЛЮЧЕНИЕ МУЗЫКИ
 
 	if playBtn then
-		playBtn:removeSelf()	-- widgets must be manually removed
+		playBtn:removeSelf()
 		playBtn = nil
 	end
 

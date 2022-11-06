@@ -27,7 +27,7 @@ end
         horizontalScrollDisabled = true,
         backgroundColor={250,250,250, 0.9},
 
-        topPadding = 490,
+        topPadding = 650,
         bottomPadding = 10, 
         leftPadding = 50, 
         rightPadding = 50,
@@ -40,7 +40,7 @@ end
 
     local lotsOfText = "Ransomware is a form of malware. Malware also known isMalware also known is aRansomware is a form of malware. MalwareMalware also known is aRansomware is a form of malware. MalwareMalware also known is aRansomware is a form of malware. MalwareMalware also known is aRansomware is a form of malware. MalwareMalware also known is aRansomware is a form of malware. MalwareMalware also known is aRansomware is a form of malware. MalwareMalware also known is aRansomware is a form of malware. MalwareMalware also known is aRansomware is a form of malware. MalwareMalware also known is aRansomware is a form of malware. MalwareMalware also known is aRansomware is a form of malware. MalwareMalware also known is aRansomware is a form of malware. MalwareMalware also known is aRansomware is a form of malware. MalwareMalware also known is aRansomware is a form of malware. MalwareMalware also known is aRansomware is a form of malware. MalwareMalware also known is aRansomware is a form of malware. MalwareMalware also known is aRansomware is a form of malware. Malware aRansomware is a form of malware. Malware also known is a form of malware. Malware alsoRansomware is a form of malware. Malware also known is a form of malware. Malware alsoRansomware is a form of malware. Malware also known is a form of malware. Malware alsoRansomware is a form of malware. Malware also known is a form of malware. Malware alsoRansomware is a form of malware. Malware also known is a form of malware. Malware alsoRansomware is a form of malware. Malware also known is a form of malware. Malware alsoRansomware is a form of malware. Malware also known is a form of malware. Malware also form of malware. Malware also known is a form of malware. Malware also known is a form of malware. Malware also known as malicious software refers to a program that is created with the intent of causing harm, this damage could take a range of forms, from destructive such as the deletion of files to compromising the confidentiality or integrity of the victim’s data or systems." 
 
-    local lotsOfTextObject = display.newText( lotsOfText, 0, 0, 350, 0, "Arial", 16)
+    local lotsOfTextObject = display.newText( lotsOfText, 0, 0, 350, 0, "geometria_light", 16)
     lotsOfTextObject:setTextColor( 0, 0, 0 )
     lotsOfTextObject.x = display.contentCenterX
 

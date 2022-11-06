@@ -2,6 +2,7 @@ local composer = require("composer")
 local physics = require("physics")
 local tiled = require("com.ponywolf.ponytiled")
 local json = require("json")
+local widget = require("widget") -- библиотека виджетов
 local custom = require("modules.button")
 
 local door, map, hero
@@ -15,7 +16,6 @@ function scene:create(event)
 
     local soundsDir = "scenes/platformer/sfx/"
     scene.sounds = {
-        wind = audio.loadSound(soundsDir .. "spacewind.mp3"),
         jumping = audio.loadSound(soundsDir .. "jumping.mp3"),
         door = audio.loadSound(soundsDir .. "door.mp3"),
         walk = audio.loadSound(soundsDir .. "walk.mp3"),
@@ -35,12 +35,19 @@ function scene:create(event)
 
     if options then
         hero.x, hero.y = options.hero_x, options.hero_y
+        if options.hero_direction == "right" then
+            hero.xScale = 1
+            hero.direction = "right"
+        elseif options.hero_direction == "left" then
+            hero.xScale = -1
+            hero.direction = "left"
+        end
     end
 
     map:extend("door")
     door = map:findObject("door")
     if options then
-        door.isClosed = true
+        door.isClosed = options.isClosed
     end
 
     sceneGroup:insert(map)
@@ -56,6 +63,26 @@ function scene:create(event)
         sceneGroup:insert(rightButton)
         sceneGroup:insert(jumpButton)
     end
+
+
+    -- кнопка для перехода в меню
+    local function goT0MenuBtn()
+
+		composer.gotoScene( "menu", { params = { hero_x = hero.x, hero_y = hero.y, hero_direction = hero.direction, isClosed = door.isClosed } }, "fade", 400 )
+
+		return true	-- indicates successful touch
+	end
+	menuBtn = widget.newButton {
+		defaultFile = "burger-menu.png",
+		overFile = "burger-menu-over.png",
+		width = 60, height = 52,
+		onRelease = goT0MenuBtn	-- event listener function
+	}
+	menuBtn.x = display.contentWidth + 70
+	menuBtn.y = display.contentHeight - 292
+    -- кнопка для перехода в меню
+
+    sceneGroup:insert(menuBtn) --добавлена кнопка для перехода в меню
 end
 
 local function scrollCamera(event)
@@ -72,7 +99,7 @@ function scene:show(event)
     if (phase == "will") then
         Runtime:addEventListener("enterFrame", scrollCamera)
     elseif (phase == "did") then
-        audio.play(self.sounds.wind, { loops = -1, fadein = 750, channel = 15 })
+
     end
 end
 
@@ -80,7 +107,7 @@ function scene:hide(event)
     local sceneGroup = self.view
     local phase = event.phase
     if (phase == "will") then
-        audio.fadeOut({ channel = 15, time = 1000 })
+
     elseif (phase == "did") then
         hero:finalize()
         Runtime:removeEventListener("enterFrame", scrollCamera)

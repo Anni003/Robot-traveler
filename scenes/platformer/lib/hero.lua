@@ -47,10 +47,12 @@ function M.new(instance)
 			if keyName == "left" or keyName == "a" then
 				left = -properties.speed
 				flip = -0.133
+				instance.direction = "left"
 			end
 			if keyName == "right" or keyName == "d" then
 				right = properties.speed
 				flip = 0.133
+				instance.direction = "right"
 			elseif keyName == "space" or keyName == "up" then
 				instance:jump()
 			end
@@ -73,7 +75,9 @@ function M.new(instance)
 		if not instance.jumping and not instance.fall then
 			instance:applyLinearImpulse(0, -4.5)
 			instance:setSequence("jump")
-			audio.play(sounds.jumping)
+			if zvukGlobal then
+				audio.play(sounds.jumping)
+			end
 			instance.jumping = true
 		end
 	end
@@ -86,7 +90,7 @@ function M.new(instance)
 		if (dx < 0 and vx > -properties.maxSpeed) or (dx > 0 and vx < properties.maxSpeed) then
 			instance:applyForce(dx or 0, 0, instance.x, instance.y)
 		end
-		if not (left == 0 and right == 0) then audio.resume(walkSoundChannel) else audio.pause(walkSoundChannel) end
+		if (not (left == 0 and right == 0)) and zvukGlobal then audio.resume(walkSoundChannel) else audio.pause(walkSoundChannel) end
 		instance.xScale = math.min(1, math.max(instance.xScale + flip, -1))
 		if instance.jumping or instance.fall then audio.pause(walkSoundChannel) end
 	end
@@ -115,10 +119,14 @@ function M.new(instance)
 		Runtime:removeEventListener("key", key)
 	end
 
-	Runtime:addEventListener("enterFrame", enterFrame)
-	Runtime:addEventListener("key", key)
-	instance:addEventListener("collision")
-	instance:addEventListener("finalize")
+	function instance:start()
+		Runtime:addEventListener("enterFrame", enterFrame)
+		Runtime:addEventListener("key", key)
+		instance:addEventListener("collision")
+		instance:addEventListener("finalize")
+	end
+
+	instance:start()
 
     instance.name = "hero"
 	instance.type = "hero"

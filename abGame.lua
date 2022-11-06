@@ -65,7 +65,7 @@ function scene:create( event )
     для Робостанции ВДНХ\
     2022г" 
     
-    local lotsOfTextObject = display.newText( lotsOfText, 0, 0, 330, 0, "Arial", 19)
+    local lotsOfTextObject = display.newText( lotsOfText, 0, 0, 330, 0, "geometria_light", 20)
     lotsOfTextObject:setTextColor( 0, 0, 0 )
     lotsOfTextObject.x = display.contentCenterX
 
@@ -74,7 +74,7 @@ function scene:create( event )
     
     newRoundedRect:scrollToPosition
     {
-        y = -220,
+        y = -260,
         time = 19000
     }
 

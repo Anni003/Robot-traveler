@@ -79,6 +79,27 @@ function scene:create( event )
     wrench.tap = onObjectTap
     wrench:addEventListener( "tap", wrench )
 
+
+
+
+    --кнопка для перехода в меню
+    local function goT0MenuBtn()
+	
+		composer.gotoScene( "menu", "fade", 400 )
+		
+		return true	-- indicates successful touch
+	end
+	menuBtn = widget.newButton {
+		defaultFile = "burger-menu.png",
+		overFile = "burger-menu-over.png",
+		width = 60, height = 52,
+		onRelease = goT0MenuBtn	-- event listener function
+	}
+	menuBtn.x = display.contentWidth + 70
+	menuBtn.y = display.contentHeight - 292
+    --кнопка для перехода в меню
+    sceneGroup:insert(menuBtn) --добавлена кнопка для перехода в меню
+
 end
 
 scene:addEventListener("create", scene);

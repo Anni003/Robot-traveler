@@ -39,7 +39,9 @@ function M.new(instance)
 	local function action(event)
 		local phase, keyName = event.phase, event.keyName
 		if phase == "down" and keyName == "e" then
-			audio.play(sounds.door)
+			if zvukGlobal then
+				audio.play(sounds.door, { channel = 2 })
+			end
 			Runtime:removeEventListener("key", action)
 			hideButton()
 			hideText()
