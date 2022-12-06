@@ -1,15 +1,17 @@
------------------------------------------------------------------------------------------
---
--- main.lua
---
------------------------------------------------------------------------------------------
-
--- hide the status bar
 display.setStatusBar( display.HiddenStatusBar )
 
--- include the Corona "composer" module
 local composer = require "composer"
 
--- load menu screen
 musicGlobal = true --глобальная проверка того, можно ли включать музыку! true - музыку можно
-composer.gotoScene( "menu" )
+
+zvukGlobal = true --глобальная проверка того, можно ли включать звук! true - звук можно
+
+editVolume = false -- индикатор изменения громкости. false - музыка не была изменена
+
+if (editVolume == false) then
+    volumeGlobalMusic = 0.1 -- начальная громкость музыки
+end
+
+-- composer.gotoScene( "scenes.hidden_object3", "fade", 400 )
+
+composer.gotoScene( "menu", "fade", 400 )

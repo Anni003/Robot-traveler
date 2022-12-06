@@ -1,143 +1,188 @@
 local composer = require( "composer" )
 local scene = composer.newScene()
 local widget = require "widget"
-local bgMusic
 local playBtn
 
+bgMusic = audio.loadStream( "menu-folder/music/menu-bg.mp3" ) -- ПОДГРУЗКА МУЗЫКИ
+audio.reserveChannels( 1 )
 
+audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
 
 local function onPlayBtnRelease()
-	composer.gotoScene( "scenes.platformer", "fade", 400 )
+	composer.gotoScene( "scenes.three_doors", "fade", 400 )
 	return true	-- indicates successful touch
 end
 
-print("musicGlobal до фаз" )
-print(musicGlobal )
-print("musicGlobal до фаз" )
-
-
-
-
+      
 function scene:create( event )
 	local sceneGroup = self.view
 
-	local background = display.newImageRect( "background.jpg", display.actualContentWidth, display.actualContentHeight )
+	local background = display.newImageRect( "menu-folder/images-for-menu/background.jpg", display.actualContentWidth, display.actualContentHeight )
 	background.anchorX = 0
 	background.anchorY = 0
 	background.x = 0 + display.screenOriginX 
 	background.y = 0 + display.screenOriginY
 	
-	-- create/position logo/title image on upper-half of the screen
-	local titleLogo = display.newImageRect( "logo.png", 200, 32 )
-	titleLogo.x = display.contentCenterX - 150
-	titleLogo.y = 40
-	
-	-- create a widget button (which will loads level1.lua on release)
-	playBtn = widget.newButton {
-		label = "Играть",
-		labelColor = { default={ 1.0 }, over={ 0.5 } },
-		defaultFile = "button.png",
-		overFile = "button-over.png",
-		width = 154, height = 40,
-		onRelease = onPlayBtnRelease	-- event listener function
+
+	playBtn = widget.newButton { --начать игру
+		label = "",
+		fontSize = 35,
+		font = "fonts/geometria_bold",
+		labelColor = { default={ 0.0 }, over={ 0.0 } },
+		defaultFile = "menu-folder/images-for-menu/start-game.png",
+		overFile = "menu-folder/images-for-menu/start-game.png",
+		width = 460, height = 120,
+		onRelease = onPlayBtnRelease
 	}
-	playBtn.x = display.contentCenterX - 205
-	playBtn.y = display.contentHeight - 60
-	
+	playBtn.x = display.contentCenterX - 390
+	playBtn.y = display.contentCenterY - 80
 
 
 
-	onOffText = display.newText( {
-		fontSize = 24,
-		text = "Звук выкл/вкл"
-	})
 
-	onOffText.x = display.contentCenterX - 200
-	onOffText.y = display.contentHeight - 230
-	onOffText:setFillColor( 0, 0.5, 1 )
+--НОВЫЕ КНОПКИ ДЛЯ ЗВУКА И МУЗЫКИ -----------------------------------------
 
-	local onOffSwitch = widget.newSwitch(
-		{
-			style = "onOff",
-			id = "onOffSwitch",
-			onPress = function( event )
-				local switch = event.target
-				print( "Switch with ID is on: "..tostring(switch.isOn) )
+local switchMusic = true
+local switchZvuk = true
 
-				if (tostring(switch.isOn) == "false") then
-					audio.stop()  -- Stop all audio
-					musicGlobal = false
-					print( "switch" )
-					print( musicGlobal )
-					print( "switch" )
-				else 
-					timer.performWithDelay( 10, function()
-						audio.play( bgMusic, { loops = -1, channel = 2 } )
-						musicGlobal = true
-						print( "switch" )
-						print( musicGlobal )
-						print( "switch" )
-					end)	
-					
-				end
+	onOffMusicSwitch = widget.newButton {
+		label = "",
+		fontSize = 35,
+		font = "fonts/geometria_bold",
+		labelColor = { default={ 0.0 }, over={ 0.0 } },
+		defaultFile = "menu-folder/images-for-menu/music-on.png",
+		overFile = "menu-folder/images-for-menu/music-off.png",
+		width = 70, height = 70,
+		onPress = function( event )
 
+			if (switchMusic == true) then
+				switchMusic = false
+				audio.stop( 1 )  -- Stop all audio
+	-- ЗДЕСЬ СДЕЛАТЬ ОТКЛЮЧЕНИЕ ТОЛЬКО АУДИОДОРОЖКИ МУЗЫКИ
+				musicoff.alpha = 1
+				musicGlobal = false
+			else 
+				switchMusic = true
+				timer.performWithDelay( 10, function()
+					audio.play( bgMusic, { loops = -1, channel = 1 } )
+					musicGlobal = true
+					musicoff.alpha = 0
+				end)
+				
 			end
-		}
-	)
-	onOffSwitch.x = display.contentCenterX - 90
-	onOffSwitch.y = display.contentHeight - 230
+
+		end
+		
+	}
+	onOffMusicSwitch.x = display.contentCenterX - 450
+	onOffMusicSwitch.y = display.contentHeight - 90
+
+	musicoff = display.newImageRect( "menu-folder/images-for-menu/music-off.png", 70, 70 )
+		musicoff.alpha = 0
+
+	
+	musicoff.x = display.contentCenterX - 450
+	musicoff.y = display.contentHeight - 90
 
 
-	local textHowPlay = widget.newButton{
-		label = "как играть?",
-		fontSize = 24,
-		labelColor = { default={ 0, 0.5, 1 }, over={ 0, 0.5, 1 } },
-		defaultFile = "bbb.jpeg",
-		overFile = "snd2.png",
-		width = 200, height = 50,
+
+
+	
+	onOffZvukSwitch = widget.newButton { 
+		label = "",
+		fontSize = 35,
+		font = "fonts/geometria_bold",
+		labelColor = { default={ 0.0 }, over={ 0.0 } },
+		defaultFile = "menu-folder/images-for-menu/zvuk-on.png",
+		overFile = "menu-folder/images-for-menu/zvuk-on.png",
+		width = 70, height = 70,
+		onPress = function( event )
+			
+			if (switchZvuk == true) then
+				switchZvuk = false
+				audio.stop( 1 )  -- Stop all audio
+				-- ЗДЕСЬ СДЕЛАТЬ ОТКЛЮЧЕНИЕ ТОЛЬКО АУДИОДОРОЖКИ ЗВУКА
+				zvukGlobal = false
+				zvukoff.alpha = 1
+			else 
+				switchZvuk = true
+				timer.performWithDelay( 10, function()
+					audio.play( bgMusic, { loops = -1, channel = 1 } )
+					zvukGlobal = true
+					zvukoff.alpha = 0
+				end)	
+				
+			end
+
+		end
+	}
+	onOffZvukSwitch.x = display.contentCenterX - 320
+	onOffZvukSwitch.y = display.contentHeight - 90
+
+
+	zvukoff = display.newImageRect( "menu-folder/images-for-menu/zvuk-off.png", 70, 70 )
+	zvukoff.alpha = 0
+
+	zvukoff.x = display.contentCenterX - 320
+	zvukoff.y = display.contentHeight - 90
+
+
+----------------------------------------------------------------------------
+
+
+
+
+	local settingsBtn = widget.newButton{
+		label = "",
+		font = "fonts/geometria_medium",
+		fontSize = 30,
+		labelColor = { default={ 0.0 }, over={ 0.0 } },
+		defaultFile = "menu-folder/images-for-menu/settings.png",
+		overFile = "menu-folder/images-for-menu/settings.png",
+		width = 400, height = 100,
 		onPress = function(event)
-			composer.showOverlay("howPlay", {
+			composer.showOverlay("menu-folder.modalComponent.settingsModal", {
 				isModal = true,
 				effect = "fade",
 				time = 400,
 			})
 		end
 	}
-	
-	textHowPlay.x = display.contentCenterX - 180
-	textHowPlay.y = display.contentHeight - 180
+	settingsBtn.x = display.contentCenterX - 390
+	settingsBtn.y = display.contentCenterY + 70
 
 
 
-	local aboutGameBtn = widget.newButton{
-		label = "об авторах",
-		fontSize = 24,
-		labelColor = { default={ 0, 0.5, 1 }, over={ 0, 0.5, 1 } },
-		defaultFile = "bbb.jpeg",
-		overFile = "snd2.png",
-		width = 200, height = 50,
+
+
+	local referenceBtn = widget.newButton{
+		label = "",
+		font = "fonts/geometria_medium",
+		fontSize = 30,
+		labelColor = { default={ 0.0 }, over={ 0.0 } },
+		defaultFile = "menu-folder/images-for-menu/reference.png",
+		overFile = "menu-folder/images-for-menu/reference.png",
+		width = 400, height = 100,
 		onPress = function(event)
-			composer.showOverlay("abGame", {
+			composer.showOverlay("menu-folder.modalComponent.referenceModal", {
 				isModal = true,
 				effect = "fade",
 				time = 400,
 			})
 		end
 	}
-	
-	aboutGameBtn.x = display.contentCenterX - 180
-	aboutGameBtn.y = display.contentHeight - 120
+	referenceBtn.x = display.contentCenterX - 390
+	referenceBtn.y = display.contentCenterY + 190
 
 
-	
-	-- all display objects must be inserted into group
 	sceneGroup:insert( background )
-	sceneGroup:insert( titleLogo )
-	sceneGroup:insert( onOffText )
-	sceneGroup:insert( onOffSwitch )
-	sceneGroup:insert( textHowPlay )
-	sceneGroup:insert( aboutGameBtn )
 	sceneGroup:insert( playBtn )
+	sceneGroup:insert( onOffZvukSwitch )
+	sceneGroup:insert( onOffMusicSwitch )
+	sceneGroup:insert( settingsBtn )
+	sceneGroup:insert( referenceBtn )
+	sceneGroup:insert( musicoff )
+	sceneGroup:insert( zvukoff )
 end
 
 
@@ -147,28 +192,20 @@ function scene:show( event )
 	local sceneGroup = self.view
 	local phase = event.phase
 	if musicGlobal == true then
-		bgMusic = audio.loadStream( "menu/menu-bg.mp3" )
+
 	end
 	if phase == "will" then
-		-- Called when the scene is still off screen and is about to move on screen
+
 	elseif phase == "did" then
-		-- Called when the scene is now on screen
-		-- 
-		-- INSERT code here to make the scene come alive
-		-- e.g. start timers, begin animation, play audio, etc.
-		print("это фаза show")
-		print(musicGlobal)
+
 		print("это фаза show")
 
 		if musicGlobal == true then
-			timer.performWithDelay( 10, function()
-				audio.play( bgMusic, { loops = -1, channel = 2 } )
-				audio.fade({ channel = 1, time = 333, volume = 1.0 } )
+			timer.performWithDelay( 5, function()
+				audio.play( bgMusic, { loops = -1, channel = 1 } ) -- НАСТРОЙКИ ПРОИГРЫВАТЕЛЯ
+				-- audio.fade({ channel = 1, time = 100, volume = 0.1 } )
 
 			end)
-			print("это фаза show. заход в функцию с вкл звука был")	
-			print(musicGlobal)
-			print("это фаза show. заход в функцию с вкл звука был")	
 		end
 	end	
 end
@@ -183,11 +220,9 @@ function scene:hide( event )
 		
 		if musicGlobal == true then
 			-- audio.fadeOut( { channel = 2, time = 1500 } )
-			audio.stop()  -- Stop all audio
+			audio.stop( 1 )    -- НАСТРОИТЬ ОТКЛЮЧЕНИЕ МУЗЫКИ
 		end
-		print("это фаза hide")
-		print(musicGlobal)
-		print("это фаза hide")
+
 	end	
 
 
@@ -196,12 +231,10 @@ end
 function scene:destroy( event )
 	local sceneGroup = self.view
 	
-	audio.stop()  -- Stop all audio
-	audio.dispose( bgMusic )  -- Release music handle
-
+	audio.stop(1)  -- НАСТРОИТЬ ОТКЛЮЧЕНИЕ МУЗЫКИ
 	
 	if playBtn then
-		playBtn:removeSelf()	-- widgets must be manually removed
+		playBtn:removeSelf()
 		playBtn = nil
 	end
 
