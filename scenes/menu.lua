@@ -1,40 +1,22 @@
--- Include the modules/libraries
 local composer = require("composer")
-local physics = require("physics")
-local Maze = require("scenes.maze.lib.maze")
 
--- Local variables for the scene
-local maze
-
--- Create a new Composer scene
 local scene = composer.newScene()
 
--- This function is called when scene is created
+local prevScene = composer.getSceneName("previous")
+
 function scene:create(event)
 	local sceneGroup = self.view -- Group for adding scene display objects
 
-	-- Adding physics
-	physics.start()
-	physics.setGravity(0, 0)
-
-	-- Adding background
-	display.setDefault("background", 0.59, 0.84, 0.91)
-	-- local background = display.newImageRect("scenes/maze/img/background.png", display.contentWidth, display.contentHeight)
-	-- background.x, background.y = display.contentCenterX, display.contentCenterY
-
-	-- Create maze
-	maze = Maze:new({ width = 31, height = 23, tileSize = 32, imageSize = 6 })
-
-	-- sceneGroup:insert(background)
+	local text = display.newRect(sceneGroup, 20, 20, 20, 20)
 end
 
 -- This function is called when scene comes fully on screen
 function scene:show(event)
 	local phase = event.phase
 	if (phase == "will") then
-
+		composer.removeScene(prevScene)
 	elseif (phase == "did") then
-
+		composer.gotoScene("scenes.labyrinth")
 	end
 end
 

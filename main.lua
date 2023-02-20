@@ -5,4 +5,4 @@ local composer = require("composer")
 display.setStatusBar(display.HiddenStatusBar)
 
 -- Go to next scene
-composer.gotoScene("scenes.maze", { })
+composer.gotoScene("scenes.labyrinth", { })
