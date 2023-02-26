@@ -38,7 +38,7 @@ function scene:create( event )
     end
 
     local function open_door_2()
-        composer.gotoScene("scenes.maze")
+        composer.gotoScene("scenes.labyrinth")
     end
 
     local function open_door_3()
