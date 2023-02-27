@@ -1,7 +1,7 @@
 
 local composer = require( "composer" )
 local scene = composer.newScene()
-
+local widget = require("widget")
 
 --------------------------------------------
 
@@ -19,12 +19,25 @@ function scene:create( event )
 	background.y = 0 + display.screenOriginY
 	sceneGroup:insert( background )
 
-	local titleOfPuzzle = display.newText( "Собери картинку!", 230, 80, native.systemFont, 72 )
-	titleOfPuzzle:setFillColor( 0, 0, 0 )
+
+	titleOfPuzzle = widget.newButton {
+		label = "Собери картинку!",
+		fontSize = 50,
+		labelColor = { default={ 0.0 }, over={ 0.0 } },
+		defaultFile = "puzzles folder/dif-images/btn-soberu.png",
+		overFile = "puzzles folder/dif-images/btn-soberu.png",
+		width = 460, height = 110,
+		onRelease = onPlayBtnRelease	-- event listener function
+	}
+	titleOfPuzzle.x = display.contentCenterX - 280
+	titleOfPuzzle.y = display.contentHeight - 650
 	sceneGroup:insert( titleOfPuzzle )
 
-	local desk = display.newRect(sceneGroup, 240, 450, 720, 477):setFillColor(255, 255, 255, 1) --доска для пазлов
 
+	local desk = display.newImageRect( "puzzles folder/dif-images/podlozhka.png", 750, 507 )
+	desk.x = 240
+	desk.y = 450 --доска для пазлов
+	sceneGroup:insert( desk ) 
 
 
 -- 1 строка

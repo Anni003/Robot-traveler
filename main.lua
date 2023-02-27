@@ -12,6 +12,4 @@ if (editVolume == false) then
     volumeGlobalMusic = 0.1 -- начальная громкость музыки
 end
 
--- composer.gotoScene( "scenes.hidden_object3", "fade", 400 )
-
-composer.gotoScene( "menu", "fade", 400 )
+composer.gotoScene( "menu" )
