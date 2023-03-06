@@ -34,6 +34,7 @@ function scene:create( event )
 	sceneGroup:insert( titleOfPuzzle )
 
 
+
 	local desk = display.newImageRect( "puzzles folder/dif-images/podlozhka.png", 750, 507 )
 	desk.x = 240
 	desk.y = 450 --доска для пазлов
@@ -651,6 +652,39 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 	end
 
 
+
+
+--секундомер
+
+	sec = widget.newButton {
+		label = good_time,
+		fontSize = 40,
+		labelColor = { default={ 0.0 }, over={ 0.0 } },
+		defaultFile = "puzzles folder/dif-images/btn-soberu.png",
+		overFile = "puzzles folder/dif-images/btn-soberu.png",
+		width = 110, height = 110,
+	}
+	sec.x = display.contentCenterX + 5
+	sec.y = display.contentHeight - 650
+	sceneGroup:insert( sec )
+
+
+
+	local t = {}
+	function t:timer( event )
+		local count = event.count
+		sec:setLabel( event.count )
+
+		if (summaPuzzleFinish == 12) then
+			timer.cancel( event.source ) -- after 3rd invocation, cancel timer
+		end
+	end
+	
+	timer.performWithDelay( 1000, t, 0 )
+
+
+
+	
 
 	imgPart1:addEventListener( "touch", movePuzzle1 ) -- слушатель касания => перемещение пазла 1
 	imgPart2:addEventListener( "touch", movePuzzle2 ) -- слушатель касания => перемещение пазла 2
