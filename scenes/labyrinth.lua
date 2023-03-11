@@ -3,33 +3,27 @@ local composer = require("composer")
 local Pointer = require("scenes.labyrinth.lib.pointer")
 local Block = require("scenes.labyrinth.lib.block")
 local Stack = require("scenes.labyrinth.lib.stack")
+local widget = require("scenes.labyrinth.lib.button")
 
--- Local mutable variables
-local width = 12 + 1
-local height = 9 + 1
-local blockSize = 100
-local background = { 0.96, 0.96, 0.98 }
-local blockBackground = { 0.59, 0.26, 0.33 }
-local blockStrokeColor = { 0.56, 0.87, 0.36 }
-local blockShadowColor = { 0.24, 0.64, 0.44 }
-local controlButtonColor = { 0.93, 0.67, 0.29 }
-local borderRadius = 10
-local strokeWidth = blockSize / 5
-local pointerRadius = strokeWidth
-
--- Local immutable variables
+-- Local variables
 local labyrinth = {}
+local width = 17 + 1
+local height = 17 + 1
+local pitSize = 4
+local blockBackground = { 1, 1, 1 }
+local blockStrokeColor = { 0, 0, 0 }
+local controlButtonColor = { 0.93, 0.67, 0.29 }
+local blockSize = 34
+local strokeWidth = blockSize / 8
+local pointerRadius = strokeWidth * 8 / 5
+local borderRadius = 0
 local labyrinthWidth = width - 1 == 1 and blockSize or width - 1 == 2 and blockSize * 2 - strokeWidth or (blockSize - strokeWidth / 2) * 2 + (blockSize - strokeWidth) * (width - 3)
 local labyrinthHeight = height - 1 == 1 and blockSize or height - 1 == 2 and blockSize * 2 - strokeWidth or (blockSize - strokeWidth / 2) * 2 + (blockSize - strokeWidth) * (height - 3)
-local labyrinthStartX = (display.contentWidth - labyrinthWidth) / 2
-local labyrinthStartY = (display.contentHeight - labyrinthHeight) / 2
-local pointer
-local startBlock
-local endBlock
-local rightButton
-local leftButton
-local upButton
-local bottomButton
+local labyrinthStartX = (display.contentWidth - labyrinthWidth) / 2 + display.contentWidth * 0.140625
+local labyrinthStartY = (display.contentHeight - labyrinthHeight) / 2 - 3
+local controlButtonXOffset = blockSize
+local controlButtonYOffset = - blockSize
+local pointer, startBlock, endBlock, rightButton, leftButton, upButton, bottomButton
 
 local function getNeighbors(block)
     local neighbours = { right = false, left = false, up = false, bottom = false }
@@ -59,38 +53,38 @@ local function getTrueNeighborsNumber(neighbours)
 end
 
 local hideAllControlButtons = function()
-    rightButton.isVisible = false
-    leftButton.isVisible = false
-    upButton.isVisible = false
-    bottomButton.isVisible = false
+    rightButton.alpha = 0.2
+    leftButton.alpha = 0.2
+    upButton.alpha = 0.2
+    bottomButton.alpha = 0.2
+    rightButton.isActive = false
+    leftButton.isActive = false
+    upButton.isActive = false
+    bottomButton.isActive = false
 end
 
 local function controlSystem()
     local neighbours = getNeighbors(pointer.currentBlock)
     local block = pointer.currentBlock
     if (neighbours.right) then
-        rightButton.x = labyrinth[block.x + 1][block.y].coordX - blockSize / 2 + strokeWidth / 2
-        rightButton.y = labyrinth[block.x + 1][block.y].coordY
-        rightButton.isVisible = true
+        rightButton.alpha = 1
+        rightButton.isActive = true
     end
     if (neighbours.left) then
-        leftButton.x = labyrinth[block.x - 1][block.y].coordX + blockSize / 2 - strokeWidth / 2
-        leftButton.y = labyrinth[block.x - 1][block.y].coordY
-        leftButton.isVisible = true
+        leftButton.alpha = 1
+        leftButton.isActive = true
     end
     if (neighbours.up) then
-        upButton.x = labyrinth[block.x][block.y - 1].coordX
-        upButton.y = labyrinth[block.x][block.y - 1].coordY + blockSize / 2 - strokeWidth / 2
-        upButton.isVisible = true
+        upButton.alpha = 1
+        upButton.isActive = true
     end
     if (neighbours.bottom) then
-        bottomButton.x = labyrinth[block.x][block.y + 1].coordX
-        bottomButton.y = labyrinth[block.x][block.y + 1].coordY - blockSize / 2 + strokeWidth / 2
-        bottomButton.isVisible = true
+        bottomButton.alpha = 1
+        bottomButton.isActive = true
     end
 end
 
-local directionControl = function(direction)
+directionControl = function(direction)
     hideAllControlButtons()
     local block, neighbours, neighboursNumber, moveTime
     if direction == "right" then
@@ -138,34 +132,33 @@ local directionControl = function(direction)
     end
     if pointer.currentBlock == endBlock then
         timer.performWithDelay(moveTime, function()
-            transition.to(pointer, { time = 500, alpha = 0, x = pointer.x - 10, y = pointer.y + 10, xScale = 0.1, yScale = 0.1 })
-            timer.performWithDelay(500, function()
+            transition.to(pointer, { time = 980, x = labyrinthStartX + labyrinthWidth / 2, y = labyrinthStartY + labyrinthHeight / 2, xScale = display.actualContentWidth, yScale = display.actualContentWidth })
+            rightButton.isVisible = false
+            leftButton.isVisible = false
+            upButton.isVisible = false
+            bottomButton.isVisible = false
+            timer.performWithDelay(1000, function()
                 composer.removeScene("scenes.labyrinth")
-                composer.gotoScene("scenes.menu")
+                composer.gotoScene("menu")
             end)
         end)
     end
 end
 
-local function rightButtonTap() directionControl("right") end
-local function leftButtonTap() directionControl("left") end
-local function upButtonTap() directionControl("up") end
-local function bottomButtonTap() directionControl("down") end
-
 local function key(event)
     local phase, keyName = event.phase, event.keyName
     if phase == "down" then
         if keyName == "left" or keyName == "a" then
-            if (leftButton.isVisible) then directionControl("left") end
+            if (leftButton.isActive) then directionControl("left") end
         end
         if keyName == "right" or keyName == "d" then
-            if (rightButton.isVisible) then directionControl("right") end
+            if (rightButton.isActive) then directionControl("right") end
         end
         if keyName == "up" or keyName == "w" then
-            if (upButton.isVisible) then directionControl("up") end
+            if (upButton.isActive) then directionControl("up") end
         end
         if keyName == "down" or keyName == "s" then
-            if (bottomButton.isVisible) then directionControl("down") end
+            if (bottomButton.isActive) then directionControl("down") end
         end
     end
 end
@@ -191,16 +184,37 @@ function scene:create(event)
                 labyrinth[x][y] = Block:new(x, y)
                 labyrinth[x][y].coordX = blockSize * (labyrinth[x][y].x - 0.5) - strokeWidth * (labyrinth[x][y].x - 1) + labyrinthStartX
                 labyrinth[x][y].coordY = blockSize * (labyrinth[x][y].y - 0.5) - strokeWidth * (labyrinth[x][y].y - 1) + labyrinthStartY
+                if ((y > height - 1 - pitSize and x < pitSize + 1) or (x > width - 1 - pitSize and y < pitSize + 1)) then
+                    labyrinth[x][y].visited = true
+                end
             end
         end
-        startBlock = labyrinth[math.random(width - 1)][math.random(height - 1)]
     end
 
     -- Generates a random labyrinth path
     local generatePaths = function()
+        -- Generate start block
+        local rand = math.random(2)
+		if rand == 2 then
+			startBlock = labyrinth[math.random(pitSize)][height - 1 - pitSize]
+		else
+			startBlock = labyrinth[pitSize + 1][height - math.random(pitSize)]
+		end
+
+        -- Generate inactive side parts
+		for i = 1, pitSize do
+			for k = 1, pitSize do
+				labyrinth[k][height + 1 - i].topBorder = false
+				labyrinth[width - k][i].topBorder = false
+                labyrinth[i][height - k].leftBorder = false
+				labyrinth[width + 1 - i][k].leftBorder = false
+			end
+		end
+
         local current = startBlock
         local stack = Stack
         current.visited = true
+        current.distanceFromStart = 0
         while current ~= nil do
             local unvisitedNeighbours = {}
             local x = current.x
@@ -235,79 +249,90 @@ function scene:create(event)
     end
 
     -- Creates an endpoint
-    local addExit = function()
-        local furthest = startBlock
+    local function addExit()
+        endBlock = startBlock
 		for x = 1, width - 1 do
 			for y = 1, height - 1 do
-				if labyrinth[x][y].distanceFromStart > furthest.distanceFromStart then furthest = labyrinth[x][y] end
+				if (y == pitSize + 1 and x > width - 1 - pitSize) or (x == width - 1 - pitSize and y < pitSize + 1) then
+					if labyrinth[x][y].distanceFromStart > endBlock.distanceFromStart then endBlock = labyrinth[x][y] end
+				end
 			end
 		end
-        endBlock = furthest
-        createRect(endBlock.coordX, endBlock.coordY, pointerRadius * 2, pointerRadius * 2, 50, { 0.34, 0.16, 0.29 })
-        createRect(endBlock.coordX - 2, endBlock.coordY + 2, pointerRadius * 2, pointerRadius * 2, 50, { 0.24, 0.14, 0.28 })
+		if endBlock.distanceFromStart < (height * width - pitSize * pitSize * 2) / 1.8 then
+            createLabyrinth()
+			generatePaths()
+			addExit()
+            return
+		end
+		if endBlock.y == pitSize + 1 then
+			endBlock.topBorder = false
+			endBlock = labyrinth[endBlock.x][endBlock.y - 1]
+		else
+			labyrinth[endBlock.x + 1][endBlock.y].leftBorder = false
+			endBlock = labyrinth[endBlock.x + 1][endBlock.y]
+		end
     end
 
-    -- Draws a labyrinth on the screen
-    local drawBorders = function()
-        -- Draws the background of the blocks
+    -- Draws blocks on the screen
+    local drawBlocks = function()
+        -- Draws the background of the blocks on the screen
         for x = 1, width do
             for y = 1, height do
                 local block = labyrinth[x][y]
                 if y < height and x < width then
-                    createRect(block.coordX, block.coordY, blockSize, blockSize, borderRadius, blockBackground)
+                    if not ((y > height - 1 - pitSize and x < pitSize + 1) or (x > width - 1 - pitSize and y < pitSize + 1)) then
+                        createRect(block.coordX, block.coordY, blockSize, blockSize, borderRadius, blockBackground)
+                    end
                 end
             end
         end
-        -- Draws a shadow from the borders of the block
+        -- Draws borders on the screen
         for x = 1, width do
             for y = 1, height do
                 local block = labyrinth[x][y]
                 if block.leftBorder and y < height then
-                    createRect(block.coordX - blockSize / 2 + strokeWidth / 2 - 2, block.coordY + 2, strokeWidth, blockSize, borderRadius, blockShadowColor)
+                    if not (block.x == pitSize + 1 and block == startBlock) then
+                        createRect(block.coordX - blockSize / 2 + strokeWidth / 2, block.coordY, strokeWidth, blockSize, borderRadius, blockStrokeColor)
+                    end
                 end
                 if block.topBorder and x < width then
-                    createRect(block.coordX - 2, block.coordY - blockSize / 2 + strokeWidth / 2 + 2, blockSize, strokeWidth, borderRadius, blockShadowColor)
-                end
-            end
-        end
-        -- Draws block borders
-        for x = 1, width do
-            for y = 1, height do
-                local block = labyrinth[x][y]
-                if block.leftBorder and y < height then
-                    createRect(block.coordX - blockSize / 2 + strokeWidth / 2, block.coordY, strokeWidth, blockSize, borderRadius, blockStrokeColor)
-                end
-                if block.topBorder and x < width then
-                    createRect(block.coordX, block.coordY - blockSize / 2 + strokeWidth / 2, blockSize, strokeWidth, borderRadius, blockStrokeColor)
+                    if not (block.y == height - pitSize and labyrinth[block.x][block.y - 1] == startBlock) then
+                        createRect(block.coordX, block.coordY - blockSize / 2 + strokeWidth / 2, blockSize, strokeWidth, borderRadius, blockStrokeColor)
+                    end
                 end
             end
         end
     end
 
 	-- Adding background
-	display.setDefault("background", unpack(background))
+    local background = display.newImageRect("scenes/labyrinth/img/background.png", display.actualContentWidth, display.actualContentHeight)
+	background.x, background.y = display.contentWidth / 2, display.contentHeight / 2
+    sceneGroup:insert(background)
+	local background1 = display.newImageRect("scenes/labyrinth/img/elements.png", display.contentWidth, display.contentHeight)
+	background1.x, background1.y = display.contentWidth / 2, display.contentHeight / 2
+    sceneGroup:insert(background1)
+    local back1 = display.newImageRect("scenes/labyrinth/img/background.png", 2, display.contentHeight)
+	back1.x, back1.y = 0, display.contentHeight / 2
+    sceneGroup:insert(back1)
+    local back2 = display.newImageRect("scenes/labyrinth/img/background.png", 2, display.contentHeight)
+	back2.x, back2.y = display.contentWidth, display.contentHeight / 2
+    sceneGroup:insert(back2)
 
     -- Creating and drawing a labyrinth
     createLabyrinth()
     generatePaths()
-    drawBorders()
     addExit()
+    drawBlocks()
 
     -- Create pointer
     pointer = Pointer:new(startBlock.coordX, startBlock.coordY, startBlock, pointerRadius)
 
     -- Creating control buttons
-    rightButton = display.newImageRect("scenes/labyrinth/img/arrow.png", pointerRadius, pointerRadius)
-    leftButton = display.newImageRect("scenes/labyrinth/img/arrow.png", pointerRadius, pointerRadius)
-    upButton = display.newImageRect("scenes/labyrinth/img/arrow.png", pointerRadius, pointerRadius)
-    bottomButton = display.newImageRect("scenes/labyrinth/img/arrow.png", pointerRadius, pointerRadius)
-    leftButton.rotation = 180
-    upButton.rotation = 270
-    bottomButton.rotation = 90
-    rightButton:setFillColor(unpack(controlButtonColor))
-    leftButton:setFillColor(unpack(controlButtonColor))
-    upButton:setFillColor(unpack(controlButtonColor))
-    bottomButton:setFillColor(unpack(controlButtonColor))
+    rightButton = widget.newButton("→", blockSize, "d", blockSize * 2, blockSize * 8 + controlButtonXOffset, display.contentHeight - blockSize * 5 + controlButtonYOffset, "right")
+    leftButton = widget.newButton("←", blockSize, "a", blockSize * 2, blockSize * 2 + controlButtonXOffset, display.contentHeight - blockSize * 5 + controlButtonYOffset, "left")
+    upButton = widget.newButton("↑", blockSize, "w", blockSize * 2, blockSize * 5 + controlButtonXOffset, display.contentHeight - blockSize * 8 + controlButtonYOffset, "up")
+    bottomButton = widget.newButton("↓", blockSize, "s", blockSize * 2, blockSize * 5 + controlButtonXOffset, display.contentHeight - blockSize * 2 + controlButtonYOffset, "down")
+
 
     hideAllControlButtons()
     controlSystem()
@@ -325,10 +350,10 @@ function scene:show(event)
 	if (phase == "will") then
 
 	elseif (phase == "did") then
-        rightButton:addEventListener("tap", rightButtonTap)
-        leftButton:addEventListener("tap", leftButtonTap)
-        upButton:addEventListener("tap", upButtonTap)
-        bottomButton:addEventListener("tap", bottomButtonTap)
+        -- rightButton:addEventListener("tap", rightButtonTap)
+        -- leftButton:addEventListener("tap", leftButtonTap)
+        -- upButton:addEventListener("tap", upButtonTap)
+        -- bottomButton:addEventListener("tap", bottomButtonTap)
         Runtime:addEventListener("key", key)
 	end
 end
@@ -337,10 +362,10 @@ end
 function scene:hide(event)
 	local phase = event.phase
 	if (phase == "will") then
-        rightButton:removeEventListener("tap", rightButtonTap)
-        leftButton:removeEventListener("tap", leftButtonTap)
-        upButton:removeEventListener("tap", upButtonTap)
-        bottomButton:removeEventListener("tap", bottomButtonTap)
+        -- rightButton:removeEventListener("tap", rightButtonTap)
+        -- leftButton:removeEventListener("tap", leftButtonTap)
+        -- upButton:removeEventListener("tap", upButtonTap)
+        -- bottomButton:removeEventListener("tap", bottomButtonTap)
         Runtime:removeEventListener("key", key)
 	elseif (phase == "did") then
 
