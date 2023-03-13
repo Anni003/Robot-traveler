@@ -6,8 +6,25 @@ function scene:create( event )
 	local sceneGroup = self.view
 
 
-    local volumeMusicText = display.newText( "Громкость музыки", 87,  160, "fonts/geometria_medium", 40 )
-    volumeMusicText:setFillColor( 0, 0, 0 )
+    local title = display.newText( "Настройки", display.contentWidth - 500 , 160, "fonts/geometria_bold", 70 )
+    title:setFillColor( 255, 255, 255 )
+
+
+	local rect = display.newImageRect( "menu-folder/images-for-menu/rect-ref.png", display.contentWidth + 50, display.contentHeight - 100 )
+	rect.x = display.contentCenterX
+	rect.y = display.contentCenterY
+	sceneGroup:insert( rect ) 
+
+
+	local robot = display.newImageRect( "menu-folder/images-for-menu/robot.jpg", 270, 400 )
+	robot.x = display.contentCenterX + 330
+	robot.y = display.contentCenterY + 70
+	sceneGroup:insert( robot ) 
+
+
+
+    local volumeMusicText = display.newText( "Громкость музыки", 350,  380, "fonts/geometria_medium", 40 )
+    volumeMusicText:setFillColor( 255, 255, 255 )
 
 
     if editVolume == false then
@@ -17,9 +34,9 @@ function scene:create( event )
     -- Ползунок звука
     local slider = widget.newSlider(
         {
-            x = display.contentCenterX - 60,
-            y = display.contentCenterY + 50,
-            width = 400,
+            x = display.contentCenterX - 160,
+            y = display.contentCenterY + 70,
+            width = 370,
 
             value = valueOfMusic,
 
@@ -61,28 +78,18 @@ function scene:create( event )
         }
     )
 
-    
-    local title = display.newText( "Настройки", 60, 80, "fonts/geometria_bold", 60 )
-    title:setFillColor( 0, 0, 0 )
-
-
-	local rect = display.newRect(sceneGroup, display.contentCenterX,
-    display.contentCenterY, display.contentWidth + 350,
-    display.contentHeight + 150):setFillColor(255, 255, 255, 1)
-	
-
 
     local closeBtn = widget.newButton {
-        defaultFile = "menu-folder/images-for-menu/close.png",
-        overFile = "menu-folder/images-for-menu/close-over.png",
-        width = 52, height = 52,
+        defaultFile = "menu-folder/images-for-menu/close-white-modal.png",
+        overFile = "menu-folder/images-for-menu/close-white-modal.png",
+        width = 50, height = 50,
 
         onPress = function(event)
             composer.hideOverlay( "fade", 400 )
 		end
     }
-    closeBtn.x = display.contentWidth - 20
-	closeBtn.y = display.contentCenterY - 292
+    closeBtn.x = display.contentWidth - 150
+	closeBtn.y = display.contentCenterY - 215
 
 
     sceneGroup:insert(title)

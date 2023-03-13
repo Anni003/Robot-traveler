@@ -139,7 +139,7 @@ directionControl = function(direction)
             bottomButton.isVisible = false
             timer.performWithDelay(1000, function()
                 composer.removeScene("scenes.labyrinth")
-                composer.gotoScene("menu")
+                composer.gotoScene("scenes.three_doors")
             end)
         end)
     end

@@ -20,7 +20,7 @@ function scene:create( event )
         horizontalScrollDisabled = true,
         backgroundColor={250,250,250, 1},
 
-        topPadding = 500,
+        topPadding = 550,
         bottomPadding5= 10, 
         leftPadding = 50, 
         rightPadding = 50,
@@ -67,7 +67,7 @@ function scene:create( event )
     
     local lotsOfTextObject = display.newText( lotsOfText, 0, 0, 330, 0, "fonts/geometria_light", 20)
     lotsOfTextObject:setTextColor( 0, 0, 0 )
-    lotsOfTextObject.x = display.contentCenterX
+    lotsOfTextObject.x = display.contentCenterX - 20
 
     newRoundedRect:insert(lotsOfTextObject)
 
