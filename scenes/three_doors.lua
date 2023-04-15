@@ -32,6 +32,8 @@ function scene:create( event )
     
     local list = {"scenes.hidden_object3", "scenes.hidden_object2", "scenes.hidden_object"}
 
+    local puzzleList = {"scenes.puzzleGame1", "scenes.puzzleGame2", "scenes.puzzleGame3"}
+
     local function open_door_1()
         local array = list[math.random(#list)]
         composer.gotoScene(array)
@@ -42,7 +44,8 @@ function scene:create( event )
     end
 
     local function open_door_3()
-        composer.gotoScene("scenes.puzzleGame")
+        local arrayPuzzle = puzzleList[math.random(#puzzleList)]
+        composer.gotoScene(arrayPuzzle)
     end
     
     door_1:addEventListener( "tap", open_door_1 )
