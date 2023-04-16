@@ -6,32 +6,21 @@ local widget = require("widget")
 function scene:create( event )
 	local sceneGroup = self.view
 
-    
-    local title = display.newText( "Справка", display.contentWidth - 500 , 160, "fonts/geometria_bold", 70 )
-    title:setFillColor( 255, 255, 255 )
 
-
-	local rect = display.newImageRect( "menu-folder/images-for-menu/rect-ref.png", display.contentWidth + 50, display.contentHeight - 100 )
+	local rect = display.newImageRect( "menu-folder/images-for-menu/fon-spravka.png", display.contentWidth + 340, display.contentHeight )
 	rect.x = display.contentCenterX
 	rect.y = display.contentCenterY
 	sceneGroup:insert( rect ) 
 
-	
-	local picture = display.newImageRect( "menu-folder/images-for-menu/ref-picture.png", 240, 270 )
-	picture.x = display.contentCenterX - 370
-	picture.y = display.contentCenterY - 90
-	sceneGroup:insert( picture ) 
-
 
     local textHowPlay = widget.newButton{
-		label = "Как играть",
+		label = "",
 		fontSize = 42,
 		font = "fonts/geometria_medium",
 		labelColor = { default={ 255, 255, 255 }, over={ 255, 255, 255 } },
-		labelYOffset = 10,
-		defaultFile = "menu-folder/images-for-menu/btn1-ref.png",
-		overFile = "menu-folder/images-for-menu/btn1-ref.png",
-		width = 700, height = 120,
+		defaultFile = "menu-folder/images-for-menu/btn-how-play.png",
+		overFile = "menu-folder/images-for-menu/btn-how-play.png",
+		width = 650, height = 145,
 		onPress = function(event)
 			composer.showOverlay("menu-folder.modalComponent.howPlay", {
 				isModal = true,
@@ -46,14 +35,13 @@ function scene:create( event )
 
 
 	local aboutGameBtn = widget.newButton{
-		label = "Команда разработки",
+		label = "",
 		font = "fonts/geometria_medium",
 		fontSize = 42,
-		labelYOffset = -20,
 		labelColor = { default={ 255, 255, 255 }, over={ 255, 255, 255 } },
-		defaultFile = "menu-folder/images-for-menu/btn2-ref.png",
-		overFile = "menu-folder/images-for-menu/btn2-ref.png",
-		width = 700, height = 120,
+		defaultFile = "menu-folder/images-for-menu/btn-group-of-creators.png",
+		overFile = "menu-folder/images-for-menu/btn-group-of-creators.png",
+		width = 750, height = 145,
 		onPress = function(event)
 			composer.showOverlay("menu-folder.modalComponent.abGame", {
 				isModal = true,
@@ -64,23 +52,22 @@ function scene:create( event )
 	}
 	
 	aboutGameBtn.x = display.contentCenterX
-	aboutGameBtn.y = display.contentCenterY + 120
+	aboutGameBtn.y = display.contentCenterY + 175
 
 
     local closeBtn = widget.newButton {
-        defaultFile = "menu-folder/images-for-menu/close-white-modal.png",
-        overFile = "menu-folder/images-for-menu/close-white-modal.png",
-        width = 50, height = 50,
+        defaultFile = "menu-folder/images-for-menu/close-krest-simple.png",
+        overFile = "menu-folder/images-for-menu/close-krest-simple.png",
+        width = 85, height = 85,
 
         onPress = function(event)
             composer.hideOverlay( "fade", 400 )
 		end
     }
-    closeBtn.x = display.contentWidth - 150
-	closeBtn.y = display.contentCenterY - 215
+    closeBtn.x = display.contentWidth + 40
+	closeBtn.y = display.contentCenterY + 275
 
 
-    sceneGroup:insert(title)
     sceneGroup:insert(textHowPlay)
     sceneGroup:insert(aboutGameBtn)
     sceneGroup:insert(closeBtn)

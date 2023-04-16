@@ -6,25 +6,12 @@ function scene:create( event )
 	local sceneGroup = self.view
 
 
-    local title = display.newText( "Настройки", display.contentWidth - 500 , 160, "fonts/geometria_bold", 70 )
-    title:setFillColor( 255, 255, 255 )
 
-
-	local rect = display.newImageRect( "menu-folder/images-for-menu/rect-ref.png", display.contentWidth + 50, display.contentHeight - 100 )
+	local rect = display.newImageRect( "menu-folder/images-for-menu/fon-settings.png", display.contentWidth + 340, display.contentHeight  )
 	rect.x = display.contentCenterX
 	rect.y = display.contentCenterY
 	sceneGroup:insert( rect ) 
 
-
-	local robot = display.newImageRect( "menu-folder/images-for-menu/robot.jpg", 270, 400 )
-	robot.x = display.contentCenterX + 330
-	robot.y = display.contentCenterY + 70
-	sceneGroup:insert( robot ) 
-
-
-
-    local volumeMusicText = display.newText( "Громкость музыки", 350,  380, "fonts/geometria_medium", 40 )
-    volumeMusicText:setFillColor( 255, 255, 255 )
 
 
     if editVolume == false then
@@ -34,9 +21,9 @@ function scene:create( event )
     -- Ползунок звука
     local slider = widget.newSlider(
         {
-            x = display.contentCenterX - 160,
-            y = display.contentCenterY + 70,
-            width = 370,
+            x = display.contentCenterX + 10,
+            y = display.contentCenterY + 105,
+            width = 650,
 
             value = valueOfMusic,
 
@@ -80,22 +67,20 @@ function scene:create( event )
 
 
     local closeBtn = widget.newButton {
-        defaultFile = "menu-folder/images-for-menu/close-white-modal.png",
-        overFile = "menu-folder/images-for-menu/close-white-modal.png",
-        width = 50, height = 50,
+        defaultFile = "menu-folder/images-for-menu/close-krest-simple.png",
+        overFile = "menu-folder/images-for-menu/close-krest-simple.png",
+        width = 85, height = 85,
 
         onPress = function(event)
             composer.hideOverlay( "fade", 400 )
 		end
     }
-    closeBtn.x = display.contentWidth - 150
-	closeBtn.y = display.contentCenterY - 215
+    closeBtn.x = display.contentWidth + 40
+	closeBtn.y = display.contentCenterY + 275
 
 
-    sceneGroup:insert(title)
     sceneGroup:insert(closeBtn)
     sceneGroup:insert(slider)
-    sceneGroup:insert(volumeMusicText)
 end
 
 -- Listener setup

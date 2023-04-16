@@ -17,7 +17,7 @@ end
 function scene:create( event )
 	local sceneGroup = self.view
 
-	local background = display.newImageRect( "menu-folder/images-for-menu/background.jpg", display.actualContentWidth, display.actualContentHeight )
+	local background = display.newImageRect( "menu-folder/images-for-menu/fon-glavnoe-menu.png", display.actualContentWidth, display.actualContentHeight )
 	background.anchorX = 0
 	background.anchorY = 0
 	background.x = 0 + display.screenOriginX
@@ -35,101 +35,7 @@ function scene:create( event )
 		onRelease = onPlayBtnRelease
 	}
 	playBtn.x = display.contentCenterX - 350
-	playBtn.y = display.contentCenterY - 90
-
-
-
-
---НОВЫЕ КНОПКИ ДЛЯ ЗВУКА И МУЗЫКИ -----------------------------------------
-
-local switchMusic = true
-local switchZvuk = true
-
-	onOffMusicSwitch = widget.newButton {
-		label = "",
-		fontSize = 35,
-		font = "fonts/geometria_bold",
-		labelColor = { default={ 0.0 }, over={ 0.0 } },
-		defaultFile = "menu-folder/images-for-menu/music-on.png",
-		overFile = "menu-folder/images-for-menu/music-off.png",
-		width = 60, height = 60,
-		onPress = function( event )
-
-			if (switchMusic == true) then
-				switchMusic = false
-				audio.stop( 1 )  -- Stop all audio
-	-- ЗДЕСЬ СДЕЛАТЬ ОТКЛЮЧЕНИЕ ТОЛЬКО АУДИОДОРОЖКИ МУЗЫКИ
-				musicoff.alpha = 1
-				musicGlobal = false
-			else 
-				switchMusic = true
-				timer.performWithDelay( 10, function()
-					audio.play( bgMusic, { loops = -1, channel = 1 } )
-					musicGlobal = true
-					musicoff.alpha = 0
-				end)
-				
-			end
-
-		end
-		
-	}
-	onOffMusicSwitch.x = display.contentCenterX - 410
-	onOffMusicSwitch.y = display.contentHeight - 90
-
-	musicoff = display.newImageRect( "menu-folder/images-for-menu/music-off.png", 60, 60 )
-		musicoff.alpha = 0
-
-	
-	musicoff.x = display.contentCenterX - 410
-	musicoff.y = display.contentHeight - 90
-
-
-
-
-	
-	onOffZvukSwitch = widget.newButton { 
-		label = "",
-		fontSize = 35,
-		font = "fonts/geometria_bold",
-		labelColor = { default={ 0.0 }, over={ 0.0 } },
-		defaultFile = "menu-folder/images-for-menu/zvuk-on.png",
-		overFile = "menu-folder/images-for-menu/zvuk-on.png",
-		width = 60, height = 60,
-		onPress = function( event )
-			
-			if (switchZvuk == true) then
-				switchZvuk = false
-				audio.stop( 1 )  -- Stop all audio
-				-- ЗДЕСЬ СДЕЛАТЬ ОТКЛЮЧЕНИЕ ТОЛЬКО АУДИОДОРОЖКИ ЗВУКА
-				zvukGlobal = false
-				zvukoff.alpha = 1
-			else 
-				switchZvuk = true
-				timer.performWithDelay( 10, function()
-					audio.play( bgMusic, { loops = -1, channel = 1 } )
-					zvukGlobal = true
-					zvukoff.alpha = 0
-				end)	
-				
-			end
-
-		end
-	}
-	onOffZvukSwitch.x = display.contentCenterX - 300
-	onOffZvukSwitch.y = display.contentHeight - 90
-
-
-	zvukoff = display.newImageRect( "menu-folder/images-for-menu/zvuk-off.png", 60, 60 )
-	zvukoff.alpha = 0
-
-	zvukoff.x = display.contentCenterX - 300
-	zvukoff.y = display.contentHeight - 90
-
-
-----------------------------------------------------------------------------
-
-
+	playBtn.y = display.contentCenterY - 80
 
 
 	local settingsBtn = widget.newButton{
@@ -149,7 +55,7 @@ local switchZvuk = true
 		end
 	}
 	settingsBtn.x = display.contentCenterX - 350
-	settingsBtn.y = display.contentCenterY + 20
+	settingsBtn.y = display.contentCenterY + 40
 
 
 
@@ -172,7 +78,7 @@ local switchZvuk = true
 		end
 	}
 	referenceBtn.x = display.contentCenterX - 350
-	referenceBtn.y = display.contentCenterY + 105
+	referenceBtn.y = display.contentCenterY + 160
 
 
 
@@ -193,19 +99,16 @@ local switchZvuk = true
 		end
 	}
 	ratingBtn.x = display.contentCenterX - 350
-	ratingBtn.y = display.contentCenterY + 200
+	ratingBtn.y = display.contentCenterY + 280
 
 
 
 	sceneGroup:insert( background )
 	sceneGroup:insert( playBtn )
-	sceneGroup:insert( onOffZvukSwitch )
-	sceneGroup:insert( onOffMusicSwitch )
 	sceneGroup:insert( settingsBtn )
 	sceneGroup:insert( referenceBtn )
 	sceneGroup:insert( ratingBtn )
-	sceneGroup:insert( musicoff )
-	sceneGroup:insert( zvukoff )
+
 end
 
 
