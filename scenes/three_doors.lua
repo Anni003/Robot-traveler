@@ -1,6 +1,15 @@
 local composer = require( "composer" )
 
 local scene = composer.newScene()
+
+
+bgMusic1 = audio.loadStream( "menu-folder/music/adventure.mp3" ) -- ПОДГРУЗКА МУЗЫКИ
+audio.reserveChannels( 1 )
+
+audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
+
+
+
 function scene:create( event )
     local sceneGroup = self.view
         display.setStatusBar(display.HiddenStatusBar)
@@ -53,5 +62,54 @@ function scene:create( event )
     door_3:addEventListener( "tap", open_door_3 )
 end
 
-scene:addEventListener("create", scene);
+
+
+function scene:show( event )
+	local sceneGroup = self.view
+	local phase = event.phase
+	if phase == "did" then
+
+		if musicGlobal == true then
+			timer.performWithDelay( 5, function()
+				audio.play( bgMusic1, { loops = -1, channel = 1 } ) -- НАСТРОЙКИ ПРОИГРЫВАТЕЛЯ
+				-- audio.fade({ channel = 1, time = 100, volume = 0.1 } )
+			end)
+		end
+	end	
+end
+
+function scene:hide( event )
+	local sceneGroup = self.view
+	local phase = event.phase
+	
+	if event.phase == "will" then
+
+	elseif phase == "did" then
+		
+		if musicGlobal == true then
+			-- audio.fadeOut( { channel = 2, time = 1500 } )
+			audio.stop( 1 )    -- НАСТРОИТЬ ОТКЛЮЧЕНИЕ МУЗЫКИ
+		end
+
+	end	
+
+end
+
+function scene:destroy( event )
+	local sceneGroup = self.view
+	
+	audio.stop(1)  -- НАСТРОИТЬ ОТКЛЮЧЕНИЕ МУЗЫКИ
+
+end
+
+---------------------------------------------------------------------------------
+-- Listener setup
+scene:addEventListener( "create", scene )
+scene:addEventListener( "show", scene )
+scene:addEventListener( "hide", scene )
+scene:addEventListener( "destroy", scene )
+
 return scene;
+
+
+

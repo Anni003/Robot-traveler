@@ -3,6 +3,9 @@ local scene = composer.newScene()
 local widget = require("widget")
 
 
+audio.stop( 1 )
+audio.dispose( bgMusicPuz )
+
 function scene:create( event )
 	local sceneGroup = self.view
 
@@ -46,9 +49,37 @@ function scene:create( event )
 	sceneGroup:insert(menuTransBtn)
 end
 
--- Listener setup
-scene:addEventListener( "create", scene )
 
+
+function scene:hide( event )
+	local sceneGroup = self.view
+	local phase = event.phase
+	
+	if event.phase == "will" then
+
+	elseif phase == "did" then
+		
+		if musicGlobal == true then
+			-- audio.fadeOut( { channel = 2, time = 1500 } )
+			audio.stop( 1 )    -- НАСТРОИТЬ ОТКЛЮЧЕНИЕ МУЗЫКИ
+		end
+
+	end	
+
+
+end
+
+function scene:destroy( event )
+	local sceneGroup = self.view
+	
+	audio.stop(1)  -- НАСТРОИТЬ ОТКЛЮЧЕНИЕ МУЗЫКИ
+
+end
+
+scene:addEventListener( "create", scene )
+scene:addEventListener( "show", scene )
+scene:addEventListener( "hide", scene )
+scene:addEventListener( "destroy", scene )
 -----------------------------------------------------------------------------------------
 
 return scene

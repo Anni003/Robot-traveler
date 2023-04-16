@@ -4,7 +4,6 @@ local composer = require "composer"
 
 musicGlobal = true --глобальная проверка того, можно ли включать музыку! true - музыку можно
 
-zvukGlobal = true --глобальная проверка того, можно ли включать звук! true - звук можно
 
 editVolume = false -- индикатор изменения громкости. false - музыка не была изменена
 

@@ -4,6 +4,10 @@ local scene = composer.newScene()
 local widget = require("widget")
 
 --------------------------------------------
+bgMusicPuz = audio.loadStream( "menu-folder/music/jumpshot.mp3" ) -- ПОДГРУЗКА МУЗЫКИ
+audio.reserveChannels( 1 )
+
+audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
 
 
 function scene:create( event )
@@ -700,42 +704,44 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 	imgPart12:addEventListener( "touch", movePuzzle12 ) -- слушатель касания => перемещение пазла 12
 end
 
-
-
-
-
 function scene:show( event )
 	local sceneGroup = self.view
 	local phase = event.phase
-	
-	if phase == "will" then
+	if phase == "did" then
 
-	elseif phase == "did" then
-
-	end
+		if musicGlobal == true then
+			timer.performWithDelay( 5, function()
+				audio.play( bgMusicPuz, { loops = -1, channel = 1 } ) -- НАСТРОЙКИ ПРОИГРЫВАТЕЛЯ
+				-- audio.fade({ channel = 1, time = 100, volume = 0.1 } )
+			end)
+		end
+	end	
 end
 
 function scene:hide( event )
 	local sceneGroup = self.view
-	
 	local phase = event.phase
 	
 	if event.phase == "will" then
 
 	elseif phase == "did" then
+		
+		if musicGlobal == true then
+			-- audio.fadeOut( { channel = 2, time = 1500 } )
+			audio.stop( 1 )    -- НАСТРОИТЬ ОТКЛЮЧЕНИЕ МУЗЫКИ
+		end
 
 	end	
-	
+
 end
 
 function scene:destroy( event )
-
 	local sceneGroup = self.view
+	
+	audio.stop(1)  -- НАСТРОИТЬ ОТКЛЮЧЕНИЕ МУЗЫКИ
 
 end
-
 ---------------------------------------------------------------------------------
-
 -- Listener setup
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )

@@ -33,7 +33,11 @@ function scene:create( event )
 
                 editVolume = true
                 
-                if (event.value >= 0 and event.value < 10) then 
+                if (event.value >= 0 and event.value < 4) then 
+                    volumeGlobalMusic = 0
+                    audio.setVolume( 0, { channel=1 } )
+
+                elseif (event.value >= 4 and event.value < 10) then
                     volumeGlobalMusic = 0.1
                     audio.setVolume( 0.1, { channel=1 } )
                 elseif (event.value >= 10 and event.value < 20) then
