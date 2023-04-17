@@ -313,43 +313,48 @@ local function movementSystem(direction)
             transition.to(pointer, { time = 100, alpha = 0, transition = easing.inSine })
             scoreTimer:pause()
             local score = scoreTimer:getScore()
-            local modal = display.newRoundedRect(gridGroup, display.contentWidth / 2, display.contentHeight / 2, 1, 1, 16)
-            modal.alpha = 0.0
-            modal:setFillColor(unpack({ 0.21, 0.42, 0.84 }))
-            modal:setStrokeColor(unpack({ 0.13, 0.16, 0.32 }))
-            modal.strokeWidth = 5
-            local text1 = display.newText(gridGroup, "Поздравляю!", display.contentWidth / 2, modal.y - 100, "scenes/labyrinth/font/geometria_bold", 46)
-            local text2 = display.newText(gridGroup, "Вы прошли лабиринт за " .. score .. " сек", display.contentWidth / 2, modal.y - 40, "scenes/labyrinth/font/geometria_bold", 36)
-            local modalButton = widget.newButton({
-                x = display.contentWidth / 2,
-                y = modal.y + 80,
-                label = "В меню",
-                width = display.contentWidth / 2,
-                height = 80,
-                shape = "roundedRect",
-                cornerRadius = 12,
-                fillColor = { default = { 0.11, 0.44, 0.72, 1.0 }, over = { 0.09, 0.36, 0.6, 1.0 } },
-                labelColor = { default = { 1.0, 1.0, 1.0, 1.0 }, over = { 1.0, 1.0, 1.0, 1.0 } },
-                strokeWidth = 3,
-                strokeColor = { default = { 1.0, 1.0, 1.0, 1.0 }, over = { 1.0, 1.0, 1.0, 1.0 } },
-                font = "scenes/labyrinth/font/geometria_bold.otf",
-                fontSize = 36,
-                onEvent = function(event)
-                    local phase = event.phase
-                    if (phase == "ended") then
-                        composer.removeScene("scenes.labyrinth")
-                        composer.gotoScene("scenes.three_doors")
-                    end
-                end
+            -- local modal = display.newRoundedRect(gridGroup, display.contentWidth / 2, display.contentHeight / 2, 1, 1, 16)
+            -- modal.alpha = 0.0
+            -- modal:setFillColor(unpack({ 0.21, 0.42, 0.84 }))
+            -- modal:setStrokeColor(unpack({ 0.13, 0.16, 0.32 }))
+            -- modal.strokeWidth = 5
+            -- local text1 = display.newText(gridGroup, "Поздравляю!", display.contentWidth / 2, modal.y - 100, "scenes/labyrinth/font/geometria_bold", 46)
+            -- local text2 = display.newText(gridGroup, "Вы прошли лабиринт за " .. score .. " сек", display.contentWidth / 2, modal.y - 40, "scenes/labyrinth/font/geometria_bold", 36)
+            -- local modalButton = widget.newButton({
+            --     x = display.contentWidth / 2,
+            --     y = modal.y + 80,
+            --     label = "В меню",
+            --     width = display.contentWidth / 2,
+            --     height = 80,
+            --     shape = "roundedRect",
+            --     cornerRadius = 12,
+            --     fillColor = { default = { 0.11, 0.44, 0.72, 1.0 }, over = { 0.09, 0.36, 0.6, 1.0 } },
+            --     labelColor = { default = { 1.0, 1.0, 1.0, 1.0 }, over = { 1.0, 1.0, 1.0, 1.0 } },
+            --     strokeWidth = 3,
+            --     strokeColor = { default = { 1.0, 1.0, 1.0, 1.0 }, over = { 1.0, 1.0, 1.0, 1.0 } },
+            --     font = "scenes/labyrinth/font/geometria_bold.otf",
+            --     fontSize = 36,
+            --     onEvent = function(event)
+            --         local phase = event.phase
+            --         if (phase == "ended") then
+            --             composer.removeScene("scenes.labyrinth")
+
+            --         end
+            --     end
+            -- })
+            composer.showOverlay("scenes.destroy_all", {
+                isModal=true,
+                effect="fade",
+                time=400,
             })
-            text1.alpha = 0.0
-            text2.alpha = 0.0
-            modalButton.alpha = 0.0
-            gridGroup:insert(modalButton)
-            transition.to(modal, { time = 350, width = display.contentWidth - 80, height = 320, alpha = 1, transition = easing.inSine })
-            transition.to(text1, { time = 600, alpha = 1, transition = easing.inSine })
-            transition.to(text2, { time = 600, alpha = 1, transition = easing.inSine })
-            transition.to(modalButton, { time = 600, alpha = 1, transition = easing.inSine })
+            -- text1.alpha = 0.0
+            -- text2.alpha = 0.0
+            -- modalButton.alpha = 0.0
+            -- gridGroup:insert(modalButton)
+            -- transition.to(modal, { time = 350, width = display.contentWidth - 80, height = 320, alpha = 1, transition = easing.inSine })
+            -- transition.to(text1, { time = 600, alpha = 1, transition = easing.inSine })
+            -- transition.to(text2, { time = 600, alpha = 1, transition = easing.inSine })
+            -- transition.to(modalButton, { time = 600, alpha = 1, transition = easing.inSine })
             scoreTimer:delete()
             return
         end
@@ -384,10 +389,11 @@ local function eastButtonTap() movementSystem("east") end
 local scene = composer.newScene()
 
 
+
 bgMusicLab = audio.loadStream( "menu-folder/music/david.mp3" ) -- ПОДГРУЗКА МУЗЫКИ
 audio.reserveChannels( 1 )
-
 audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
+
 
 
 function scene:create(event)
@@ -436,14 +442,15 @@ function scene:show(event)
         controlButtons.east:addEventListener("tap", eastButtonTap)
         Runtime:addEventListener("key", key)
 
+
         if musicGlobal == true then
 			timer.performWithDelay( 5, function()
 				audio.play( bgMusicLab, { loops = -1, channel = 1 } ) -- НАСТРОЙКИ ПРОИГРЫВАТЕЛЯ
-				-- audio.fade({ channel = 1, time = 100, volume = 0.1 } )
 			end)
 		end
     end
 end
+
 
 
 function scene:hide(event)
@@ -456,8 +463,7 @@ function scene:hide(event)
         Runtime:removeEventListener("key", key)
     elseif (phase == "did") then
         if musicGlobal == true then
-			-- audio.fadeOut( { channel = 2, time = 1500 } )
-			audio.stop( 1 )    -- НАСТРОИТЬ ОТКЛЮЧЕНИЕ МУЗЫКИ
+			audio.stop(1)
 		end
     end
 end
@@ -466,11 +472,9 @@ end
 function scene:destroy( event )
 	local sceneGroup = self.view
 	
-	audio.stop(1)  -- НАСТРОИТЬ ОТКЛЮЧЕНИЕ МУЗЫКИ
-    audio.dispose( bgMusicLab )
+	audio.dispose( bgMusicLab )
+
 end
-
-
 
 scene:addEventListener("create", scene)
 scene:addEventListener("show", scene)

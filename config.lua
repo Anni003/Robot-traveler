@@ -11,13 +11,15 @@ application =
 		height = 1024, 
 		scale = "letterbox",
 		fps = 100,
+		xAlign = "center",  
+		yAlign = "center",  
 		
-		--[[
+		[[
 		imageSuffix =
 		{
 			    ["@2x"] = 2,
 			    ["@4x"] = 4,
 		},
-		--]]
+		]]
 	},
 }

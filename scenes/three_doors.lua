@@ -2,12 +2,9 @@ local composer = require( "composer" )
 
 local scene = composer.newScene()
 
-
-bgMusic1 = audio.loadStream( "menu-folder/music/adventure.mp3" ) -- ПОДГРУЗКА МУЗЫКИ
+bgMusicDoors = audio.loadStream( "menu-folder/music/adventure.mp3" ) -- ПОДГРУЗКА МУЗЫКИ
 audio.reserveChannels( 1 )
-
 audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
-
 
 
 function scene:create( event )
@@ -24,22 +21,22 @@ function scene:create( event )
         sceneGroup:insert(doors)
 
     local door_1 = display.newImageRect(doors, "img/door-1.png", 320, 490)
-        door_1.x = display.contentCenterX/25
+        door_1.x = display.contentCenterX/4
         door_1.y = display.contentCenterY/1.459
         sceneGroup:insert(door_1)
 
-    local door_2 = display.newImageRect(doors, "img/door-2.png", 300, 490)
+    local door_2 = display.newImageRect(doors, "img/door-2.png", 320, 490)
         door_2.x = display.contentCenterX
         door_2.y = display.contentCenterY/1.45
         sceneGroup:insert(door_2)
 
-    local door_3 = display.newImageRect(doors, "img/door-3.png", 300, 490)
-        door_3.x = display.contentCenterX/0.51
+    local door_3 = display.newImageRect(doors, "img/door-3.png", 320, 490)
+        door_3.x = display.contentCenterX/0.57
         door_3.y = display.contentCenterY/1.458
         sceneGroup:insert(door_3)
 
     
-    local list = {"scenes.hidden_object3", "scenes.hidden_object2", "scenes.hidden_object"}
+    local list = {"scenes.hidden_object3", "scenes.hidden_object"}
 
     local puzzleList = {"scenes.puzzleGame1", "scenes.puzzleGame2", "scenes.puzzleGame3"}
 
@@ -63,7 +60,6 @@ function scene:create( event )
 end
 
 
-
 function scene:show( event )
 	local sceneGroup = self.view
 	local phase = event.phase
@@ -71,8 +67,7 @@ function scene:show( event )
 
 		if musicGlobal == true then
 			timer.performWithDelay( 5, function()
-				audio.play( bgMusic1, { loops = -1, channel = 1 } ) -- НАСТРОЙКИ ПРОИГРЫВАТЕЛЯ
-				-- audio.fade({ channel = 1, time = 100, volume = 0.1 } )
+				audio.play( bgMusicDoors, { loops = -1, channel = 1 } ) -- НАСТРОЙКИ ПРОИГРЫВАТЕЛЯ
 			end)
 		end
 	end	
@@ -87,7 +82,6 @@ function scene:hide( event )
 	elseif phase == "did" then
 		
 		if musicGlobal == true then
-			-- audio.fadeOut( { channel = 2, time = 1500 } )
 			audio.stop( 1 )    -- НАСТРОИТЬ ОТКЛЮЧЕНИЕ МУЗЫКИ
 		end
 
@@ -102,14 +96,11 @@ function scene:destroy( event )
 
 end
 
----------------------------------------------------------------------------------
--- Listener setup
+
+
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
 scene:addEventListener( "destroy", scene )
 
 return scene;
-
-
-

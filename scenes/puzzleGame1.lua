@@ -4,11 +4,10 @@ local scene = composer.newScene()
 local widget = require("widget")
 
 --------------------------------------------
-bgMusicPuz = audio.loadStream( "menu-folder/music/jumpshot.mp3" ) -- ПОДГРУЗКА МУЗЫКИ
+bgMusicPuz1 = audio.loadStream( "menu-folder/music/jumpshot.mp3" ) -- ПОДГРУЗКА МУЗЫКИ
 audio.reserveChannels( 1 )
 
 audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
-
 
 
 function scene:create( event )
@@ -155,14 +154,11 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
 					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
 
-					options = {
-		    			isModal = true,
-	    				effect = "fade",
-	    				time = 400
-					}
- 
-					-- By some method such as a "pause" button, show the overlay
-						composer.showOverlay( "puzzles folder.modalComponents.referenceModal", options )
+					composer.showOverlay("scenes.destroy_registration", {
+						isModal=true,
+						effect="fade",
+						time=400,
+					})
 					
 				end
 				moveMassive[1] = 0
@@ -200,14 +196,11 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 			if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
 				print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
 
-				lptions = {
-		    			isModal = true,
-	    				effect = "fade",
-	    				time = 400
-					}
- 
-					-- By some method such as a "pause" button, show the overlay
-						composer.showOverlay( "puzzles folder.modalComponents.referenceModal", options )
+				composer.showOverlay("scenes.destroy_registration", {
+					isModal=true,
+					effect="fade",
+					time=400,
+				})
 					
 			end
 			moveMassive[2] = 0
@@ -244,14 +237,11 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 			if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
 				print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
 
-				options = {
-		    			isModal = true,
-	    				effect = "fade",
-	    				time = 400
-					}
- 
-					-- By some method such as a "pause" button, show the overlay
-						composer.showOverlay( "puzzles folder.modalComponents.referenceModal", options )
+				composer.showOverlay("scenes.destroy_registration", {
+					isModal=true,
+					effect="fade",
+					time=400,
+				})
 					
 			end
 			moveMassive[3] = 0
@@ -287,14 +277,11 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
 					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
 
-					options = {
-		    			isModal = true,
-	    				effect = "fade",
-	    				time = 400
-					}
- 
-					-- By some method such as a "pause" button, show the overlay
-						composer.showOverlay( "puzzles folder.modalComponents.referenceModal", options )
+					composer.showOverlay("scenes.destroy_registration", {
+						isModal=true,
+						effect="fade",
+						time=400,
+					})
 					
 				end
 				moveMassive[4] = 0
@@ -330,14 +317,11 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
 					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
 
-					options = {
-		    			isModal = true,
-	    				effect = "fade",
-	    				time = 400
-					}
- 
-					-- By some method such as a "pause" button, show the overlay
-						composer.showOverlay( "puzzles folder.modalComponents.referenceModal", options )
+					composer.showOverlay("scenes.destroy_registration", {
+						isModal=true,
+						effect="fade",
+						time=400,
+					})
 					
 				end
 				moveMassive[5] = 0
@@ -372,14 +356,11 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
 					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
 
-					options = {
-		    			isModal = true,
-	    				effect = "fade",
-	    				time = 400
-					}
- 
-					-- By some method such as a "pause" button, show the overlay
-						composer.showOverlay( "puzzles folder.modalComponents.referenceModal", options )
+					composer.showOverlay("scenes.destroy_registration", {
+						isModal=true,
+						effect="fade",
+						time=400,
+					})
 					
 				end
 				moveMassive[6] = 0
@@ -415,14 +396,11 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
 					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
 
-					options = {
-		    			isModal = true,
-	    				effect = "fade",
-	    				time = 400
-					}
- 
-					-- By some method such as a "pause" button, show the overlay
-						composer.showOverlay( "puzzles folder.modalComponents.referenceModal", options )
+					composer.showOverlay("scenes.destroy_registration", {
+						isModal=true,
+						effect="fade",
+						time=400,
+					})
 					
 				end
 				moveMassive[7] = 0
@@ -458,14 +436,11 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
 					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
 
-					options = {
-		    			isModal = true,
-	    				effect = "fade",
-	    				time = 400
-					}
- 
-					-- By some method such as a "pause" button, show the overlay
-						composer.showOverlay( "puzzles folder.modalComponents.referenceModal", options )
+					composer.showOverlay("scenes.destroy_registration", {
+						isModal=true,
+						effect="fade",
+						time=400,
+					})
 					
 				end
 				moveMassive[8] = 0
@@ -500,14 +475,11 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
 					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
 
-					options = {
-		    			isModal = true,
-	    				effect = "fade",
-	    				time = 400
-					}
- 
-					-- By some method such as a "pause" button, show the overlay
-						composer.showOverlay( "puzzles folder.modalComponents.referenceModal", options )
+					composer.showOverlay("scenes.destroy_registration", {
+						isModal=true,
+						effect="fade",
+						time=400,
+					})
 					
 				end
 				moveMassive[9] = 0
@@ -543,14 +515,11 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
 					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
 
-					options = {
-		    			isModal = true,
-	    				effect = "fade",
-	    				time = 400
-					}
- 
-					-- By some method such as a "pause" button, show the overlay
-						composer.showOverlay( "puzzles folder.modalComponents.referenceModal", options )
+					composer.showOverlay("scenes.destroy_registration", {
+						isModal=true,
+						effect="fade",
+						time=400,
+					})
 					
 				end
 				moveMassive[10] = 0
@@ -586,14 +555,11 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
 					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
 
-					options = {
-		    			isModal = true,
-	    				effect = "fade",
-	    				time = 400
-					}
- 
-					-- By some method such as a "pause" button, show the overlay
-						composer.showOverlay( "puzzles folder.modalComponents.referenceModal", options )
+					composer.showOverlay("scenes.destroy_registration", {
+						isModal=true,
+						effect="fade",
+						time=400,
+					})
 					
 				end
 				moveMassive[11] = 0
@@ -628,14 +594,11 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
 					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
 
-					options = {
-		    			isModal = true,
-	    				effect = "fade",
-	    				time = 400
-					}
- 
-					-- By some method such as a "pause" button, show the overlay
-						composer.showOverlay( "puzzles folder.modalComponents.referenceModal", options )
+					composer.showOverlay("scenes.destroy_registration", {
+						isModal=true,
+						effect="fade",
+						time=400,
+					})
 
 					
 				end
@@ -706,7 +669,6 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 end
 
 
-
 function scene:show( event )
 	local sceneGroup = self.view
 	local phase = event.phase
@@ -714,8 +676,7 @@ function scene:show( event )
 
 		if musicGlobal == true then
 			timer.performWithDelay( 5, function()
-				audio.play( bgMusicPuz, { loops = -1, channel = 1 } ) -- НАСТРОЙКИ ПРОИГРЫВАТЕЛЯ
-				-- audio.fade({ channel = 1, time = 100, volume = 0.1 } )
+				audio.play( bgMusicPuz1, { loops = -1, channel = 1 } ) -- НАСТРОЙКИ ПРОИГРЫВАТЕЛЯ
 			end)
 		end
 	end	
@@ -729,8 +690,7 @@ function scene:hide( event )
 	elseif phase == "did" then
 		
 		if musicGlobal == true then
-			-- audio.fadeOut( { channel = 2, time = 1500 } )
-			audio.stop( 1 )    -- НАСТРОИТЬ ОТКЛЮЧЕНИЕ МУЗЫКИ
+			audio.stop(1)
 		end
 
 	end	
@@ -740,10 +700,12 @@ end
 function scene:destroy( event )
 	local sceneGroup = self.view
 	
-	audio.stop(1)  -- НАСТРОИТЬ ОТКЛЮЧЕНИЕ МУЗЫКИ
+	audio.dispose( bgMusicPuz1 )
 
 end
+
 ---------------------------------------------------------------------------------
+
 -- Listener setup
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
