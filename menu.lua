@@ -9,7 +9,7 @@ audio.reserveChannels( 1 )
 audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
 
 local function onPlayBtnRelease()
-	composer.gotoScene( "scenes.three_doors", "fade", 400 )
+	composer.gotoScene( "scenes.one_doors", "fade", 400 )
 	return true	-- indicates successful touch
 end
 

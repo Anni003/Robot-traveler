@@ -342,7 +342,7 @@ local function movementSystem(direction)
             --         end
             --     end
             -- })
-            composer.showOverlay("scenes.destroy_all", {
+            composer.showOverlay("scenes.destroy_registration", {
                 isModal=true,
                 effect="fade",
                 time=400,
@@ -387,6 +387,14 @@ local function westButtonTap() movementSystem("west") end
 local function eastButtonTap() movementSystem("east") end
 
 local scene = composer.newScene()
+
+
+
+bgMusicLab = audio.loadStream( "menu-folder/music/david.mp3" ) -- ПОДГРУЗКА МУЗЫКИ
+audio.reserveChannels( 1 )
+audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
+
+
 
 function scene:create(event)
     local sceneGroup = self.view
@@ -433,8 +441,17 @@ function scene:show(event)
         controlButtons.west:addEventListener("tap", westButtonTap)
         controlButtons.east:addEventListener("tap", eastButtonTap)
         Runtime:addEventListener("key", key)
+
+
+        if musicGlobal == true then
+			timer.performWithDelay( 5, function()
+				audio.play( bgMusicLab, { loops = -1, channel = 1 } ) -- НАСТРОЙКИ ПРОИГРЫВАТЕЛЯ
+			end)
+		end
     end
 end
+
+
 
 function scene:hide(event)
     local phase = event.phase
@@ -445,11 +462,17 @@ function scene:hide(event)
         controlButtons.east:removeEventListener("tap", eastButtonTap)
         Runtime:removeEventListener("key", key)
     elseif (phase == "did") then
-
+        if musicGlobal == true then
+			audio.stop(1)
+		end
     end
 end
 
-function scene:destroy(event)
+
+function scene:destroy( event )
+	local sceneGroup = self.view
+	
+	audio.dispose( bgMusicLab )
 
 end
 

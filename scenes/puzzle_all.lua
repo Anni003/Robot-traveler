@@ -3,7 +3,7 @@ local scene = composer.newScene()
 local widget = require "widget"
 
 local function onPlayBtnRelease()
-    composer.gotoScene( "scenes.refresh_reg", { params = { hero_x = 280, hero_y = 800, isClosed = true } }, "fade", 400 )
+    composer.gotoScene( "scenes.refresh_puzzle", { params = { hero_x = 280, hero_y = 800, isClosed = true } }, "fade", 400 )
 	return true
 end
 

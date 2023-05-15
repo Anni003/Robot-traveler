@@ -4,7 +4,7 @@ local scene = composer.newScene()
 local widget = require("widget")
 
 --------------------------------------------
-bgMusicPuz = audio.loadStream( "menu-folder/music/jumpshot.mp3" ) -- ПОДГРУЗКА МУЗЫКИ
+bgMusicPuz1 = audio.loadStream( "menu-folder/music/jumpshot.mp3" ) -- ПОДГРУЗКА МУЗЫКИ
 audio.reserveChannels( 1 )
 
 audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
@@ -24,90 +24,82 @@ function scene:create( event )
 	sceneGroup:insert( background )
 
 
-	titleOfPuzzle = widget.newButton {
-		label = "Собери картинку!",
-		fontSize = 50,
-		labelColor = { default={ 0.0 }, over={ 0.0 } },
-		defaultFile = "puzzles folder/dif-images/btn-soberu.png",
-		overFile = "puzzles folder/dif-images/btn-soberu.png",
-		width = 460, height = 110,
-		onRelease = onPlayBtnRelease	-- event listener function
-	}
-	titleOfPuzzle.x = display.contentCenterX - 280
-	titleOfPuzzle.y = display.contentHeight - 650
-	sceneGroup:insert( titleOfPuzzle )
 
 
+	local myText = display.newText( "Собери картинку!", display.contentCenterX - 348, display.contentHeight - 620, "fonts/geometria_medium", 46 )
+	myText:setFillColor( 1, 1, 1 )
+	sceneGroup:insert( myText )
 
-	local desk = display.newImageRect( "puzzles folder/dif-images/podlozhka.png", 750, 507 )
-	desk.x = 240
-	desk.y = 450 --доска для пазлов
+
+	local desk = display.newImageRect( "puzzles folder/dif-images/podlozhka-lines.png", 604, 399 )
+	desk.x = 255
+	desk.y = 452 --доска для пазлов
 	sceneGroup:insert( desk ) 
 
 
 -- 1 строка
-local imgPart1 = display.newImageRect( "puzzles folder/img-parts-for-puz-1/image_part_001.jpg", 180, 159 )
-imgPart1.x = 743 + 180 - 30
-imgPart1.y = 104 + 318 + 30
+local imgPart1 = display.newImageRect( "puzzles folder/img-parts-for-puz-1/image_part_001.jpg", 152.5, 133.6 )
+imgPart1.x = 832.5
+imgPart1.y = 444
 sceneGroup:insert( imgPart1 ) -- координаты x,y (1,1)
 
-local imgPart2 = display.newImageRect( "puzzles folder/img-parts-for-puz-1/image_part_002.jpg", 180, 159 )
-imgPart2.x = 743 - 30
-imgPart2.y = 104 + 30
+local imgPart2 = display.newImageRect( "puzzles folder/img-parts-for-puz-1/image_part_002.jpg", 152.5, 133.6 )
+imgPart2.x = 670
+imgPart2.y = 155
 sceneGroup:insert( imgPart2 ) -- координаты x,y (2,1)--голова
 
-local imgPart3 = display.newImageRect( "puzzles folder/img-parts-for-puz-1/image_part_003.jpg", 180, 159 )
-imgPart3.x = 743 + 360 - 30
-imgPart3.y = 104 + 159 + 30
+local imgPart3 = display.newImageRect( "puzzles folder/img-parts-for-puz-1/image_part_003.jpg", 152.5, 133.6 )
+imgPart3.x = 995
+imgPart3.y = 298
 sceneGroup:insert( imgPart3 ) -- координаты x,y (3,1)
 
-local imgPart4 = display.newImageRect( "puzzles folder/img-parts-for-puz-1/image_part_004.jpg", 180, 159 )
-imgPart4.x = 743 - 30
-imgPart4.y = 104 + 318 + 30
+local imgPart4 = display.newImageRect( "puzzles folder/img-parts-for-puz-1/image_part_004.jpg", 152.5, 133.6 )
+imgPart4.x = 670
+imgPart4.y = 442
 sceneGroup:insert( imgPart4 ) -- координаты x,y (1,2)
 
 -- 2 строка
 
-local imgPart5 = display.newImageRect( "puzzles folder/img-parts-for-puz-1/image_part_005.jpg", 180, 159 )
-imgPart5.x = 743 + 360 -30
-imgPart5.y = 104+ 30
+local imgPart5 = display.newImageRect( "puzzles folder/img-parts-for-puz-1/image_part_005.jpg", 152.5, 133.6 )
+imgPart5.x = 995
+imgPart5.y = 159
 sceneGroup:insert( imgPart5 ) -- координаты x,y (2,2)
 
-local imgPart6 = display.newImageRect( "puzzles folder/img-parts-for-puz-1/image_part_006.jpg", 180, 159 )
-imgPart6.x = 743 - 30
-imgPart6.y = 104 + 159 + 30
+local imgPart6 = display.newImageRect( "puzzles folder/img-parts-for-puz-1/image_part_006.jpg", 152.5, 133.6 )
+imgPart6.x = 670
+imgPart6.y = 298
 sceneGroup:insert( imgPart6 ) -- координаты x,y (3,2)
 
-local imgPart7 = display.newImageRect( "puzzles folder/img-parts-for-puz-1/image_part_007.jpg", 180, 159 )
-imgPart7.x = 743 + 180 - 30
-imgPart7.y = 104 + 477 + 30
+local imgPart7 = display.newImageRect( "puzzles folder/img-parts-for-puz-1/image_part_007.jpg", 152.5, 133.6 )
+imgPart7.x = 832.5
+imgPart7.y = 585
 sceneGroup:insert( imgPart7 ) -- координаты x,y (1,3)
 
-local imgPart8 = display.newImageRect( "puzzles folder/img-parts-for-puz-1/image_part_008.jpg", 180, 159 )
-imgPart8.x = 743 + 180 - 30
-imgPart8.y = 104 + 159 + 30
+local imgPart8 = display.newImageRect( "puzzles folder/img-parts-for-puz-1/image_part_008.jpg", 152.5, 133.6 )
+imgPart8.x = 832.5
+imgPart8.y = 298
 sceneGroup:insert( imgPart8 ) -- координаты x,y (2,3)
 
 -- 3 строка
 
-local imgPart9 = display.newImageRect( "puzzles folder/img-parts-for-puz-1/image_part_009.jpg", 180, 159 )
-imgPart9.x = 743 + 360 - 30
-imgPart9.y = 104 + 318 + 30
+local imgPart9 = display.newImageRect( "puzzles folder/img-parts-for-puz-1/image_part_009.jpg", 152.5, 133.6 )
+imgPart9.x = 995
+imgPart9.y = 442
 sceneGroup:insert( imgPart9 ) -- координаты x,y (3,3)
 
-local imgPart10 = display.newImageRect( "puzzles folder/img-parts-for-puz-1/image_part_010.jpg", 180, 159 )
-imgPart10.x = 743 + 180 - 30
-imgPart10.y = 104 + 30
+local imgPart10 = display.newImageRect( "puzzles folder/img-parts-for-puz-1/image_part_010.jpg", 152.5, 133.6 )
+imgPart10.x = 832.5
+imgPart10.y = 155
 sceneGroup:insert( imgPart10 ) -- координаты x,y (1,4)
 
-local imgPart11 = display.newImageRect( "puzzles folder/img-parts-for-puz-1/image_part_011.jpg", 180, 159 )
-imgPart11.x = 743 - 30
-imgPart11.y = 104 + 477 + 30
+local imgPart11 = display.newImageRect( "puzzles folder/img-parts-for-puz-1/image_part_011.jpg", 152.5, 133.6 )
+imgPart11.x = 670
+imgPart11.y = 585
 sceneGroup:insert( imgPart11 ) -- координаты x,y (2,4)
 
-local imgPart12 = display.newImageRect( "puzzles folder/img-parts-for-puz-1/image_part_012.jpg", 180, 159 )
-imgPart12.x = 743 + 360 - 30
-imgPart12.y = 104 + 477 + 30
+local imgPart12 = display.newImageRect( "puzzles folder/img-parts-for-puz-1/image_part_012.jpg", 152.5, 133.6 )
+imgPart12.x = 995
+imgPart12.y = 585
 sceneGroup:insert( imgPart12 ) -- координаты x,y (3,4)
 
 
@@ -147,14 +139,14 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 
 			-- display.contentWidth
 
-			if ( ((-40) < event.x) and (event.x < (-20)) and (280 < event.y) and (event.y < 300)) then --если пазла близка к своему месту
-				imgPart1.x = -30
-				imgPart1.y = 290 --около этого числа
+			if ( ((19) < event.x) and (event.x < (39)) and (308 < event.y) and (event.y < 328)) then --если пазла близка к своему месту
+				imgPart1.x = 29
+				imgPart1.y = 318   --около этого числа
 				summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
 				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
 					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
 
-					composer.showOverlay("scenes.destroy_registration", {
+					composer.showOverlay("scenes.puzzle_all", {
 						isModal=true,
 						effect="fade",
 						time=400,
@@ -189,14 +181,13 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 		imgPart2.x = event.x
 		imgPart2.y = event.y
 
-		if ( ((140) < event.x) and (event.x < 160) and (280 < event.y) and (event.y < 300)) then --если пазла близка к своему месту
-			imgPart2.x = 150
-			imgPart2.y =  290 --около этого числа
+		if ( ((168) < event.x) and (event.x < 188) and (308 < event.y) and (event.y < 328)) then --если пазла близка к своему месту
+			imgPart2.x = 178
+			imgPart2.y = 318 --около этого числа
 			summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
-			if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
-				print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
+			if (summaPuzzleFinish == 12) then -- проверка на собранную картинк
 
-				composer.showOverlay("scenes.destroy_registration", {
+				composer.showOverlay("scenes.puzzle_all", {
 					isModal=true,
 					effect="fade",
 					time=400,
@@ -230,14 +221,13 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 		imgPart3.x = event.x
 		imgPart3.y = event.y
 
-		if ( ((320) < event.x) and (event.x < 340) and (280 < event.y) and (event.y < 300)) then --если пазла близка к своему месту
-			imgPart3.x = 330
-			imgPart3.y = 290 --около этого числа
+		if ( ((319) < event.x) and (event.x < 339) and (308 < event.y) and (event.y < 328)) then --если пазла близка к своему месту
+			imgPart3.x = 329
+			imgPart3.y = 318 --около этого числа
 			summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
-			if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
-				print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
+			if (summaPuzzleFinish == 12) then -- проверка на собранную картинк
 
-				composer.showOverlay("scenes.destroy_registration", {
+				composer.showOverlay("scenes.puzzle_all", {
 					isModal=true,
 					effect="fade",
 					time=400,
@@ -270,14 +260,13 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 			imgPart4.x = event.x
 			imgPart4.y = event.y
 
-			if ( ((500) < event.x) and (event.x < 520) and (280 < event.y) and (event.y < 300)) then --если пазла близка к своему месту
-				imgPart4.x = 510
-				imgPart4.y =  290 --около этого числа
+			if ( ((471) < event.x) and (event.x < 491) and (308 < event.y) and (event.y < 328)) then --если пазла близка к своему месту
+				imgPart4.x = 481
+				imgPart4.y = 318 --около этого числа
 				summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
 				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
-					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
 
-					composer.showOverlay("scenes.destroy_registration", {
+					composer.showOverlay("scenes.puzzle_all", {
 						isModal=true,
 						effect="fade",
 						time=400,
@@ -310,14 +299,13 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 			imgPart5.x = event.x
 			imgPart5.y = event.y
 
-			if ( ((-40) < event.x) and (event.x < (-20)) and (439 < event.y) and (event.y < 459)) then --если пазла близка к своему месту
-				imgPart5.x = -30
-				imgPart5.y =  449 --около этого числа
+			if ( ((19) < event.x) and (event.x < (39)) and (441 < event.y) and (event.y < 461)) then --если пазла близка к своему месту
+				imgPart5.x = 29
+				imgPart5.y =  451 --около этого числа
 				summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
 				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
-					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
-
-					composer.showOverlay("scenes.destroy_registration", {
+					
+					composer.showOverlay("scenes.puzzle_all", {
 						isModal=true,
 						effect="fade",
 						time=400,
@@ -349,14 +337,13 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 			changeMoveMassive(6) --меняем массив, останавливая другие пазлы
 			imgPart6.x = event.x
 			imgPart6.y = event.y
-			if ( ((140) < event.x) and (event.x < 160) and (439 < event.y) and (event.y < 459)) then --если пазла близка к своему месту
-				imgPart6.x = 150
-				imgPart6.y =  449 --около этого числа
+			if ( ((168) < event.x) and (event.x < 188) and (441 < event.y) and (event.y < 461)) then --если пазла близка к своему месту
+				imgPart6.x = 178
+				imgPart6.y =  451
 				summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
 				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
-					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
 
-					composer.showOverlay("scenes.destroy_registration", {
+					composer.showOverlay("scenes.puzzle_all", {
 						isModal=true,
 						effect="fade",
 						time=400,
@@ -389,14 +376,13 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 			imgPart7.x = event.x
 			imgPart7.y = event.y
 		
-			if ( ((320) < event.x) and (event.x < 340) and (439 < event.y) and (event.y < 459)) then --если пазла близка к своему месту
-				imgPart7.x = 330
-				imgPart7.y = 449 --около этого числа
+			if ( ((319) < event.x) and (event.x < 339) and (441 < event.y) and (event.y < 461)) then --если пазла близка к своему месту
+				imgPart7.x = 329
+				imgPart7.y = 451
 				summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
 				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
-					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
 
-					composer.showOverlay("scenes.destroy_registration", {
+					composer.showOverlay("scenes.puzzle_all", {
 						isModal=true,
 						effect="fade",
 						time=400,
@@ -429,14 +415,13 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 			imgPart8.x = event.x
 			imgPart8.y = event.y
 		
-			if ( ((500) < event.x) and (event.x < 520) and (439 < event.y) and (event.y < 459)) then --если пазла близка к своему месту
-				imgPart8.x = 510
-				imgPart8.y = 449 --около этого числа
+			if ( ((471) < event.x) and (event.x < 491) and (441 < event.y) and (event.y < 461)) then --если пазла близка к своему месту
+				imgPart8.x = 481
+				imgPart8.y = 451
 				summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
 				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
-					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
 
-					composer.showOverlay("scenes.destroy_registration", {
+					composer.showOverlay("scenes.puzzle_all", {
 						isModal=true,
 						effect="fade",
 						time=400,
@@ -468,14 +453,13 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 			imgPart9.x = event.x
 			imgPart9.y = event.y
 		
-			if ( ((-40) < event.x) and (event.x < (-20)) and (598 < event.y) and (event.y < 618)) then --если пазла близка к своему месту
-				imgPart9.x = -30
-				imgPart9.y = 608 --около этого числа
+			if ( ((19) < event.x) and (event.x < (39)) and (575 < event.y) and (event.y < 695)) then --если пазла близка к своему месту
+				imgPart9.x = 29
+				imgPart9.y = 585 --около этого числа
 				summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
 				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
-					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
 
-					composer.showOverlay("scenes.destroy_registration", {
+					composer.showOverlay("scenes.puzzle_all", {
 						isModal=true,
 						effect="fade",
 						time=400,
@@ -508,14 +492,13 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 			imgPart10.x = event.x
 			imgPart10.y = event.y
 
-			if ( ((140) < event.x) and (event.x < 160) and (598 < event.y) and (event.y < 618) ) then --если пазла близка к своему месту
-				imgPart10.x = 150
-				imgPart10.y = 608 --около этого числа
+			if ( ((168) < event.x) and (event.x < 188) and (575 < event.y) and (event.y < 695) ) then --если пазла близка к своему месту
+				imgPart10.x = 178
+				imgPart10.y = 585
 				summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
 				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
-					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
-
-					composer.showOverlay("scenes.destroy_registration", {
+					
+					composer.showOverlay("scenes.puzzle_all", {
 						isModal=true,
 						effect="fade",
 						time=400,
@@ -548,14 +531,13 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 			imgPart11.x = event.x
 			imgPart11.y = event.y
 		
-			if ( ((320) < event.x) and (event.x < 340) and (598 < event.y) and (event.y < 618) ) then --если пазла близка к своему месту
-				imgPart11.x = 330
-				imgPart11.y =  608 --около этого числа
+			if ( ((319) < event.x) and (event.x < 339) and (575 < event.y) and (event.y < 695) ) then --если пазла близка к своему месту
+				imgPart11.x = 329
+				imgPart11.y =  585
 				summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
 				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
-					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
 
-					composer.showOverlay("scenes.destroy_registration", {
+					composer.showOverlay("scenes.puzzle_all", {
 						isModal=true,
 						effect="fade",
 						time=400,
@@ -587,14 +569,13 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 			imgPart12.x = event.x
 			imgPart12.y = event.y
 		
-			if ( ((500) < event.x) and (event.x < 520) and (598 < event.y) and (event.y < 618) ) then --если пазла близка к своему месту
-				imgPart12.x = 510
-				imgPart12.y =  608 --около этого числа
+			if ( ((471) < event.x) and (event.x < 491) and (575 < event.y) and (event.y < 695) ) then --если пазла близка к своему месту
+				imgPart12.x = 481
+				imgPart12.y =  585
 				summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
 				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
-					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
 
-					composer.showOverlay("scenes.destroy_registration", {
+					composer.showOverlay("scenes.puzzle_all", {
 						isModal=true,
 						effect="fade",
 						time=400,
@@ -624,31 +605,33 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 
 --секундомер
 
-	sec = widget.newButton {
-		label = good_time,
-		fontSize = 40,
-		labelColor = { default={ 0.0 }, over={ 0.0 } },
-		defaultFile = "puzzles folder/dif-images/btn-soberu.png",
-		overFile = "puzzles folder/dif-images/btn-soberu.png",
-		width = 110, height = 110,
-	}
-	sec.x = display.contentCenterX + 5
-	sec.y = display.contentHeight - 650
-	sceneGroup:insert( sec )
+sec = widget.newButton {
+	label = good_time,
+	fontSize = 42,
+	font = "fonts/geometria_medium",
+	labelColor = { default={ 1.1 }, over={ 1.1 } },
+	defaultFile = "puzzles folder/dif-images/secundomer.png",
+	overFile = "puzzles folder/dif-images/secundomer.png",
+	width = 110, height = 110,
+}
+sec.x = display.contentCenterX - 35
+sec.y = display.contentHeight - 616
+sceneGroup:insert( sec )
 
 
 
-	local t = {}
-	function t:timer( event )
-		local count = event.count
-		sec:setLabel( event.count )
 
-		if (summaPuzzleFinish == 12) then
-			timer.cancel( event.source ) -- after 3rd invocation, cancel timer
-		end
+local t = {}
+function t:timer( event )
+	local count = event.count
+	sec:setLabel( event.count )
+
+	if (summaPuzzleFinish == 12) then
+		timer.cancel( event.source ) -- after 3rd invocation, cancel timer
 	end
-	
-	timer.performWithDelay( 1000, t, 0 )
+end
+
+timer.performWithDelay( 1000, t, 0 )
 
 
 
@@ -669,42 +652,40 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 end
 
 
--- function scene:show( event )
--- 	local sceneGroup = self.view
--- 	local phase = event.phase
--- 	if phase == "did" then
+function scene:show( event )
+	local sceneGroup = self.view
+	local phase = event.phase
+	if phase == "did" then
 
--- 		if musicGlobal == true then
--- 			timer.performWithDelay( 5, function()
--- 				audio.play( bgMusicPuz, { loops = -1, channel = 1 } ) -- НАСТРОЙКИ ПРОИГРЫВАТЕЛЯ
--- 				-- audio.fade({ channel = 1, time = 100, volume = 0.1 } )
--- 			end)
--- 		end
--- 	end	
--- end
--- function scene:hide( event )
--- 	local sceneGroup = self.view
--- 	local phase = event.phase
+		if musicGlobal == true then
+			timer.performWithDelay( 5, function()
+				audio.play( bgMusicPuz1, { loops = -1, channel = 1 } ) -- НАСТРОЙКИ ПРОИГРЫВАТЕЛЯ
+			end)
+		end
+	end	
+end
+function scene:hide( event )
+	local sceneGroup = self.view
+	local phase = event.phase
 	
--- 	if event.phase == "will" then
+	if event.phase == "will" then
 
--- 	elseif phase == "did" then
+	elseif phase == "did" then
 		
--- 		if musicGlobal == true then
--- 			-- audio.fadeOut( { channel = 2, time = 1500 } )
--- 			audio.stop( 1 )    -- НАСТРОИТЬ ОТКЛЮЧЕНИЕ МУЗЫКИ
--- 		end
+		if musicGlobal == true then
+			audio.stop(1)
+		end
 
--- 	end	
+	end	
 
--- end
+end
 
--- function scene:destroy( event )
--- 	local sceneGroup = self.view
+function scene:destroy( event )
+	local sceneGroup = self.view
 	
--- 	audio.stop(1)  -- НАСТРОИТЬ ОТКЛЮЧЕНИЕ МУЗЫКИ
+	audio.dispose( bgMusicPuz1 )
 
--- end
+end
 
 ---------------------------------------------------------------------------------
 

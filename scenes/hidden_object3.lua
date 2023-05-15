@@ -3,6 +3,10 @@ local widget = require "widget"
 
 local scene = composer.newScene()
 
+bgMusicDoors = audio.loadStream( "menu-folder/music/resistors.mp3" ) -- ПОДГРУЗКА МУЗЫКИ
+audio.reserveChannels( 1 )
+audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
+
 function scene:create( event )
 	local sceneGroup = self.view
     display.setStatusBar(display.HiddenStatusBar)
@@ -248,35 +252,44 @@ end
 function scene:show( event )
 	local sceneGroup = self.view
 	local phase = event.phase
-	
-	if phase == "will" then
+	if phase == "did" then
 
-	elseif phase == "did" then
-
-	end
+		if musicGlobal == true then
+			timer.performWithDelay( 5, function()
+				audio.play( bgMusicDoors, { loops = -1, channel = 1 } ) -- НАСТРОЙКИ ПРОИГРЫВАТЕЛЯ
+			end)
+		end
+	end	
 end
 
 function scene:hide( event )
 	local sceneGroup = self.view
-	
 	local phase = event.phase
 	
 	if event.phase == "will" then
 
 	elseif phase == "did" then
+		
+		if musicGlobal == true then
+			audio.stop( 1 )    -- НАСТРОИТЬ ОТКЛЮЧЕНИЕ МУЗЫКИ
+		end
 
 	end	
-	
+
 end
 
 function scene:destroy( event )
-
 	local sceneGroup = self.view
+	
+	audio.stop(1)  -- НАСТРОИТЬ ОТКЛЮЧЕНИЕ МУЗЫКИ
 
 end
 
-scene:addEventListener("create", scene)
+
+
+scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
 scene:addEventListener( "destroy", scene )
+
 return scene;
