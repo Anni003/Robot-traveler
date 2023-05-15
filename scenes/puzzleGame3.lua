@@ -24,90 +24,80 @@ function scene:create( event )
 	sceneGroup:insert( background )
 
 
-	titleOfPuzzle = widget.newButton {
-		label = "Собери картинку!",
-		fontSize = 50,
-		labelColor = { default={ 0.0 }, over={ 0.0 } },
-		defaultFile = "puzzles folder/dif-images/btn-soberu.png",
-		overFile = "puzzles folder/dif-images/btn-soberu.png",
-		width = 460, height = 110,
-		onRelease = onPlayBtnRelease	-- event listener function
-	}
-	titleOfPuzzle.x = display.contentCenterX - 280
-	titleOfPuzzle.y = display.contentHeight - 650
-	sceneGroup:insert( titleOfPuzzle )
+	local myText = display.newText( "Собери картинку!", display.contentCenterX - 348, display.contentHeight - 620, "fonts/geometria_medium", 46 )
+	myText:setFillColor( 1, 1, 1 )
+	sceneGroup:insert( myText )
 
 
-
-	local desk = display.newImageRect( "puzzles folder/dif-images/podlozhka.png", 750, 507 )
-	desk.x = 240
-	desk.y = 450 --доска для пазлов
+	local desk = display.newImageRect( "puzzles folder/dif-images/podlozhka-lines.png", 604, 399 )
+	desk.x = 255
+	desk.y = 452 --доска для пазлов
 	sceneGroup:insert( desk ) 
 
 
 -- 1 строка
-local imgPart1 = display.newImageRect( "puzzles folder/img-parts-for-puz-3/image_part_001.jpg", 180, 159 )
-imgPart1.x = 743 + 180 - 30
-imgPart1.y = 104 + 318 + 30
+local imgPart1 = display.newImageRect( "puzzles folder/img-parts-for-puz-3/image_part_001.jpg", 152.5, 133.6 )
+imgPart1.x = 832.5
+imgPart1.y = 444
 sceneGroup:insert( imgPart1 ) -- координаты x,y (1,1)
 
-local imgPart2 = display.newImageRect( "puzzles folder/img-parts-for-puz-3/image_part_002.jpg", 180, 159 )
-imgPart2.x = 743 - 30
-imgPart2.y = 104 + 30
+local imgPart2 = display.newImageRect( "puzzles folder/img-parts-for-puz-3/image_part_002.jpg", 152.5, 133.6 )
+imgPart2.x = 670
+imgPart2.y = 155
 sceneGroup:insert( imgPart2 ) -- координаты x,y (2,1)--голова
 
-local imgPart3 = display.newImageRect( "puzzles folder/img-parts-for-puz-3/image_part_003.jpg", 180, 159 )
-imgPart3.x = 743 + 360 - 30
-imgPart3.y = 104 + 159 + 30
+local imgPart3 = display.newImageRect( "puzzles folder/img-parts-for-puz-3/image_part_003.jpg", 152.5, 133.6 )
+imgPart3.x = 995
+imgPart3.y = 298
 sceneGroup:insert( imgPart3 ) -- координаты x,y (3,1)
 
-local imgPart4 = display.newImageRect( "puzzles folder/img-parts-for-puz-3/image_part_004.jpg", 180, 159 )
-imgPart4.x = 743 - 30
-imgPart4.y = 104 + 318 + 30
+local imgPart4 = display.newImageRect( "puzzles folder/img-parts-for-puz-3/image_part_004.jpg", 152.5, 133.6 )
+imgPart4.x = 670
+imgPart4.y = 442
 sceneGroup:insert( imgPart4 ) -- координаты x,y (1,2)
 
 -- 2 строка
 
-local imgPart5 = display.newImageRect( "puzzles folder/img-parts-for-puz-3/image_part_005.jpg", 180, 159 )
-imgPart5.x = 743 + 360 -30
-imgPart5.y = 104+ 30
+local imgPart5 = display.newImageRect( "puzzles folder/img-parts-for-puz-3/image_part_005.jpg", 152.5, 133.6 )
+imgPart5.x = 995
+imgPart5.y = 159
 sceneGroup:insert( imgPart5 ) -- координаты x,y (2,2)
 
-local imgPart6 = display.newImageRect( "puzzles folder/img-parts-for-puz-3/image_part_006.jpg", 180, 159 )
-imgPart6.x = 743 - 30
-imgPart6.y = 104 + 159 + 30
+local imgPart6 = display.newImageRect( "puzzles folder/img-parts-for-puz-3/image_part_006.jpg", 152.5, 133.6 )
+imgPart6.x = 670
+imgPart6.y = 298
 sceneGroup:insert( imgPart6 ) -- координаты x,y (3,2)
 
-local imgPart7 = display.newImageRect( "puzzles folder/img-parts-for-puz-3/image_part_007.jpg", 180, 159 )
-imgPart7.x = 743 + 180 - 30
-imgPart7.y = 104 + 477 + 30
+local imgPart7 = display.newImageRect( "puzzles folder/img-parts-for-puz-3/image_part_007.jpg", 152.5, 133.6 )
+imgPart7.x = 832.5
+imgPart7.y = 585
 sceneGroup:insert( imgPart7 ) -- координаты x,y (1,3)
 
-local imgPart8 = display.newImageRect( "puzzles folder/img-parts-for-puz-3/image_part_008.jpg", 180, 159 )
-imgPart8.x = 743 + 180 - 30
-imgPart8.y = 104 + 159 + 30
+local imgPart8 = display.newImageRect( "puzzles folder/img-parts-for-puz-3/image_part_008.jpg", 152.5, 133.6 )
+imgPart8.x = 832.5
+imgPart8.y = 298
 sceneGroup:insert( imgPart8 ) -- координаты x,y (2,3)
 
 -- 3 строка
 
-local imgPart9 = display.newImageRect( "puzzles folder/img-parts-for-puz-3/image_part_009.jpg", 180, 159 )
-imgPart9.x = 743 + 360 - 30
-imgPart9.y = 104 + 318 + 30
+local imgPart9 = display.newImageRect( "puzzles folder/img-parts-for-puz-3/image_part_009.jpg", 152.5, 133.6 )
+imgPart9.x = 995
+imgPart9.y = 442
 sceneGroup:insert( imgPart9 ) -- координаты x,y (3,3)
 
-local imgPart10 = display.newImageRect( "puzzles folder/img-parts-for-puz-3/image_part_010.jpg", 180, 159 )
-imgPart10.x = 743 + 180 - 30
-imgPart10.y = 104 + 30
+local imgPart10 = display.newImageRect( "puzzles folder/img-parts-for-puz-3/image_part_010.jpg", 152.5, 133.6 )
+imgPart10.x = 832.5
+imgPart10.y = 155
 sceneGroup:insert( imgPart10 ) -- координаты x,y (1,4)
 
-local imgPart11 = display.newImageRect( "puzzles folder/img-parts-for-puz-3/image_part_011.jpg", 180, 159 )
-imgPart11.x = 743 - 30
-imgPart11.y = 104 + 477 + 30
+local imgPart11 = display.newImageRect( "puzzles folder/img-parts-for-puz-3/image_part_011.jpg", 152.5, 133.6 )
+imgPart11.x = 670
+imgPart11.y = 585
 sceneGroup:insert( imgPart11 ) -- координаты x,y (2,4)
 
-local imgPart12 = display.newImageRect( "puzzles folder/img-parts-for-puz-3/image_part_012.jpg", 180, 159 )
-imgPart12.x = 743 + 360 - 30
-imgPart12.y = 104 + 477 + 30
+local imgPart12 = display.newImageRect( "puzzles folder/img-parts-for-puz-3/image_part_012.jpg", 152.5, 133.6 )
+imgPart12.x = 995
+imgPart12.y = 585
 sceneGroup:insert( imgPart12 ) -- координаты x,y (3,4)
 
 
@@ -137,487 +127,476 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 
 
 -- функции перемещения------------------------------------------------------------------------------------------------
-	local function movePuzzle1( event ) -- функция перемещения пазла
+local function movePuzzle1( event ) -- функция перемещения пазла
 	
-		if ( (event.phase == "moved") and (moveMassive[1] == 1) and (event.x>((display.viewableContentWidth - display.viewableContentWidth)-160 )) and (event.x < (display.viewableContentWidth + 160)) and (event.y>-3) and (event.y<770)) then
-			changeMoveMassive(1) --меняем массив, останавливая другие пазлы	
-			imgPart1:toFront()	
-			imgPart1.x = event.x
-			imgPart1.y = event.y
+	if ( (event.phase == "moved") and (moveMassive[1] == 1) and (event.x>((display.viewableContentWidth - display.viewableContentWidth)-160 )) and (event.x < (display.viewableContentWidth + 160)) and (event.y>-3) and (event.y<770)) then
+		changeMoveMassive(1) --меняем массив, останавливая другие пазлы	
+		imgPart1:toFront()	
+		imgPart1.x = event.x
+		imgPart1.y = event.y
 
-			-- display.contentWidth
+		-- display.contentWidth
 
-			if ( ((-40) < event.x) and (event.x < (-20)) and (280 < event.y) and (event.y < 300)) then --если пазла близка к своему месту
-				imgPart1.x = -30
-				imgPart1.y = 290 --около этого числа
-				summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
-				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
-					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
-
-					composer.showOverlay("scenes.destroy_registration", {
-						isModal=true,
-						effect="fade",
-						time=400,
-					})
-					
-				end
-				moveMassive[1] = 0
-				permissionMove() --цифра для отмена запретов
-				moveMassive[1] = 0
-				imgPart1:removeEventListener( "touch", movePuzzle1 ) -- слушатель касания => перемещение пазла 10
-			end
-		----eлсе если игрое вышел за пределы
-		elseif ( (moveMassive[1] == 1) and   ( (event.x<=-320) or (event.x>=1340) or (event.y<=-3) or (event.y>=770) )  ) then
-			permissionMove()
-		end
-
-		if ( event.phase == "ended" and (moveMassive[1] == 1)) then
-			permissionMove() --цифра для отмена запретов
-			return
-		else
-			return
-		end
-	end
-
-
-
-	local function movePuzzle2( event ) -- функция перемещения пазла
-	
-	if ( (event.phase == "moved") and (moveMassive[2] == 1)  and (event.x>((display.viewableContentWidth - display.viewableContentWidth)-160 )) and (event.x < (display.viewableContentWidth + 160)) and (event.y>-3) and (event.y<770))  then
-		imgPart2:toFront()	
-		changeMoveMassive(2) --меняем массив, останавливая другие пазлы
-		imgPart2.x = event.x
-		imgPart2.y = event.y
-
-		if ( ((140) < event.x) and (event.x < 160) and (280 < event.y) and (event.y < 300)) then --если пазла близка к своему месту
-			imgPart2.x = 150
-			imgPart2.y =  290 --около этого числа
+		if ( ((19) < event.x) and (event.x < (39)) and (308 < event.y) and (event.y < 328)) then --если пазла близка к своему месту
+			imgPart1.x = 29
+			imgPart1.y = 318   --около этого числа
 			summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
 			if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
-				print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
 
 				composer.showOverlay("scenes.destroy_registration", {
 					isModal=true,
 					effect="fade",
 					time=400,
 				})
-					
+				
 			end
-			moveMassive[2] = 0
+			moveMassive[1] = 0
 			permissionMove() --цифра для отмена запретов
-			moveMassive[2] = 0
-			imgPart2:removeEventListener( "touch", movePuzzle2 ) -- слушатель касания => перемещение пазла 10
+			moveMassive[1] = 0
+			imgPart1:removeEventListener( "touch", movePuzzle1 ) -- слушатель касания => перемещение пазла 10
 		end
-	elseif (moveMassive[2] == 1 and   ( (event.x<=-320) or (event.x>=1340) or (event.y<=-3) or (event.y>=770) )  ) then
+	----eлсе если игрое вышел за пределы
+	elseif ( (moveMassive[1] == 1) and   ( (event.x<=-320) or (event.x>=1340) or (event.y<=-3) or (event.y>=770) )  ) then
 		permissionMove()
 	end
 
-		if ( event.phase == "ended" and (moveMassive[2] == 1)) then
-			permissionMove() --цифра для отмена запретов
-			return
-		else
-			return
-
-		end
+	if ( event.phase == "ended" and (moveMassive[1] == 1)) then
+		permissionMove() --цифра для отмена запретов
+		return
+	else
+		return
 	end
+end
 
 
-	local function movePuzzle3( event ) -- функция перемещения пазла
 
-	if ( (event.phase == "moved") and (moveMassive[3] == 1)  and (event.x>((display.viewableContentWidth - display.viewableContentWidth)-160 )) and (event.x < (display.viewableContentWidth + 160)) and (event.y>-3) and (event.y<770)) then
-		imgPart3:toFront()	
-		changeMoveMassive(3) --меняем массив, останавливая другие пазлы
-		imgPart3.x = event.x
-		imgPart3.y = event.y
+local function movePuzzle2( event ) -- функция перемещения пазла
 
-		if ( ((320) < event.x) and (event.x < 340) and (280 < event.y) and (event.y < 300)) then --если пазла близка к своему месту
-			imgPart3.x = 330
-			imgPart3.y = 290 --около этого числа
+if ( (event.phase == "moved") and (moveMassive[2] == 1)  and (event.x>((display.viewableContentWidth - display.viewableContentWidth)-160 )) and (event.x < (display.viewableContentWidth + 160)) and (event.y>-3) and (event.y<770))  then
+	imgPart2:toFront()	
+	changeMoveMassive(2) --меняем массив, останавливая другие пазлы
+	imgPart2.x = event.x
+	imgPart2.y = event.y
+
+	if ( ((168) < event.x) and (event.x < 188) and (308 < event.y) and (event.y < 328)) then --если пазла близка к своему месту
+		imgPart2.x = 178
+		imgPart2.y = 318 --около этого числа
+		summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
+		if (summaPuzzleFinish == 12) then -- проверка на собранную картинк
+
+			composer.showOverlay("scenes.destroy_registration", {
+				isModal=true,
+				effect="fade",
+				time=400,
+			})
+				
+		end
+		moveMassive[2] = 0
+		permissionMove() --цифра для отмена запретов
+		moveMassive[2] = 0
+		imgPart2:removeEventListener( "touch", movePuzzle2 ) -- слушатель касания => перемещение пазла 10
+	end
+elseif (moveMassive[2] == 1 and   ( (event.x<=-320) or (event.x>=1340) or (event.y<=-3) or (event.y>=770) )  ) then
+	permissionMove()
+end
+
+	if ( event.phase == "ended" and (moveMassive[2] == 1)) then
+		permissionMove() --цифра для отмена запретов
+		return
+	else
+		return
+
+	end
+end
+
+
+local function movePuzzle3( event ) -- функция перемещения пазла
+
+if ( (event.phase == "moved") and (moveMassive[3] == 1)  and (event.x>((display.viewableContentWidth - display.viewableContentWidth)-160 )) and (event.x < (display.viewableContentWidth + 160)) and (event.y>-3) and (event.y<770)) then
+	imgPart3:toFront()	
+	changeMoveMassive(3) --меняем массив, останавливая другие пазлы
+	imgPart3.x = event.x
+	imgPart3.y = event.y
+
+	if ( ((319) < event.x) and (event.x < 339) and (308 < event.y) and (event.y < 328)) then --если пазла близка к своему месту
+		imgPart3.x = 329
+		imgPart3.y = 318 --около этого числа
+		summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
+		if (summaPuzzleFinish == 12) then -- проверка на собранную картинк
+
+			composer.showOverlay("scenes.destroy_registration", {
+				isModal=true,
+				effect="fade",
+				time=400,
+			})
+				
+		end
+		moveMassive[3] = 0
+		permissionMove() --цифра для отмена запретов
+		moveMassive[3] = 0
+		imgPart3:removeEventListener( "touch", movePuzzle3 ) -- слушатель касания => перемещение пазла 3
+	end
+elseif (moveMassive[3] == 1 and   ( (event.x<=-320) or (event.x>=1340) or (event.y<=-3) or (event.y>=770) )  ) then
+	permissionMove()
+end
+
+	if ( event.phase == "ended" and (moveMassive[3] == 1)) then
+		permissionMove() --цифра для отмена запретов
+		return
+	else
+		return
+	end
+end
+
+
+local function movePuzzle4( event ) -- функция перемещения пазла
+
+	if ( (event.phase == "moved") and (moveMassive[4] == 1)  and (event.x>((display.viewableContentWidth - display.viewableContentWidth)-160 )) and (event.x < (display.viewableContentWidth + 160)) and (event.y>-3) and (event.y<770)) then
+		imgPart4:toFront()	
+		changeMoveMassive(4) --меняем массив, останавливая другие пазлы
+		imgPart4.x = event.x
+		imgPart4.y = event.y
+
+		if ( ((471) < event.x) and (event.x < 491) and (308 < event.y) and (event.y < 328)) then --если пазла близка к своему месту
+			imgPart4.x = 481
+			imgPart4.y = 318 --около этого числа
 			summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
 			if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
-				print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
 
 				composer.showOverlay("scenes.destroy_registration", {
 					isModal=true,
 					effect="fade",
 					time=400,
 				})
-					
+				
 			end
-			moveMassive[3] = 0
+			moveMassive[4] = 0
 			permissionMove() --цифра для отмена запретов
-			moveMassive[3] = 0
-			imgPart3:removeEventListener( "touch", movePuzzle3 ) -- слушатель касания => перемещение пазла 3
+			moveMassive[4] = 0
+			imgPart4:removeEventListener( "touch", movePuzzle4 ) -- слушатель касания => перемещение пазла 10
 		end
-	elseif (moveMassive[3] == 1 and   ( (event.x<=-320) or (event.x>=1340) or (event.y<=-3) or (event.y>=770) )  ) then
+	elseif (moveMassive[4] == 1 and   ( (event.x<=-320) or (event.x>=1340) or (event.y<=-3) or (event.y>=770) )  ) then
 		permissionMove()
 	end
 
-		if ( event.phase == "ended" and (moveMassive[3] == 1)) then
-			permissionMove() --цифра для отмена запретов
-			return
-		else
-			return
-		end
+	if ( event.phase == "ended" and (moveMassive[4] == 1)) then
+		permissionMove() --цифра для отмена запретов
+		return
+	else
+		return
 	end
+end
 
 
-	local function movePuzzle4( event ) -- функция перемещения пазла
+local function movePuzzle5( event ) -- функция перемещения пазла
 	
-		if ( (event.phase == "moved") and (moveMassive[4] == 1)  and (event.x>((display.viewableContentWidth - display.viewableContentWidth)-160 )) and (event.x < (display.viewableContentWidth + 160)) and (event.y>-3) and (event.y<770)) then
-			imgPart4:toFront()	
-			changeMoveMassive(4) --меняем массив, останавливая другие пазлы
-			imgPart4.x = event.x
-			imgPart4.y = event.y
+	if ( (event.phase == "moved") and (moveMassive[5] == 1)  and (event.x>((display.viewableContentWidth - display.viewableContentWidth)-160 )) and (event.x < (display.viewableContentWidth + 160)) and (event.y>-3) and (event.y<770)) then
+		imgPart5:toFront()	
+		changeMoveMassive(5) --меняем массив, останавливая другие пазлы
+		imgPart5.x = event.x
+		imgPart5.y = event.y
 
-			if ( ((500) < event.x) and (event.x < 520) and (280 < event.y) and (event.y < 300)) then --если пазла близка к своему месту
-				imgPart4.x = 510
-				imgPart4.y =  290 --около этого числа
-				summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
-				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
-					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
-
-					composer.showOverlay("scenes.destroy_registration", {
-						isModal=true,
-						effect="fade",
-						time=400,
-					})
-					
-				end
-				moveMassive[4] = 0
-				permissionMove() --цифра для отмена запретов
-				moveMassive[4] = 0
-				imgPart4:removeEventListener( "touch", movePuzzle4 ) -- слушатель касания => перемещение пазла 10
-			end
-		elseif (moveMassive[4] == 1 and   ( (event.x<=-320) or (event.x>=1340) or (event.y<=-3) or (event.y>=770) )  ) then
-			permissionMove()
-		end
-
-		if ( event.phase == "ended" and (moveMassive[4] == 1)) then
-			permissionMove() --цифра для отмена запретов
-			return
-		else
-			return
-		end
-	end
-
-
-	local function movePuzzle5( event ) -- функция перемещения пазла
-		
-		if ( (event.phase == "moved") and (moveMassive[5] == 1)  and (event.x>((display.viewableContentWidth - display.viewableContentWidth)-160 )) and (event.x < (display.viewableContentWidth + 160)) and (event.y>-3) and (event.y<770)) then
-			imgPart5:toFront()	
-			changeMoveMassive(5) --меняем массив, останавливая другие пазлы
-			imgPart5.x = event.x
-			imgPart5.y = event.y
-
-			if ( ((-40) < event.x) and (event.x < (-20)) and (439 < event.y) and (event.y < 459)) then --если пазла близка к своему месту
-				imgPart5.x = -30
-				imgPart5.y =  449 --около этого числа
-				summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
-				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
-					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
-
-					composer.showOverlay("scenes.destroy_registration", {
-						isModal=true,
-						effect="fade",
-						time=400,
-					})
-					
-				end
-				moveMassive[5] = 0
-				permissionMove() --цифра для отмена запретов
-				moveMassive[5] = 0
-				imgPart5:removeEventListener( "touch", movePuzzle5 ) -- слушатель касания => перемещение пазла 5
-			end
-		elseif (moveMassive[5] == 1 and   ( (event.x<=-320) or (event.x>=1340) or (event.y<=-3) or (event.y>=770) )  ) then
-			permissionMove()
-		end
-
-		if ( event.phase == "ended" and (moveMassive[5] == 1)) then
-			permissionMove() --цифра для отмена запретов
-			return
-		else
-			return
-		end
-	end
-
-
-	local function movePuzzle6( event ) -- функция перемещения пазла
-
-		if ( (event.phase == "moved") and (moveMassive[6] == 1)  and (event.x>((display.viewableContentWidth - display.viewableContentWidth)-160 )) and (event.x < (display.viewableContentWidth + 160)) and (event.y>-3) and (event.y<770)) then
-			imgPart6:toFront()	
-			changeMoveMassive(6) --меняем массив, останавливая другие пазлы
-			imgPart6.x = event.x
-			imgPart6.y = event.y
-			if ( ((140) < event.x) and (event.x < 160) and (439 < event.y) and (event.y < 459)) then --если пазла близка к своему месту
-				imgPart6.x = 150
-				imgPart6.y =  449 --около этого числа
-				summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
-				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
-					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
-
-					composer.showOverlay("scenes.destroy_registration", {
-						isModal=true,
-						effect="fade",
-						time=400,
-					})
-					
-				end
-				moveMassive[6] = 0
-				permissionMove() --цифра для отмена запретов
-				moveMassive[6] = 0
-				imgPart6:removeEventListener( "touch", movePuzzle6 ) -- слушатель касания => перемещение пазла 6
-			end
-		elseif (moveMassive[6] == 1 and   ( (event.x<=-320) or (event.x>=1340) or (event.y<=-3) or (event.y>=770) )  ) then
-			permissionMove()
-		end
-
-		if ( event.phase == "ended" and (moveMassive[6] == 1)) then
-			permissionMove() --цифра для отмена запретов
-			return
-		else
-			return
-		end
-	end
-
-
-	local function movePuzzle7( event ) -- функция перемещения пазла
-
-		if ( (event.phase == "moved") and (moveMassive[7] == 1)  and (event.x>((display.viewableContentWidth - display.viewableContentWidth)-160 )) and (event.x < (display.viewableContentWidth + 160)) and (event.y>-3) and (event.y<770)) then
-			imgPart7:toFront()	
-			changeMoveMassive(7) --меняем массив, останавливая другие пазлы
-			imgPart7.x = event.x
-			imgPart7.y = event.y
-		
-			if ( ((320) < event.x) and (event.x < 340) and (439 < event.y) and (event.y < 459)) then --если пазла близка к своему месту
-				imgPart7.x = 330
-				imgPart7.y = 449 --около этого числа
-				summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
-				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
-					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
+		if ( ((19) < event.x) and (event.x < (39)) and (441 < event.y) and (event.y < 461)) then --если пазла близка к своему месту
+			imgPart5.x = 29
+			imgPart5.y =  451 --около этого числа
+			summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
+			if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
 
 				composer.showOverlay("scenes.destroy_registration", {
 					isModal=true,
 					effect="fade",
 					time=400,
 				})
-					
-				end
-				moveMassive[7] = 0
-				permissionMove() --цифра для отмена запретов
-				moveMassive[7] = 0
-				imgPart7:removeEventListener( "touch", movePuzzle7 ) -- слушатель касания => перемещение пазла 7
+				
 			end
-		elseif (moveMassive[7] == 1 and   ( (event.x<=-320) or (event.x>=1340) or (event.y<=-3) or (event.y>=770) )  ) then
-			permissionMove()
-		end
-
-		if ( event.phase == "ended" and (moveMassive[7] == 1)) then
+			moveMassive[5] = 0
 			permissionMove() --цифра для отмена запретов
-			return
-		else
-			return
+			moveMassive[5] = 0
+			imgPart5:removeEventListener( "touch", movePuzzle5 ) -- слушатель касания => перемещение пазла 5
 		end
-	end
-
-
-	local function movePuzzle8( event ) -- функция перемещения пазла
-
-		if ( (event.phase == "moved") and (moveMassive[8] == 1)  and (event.x>((display.viewableContentWidth - display.viewableContentWidth)-160 )) and (event.x < (display.viewableContentWidth + 160)) and (event.y>-3) and (event.y<770)) then
-			imgPart8:toFront()	
-			changeMoveMassive(8) --меняем массив, останавливая другие пазлы
-			imgPart8.x = event.x
-			imgPart8.y = event.y
-		
-			if ( ((500) < event.x) and (event.x < 520) and (439 < event.y) and (event.y < 459)) then --если пазла близка к своему месту
-				imgPart8.x = 510
-				imgPart8.y = 449 --около этого числа
-				summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
-				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
-					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
-
-					composer.showOverlay("scenes.destroy_registration", {
-						isModal=true,
-						effect="fade",
-						time=400,
-					})
-					
-				end
-				moveMassive[8] = 0
-				permissionMove() --цифра для отмена запретов
-				moveMassive[8] = 0
-				imgPart8:removeEventListener( "touch", movePuzzle8 ) -- слушатель касания => перемещение пазла 8
-			end
-		elseif (moveMassive[8] == 1 and   ( (event.x<=-320) or (event.x>=1340) or (event.y<=-3) or (event.y>=770) )  ) then
-			permissionMove()
-		end
-
-		if ( event.phase == "ended" and (moveMassive[8 ] == 1)) then
-			permissionMove() --цифра для отмена запретов
-			return
-		else
-			return
-		end
-	end
-
-	local function movePuzzle9( event ) -- функция перемещения пазла
-	
-		if ( (event.phase == "moved") and (moveMassive[9] == 1)  and (event.x>((display.viewableContentWidth - display.viewableContentWidth)-160 )) and (event.x < (display.viewableContentWidth + 160)) and (event.y>-3) and (event.y<770)) then
-			imgPart9:toFront()	
-			changeMoveMassive(9) --меняем массив, останавливая другие пазлы
-			imgPart9.x = event.x
-			imgPart9.y = event.y
-		
-			if ( ((-40) < event.x) and (event.x < (-20)) and (598 < event.y) and (event.y < 618)) then --если пазла близка к своему месту
-				imgPart9.x = -30
-				imgPart9.y = 608 --около этого числа
-				summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
-				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
-					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
-
-					composer.showOverlay("scenes.destroy_registration", {
-						isModal=true,
-						effect="fade",
-						time=400,
-					})
-					
-				end
-				moveMassive[9] = 0
-				permissionMove() --цифра для отмена запретов
-				moveMassive[9] = 0
-				imgPart9:removeEventListener( "touch", movePuzzle9 ) -- слушатель касания => перемещение пазла 9
-			end
-		elseif (moveMassive[9] == 1 and   ( (event.x<=-320) or (event.x>=1340) or (event.y<=-3) or (event.y>=770) )  ) then
+	elseif (moveMassive[5] == 1 and   ( (event.x<=-320) or (event.x>=1340) or (event.y<=-3) or (event.y>=770) )  ) then
 		permissionMove()
-		end
-
-		if ( event.phase == "ended" and (moveMassive[9] == 1)) then
-			permissionMove() --цифра для отмена запретов
-			return
-		else
-			return
-		end
 	end
 
-
-	local function movePuzzle10( event ) -- функция перемещения пазла
-
-		if ( (event.phase == "moved") and (moveMassive[10] == 1) and (event.x>((display.viewableContentWidth - display.viewableContentWidth)-160 )) and (event.x < (display.viewableContentWidth + 160)) and (event.y>-3) and (event.y<770) ) then
-			imgPart10:toFront()	
-			changeMoveMassive(10) --меняем массив, останавливая другие пазлы
-			imgPart10.x = event.x
-			imgPart10.y = event.y
-
-			if ( ((140) < event.x) and (event.x < 160) and (598 < event.y) and (event.y < 618) ) then --если пазла близка к своему месту
-				imgPart10.x = 150
-				imgPart10.y = 608 --около этого числа
-				summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
-				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
-					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
-
-					composer.showOverlay("scenes.destroy_registration", {
-						isModal=true,
-						effect="fade",
-						time=400,
-					})
-					
-				end
-				moveMassive[10] = 0
-				permissionMove() --цифра для отмена запретов
-				moveMassive[10] = 0
-				imgPart10:removeEventListener( "touch", movePuzzle10 ) -- слушатель касания => перемещение пазла 10
-			end
-		elseif (moveMassive[10] == 1 and   ( (event.x<=-320) or (event.x>=1340) or (event.y<=-3) or (event.y>=770) )  ) then
-			permissionMove()
-		end
-
-		if ( event.phase == "ended" and (moveMassive[10] == 1)) then
-			permissionMove() --цифра для отмена запретов
-			return
-		else
-			return
-		end
+	if ( event.phase == "ended" and (moveMassive[5] == 1)) then
+		permissionMove() --цифра для отмена запретов
+		return
+	else
+		return
 	end
+end
 
 
-	local function movePuzzle11( event ) -- функция перемещения пазла
+local function movePuzzle6( event ) -- функция перемещения пазла
 
-		if ( (event.phase == "moved") and (moveMassive[11] == 1)  and (event.x>((display.viewableContentWidth - display.viewableContentWidth)-160 )) and (event.x < (display.viewableContentWidth + 160)) and (event.y>-3) and (event.y<770)) then
-			imgPart11:toFront()	
-			changeMoveMassive(11) --меняем массив, останавливая другие пазлы
-			imgPart11.x = event.x
-			imgPart11.y = event.y
-		
-			if ( ((320) < event.x) and (event.x < 340) and (598 < event.y) and (event.y < 618) ) then --если пазла близка к своему месту
-				imgPart11.x = 330
-				imgPart11.y =  608 --около этого числа
-				summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
-				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
-					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
-					
+	if ( (event.phase == "moved") and (moveMassive[6] == 1)  and (event.x>((display.viewableContentWidth - display.viewableContentWidth)-160 )) and (event.x < (display.viewableContentWidth + 160)) and (event.y>-3) and (event.y<770)) then
+		imgPart6:toFront()	
+		changeMoveMassive(6) --меняем массив, останавливая другие пазлы
+		imgPart6.x = event.x
+		imgPart6.y = event.y
+		if ( ((168) < event.x) and (event.x < 188) and (441 < event.y) and (event.y < 461)) then --если пазла близка к своему месту
+			imgPart6.x = 178
+			imgPart6.y =  451
+			summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
+			if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
+
 				composer.showOverlay("scenes.destroy_registration", {
 					isModal=true,
 					effect="fade",
 					time=400,
 				})
-					
-				end
-				moveMassive[11] = 0
-				permissionMove() --цифра для отмена запретов
-				moveMassive[11] = 0
-				imgPart11:removeEventListener( "touch", movePuzzle11 ) -- слушатель касания => перемещение пазла 11
+				
 			end
-		elseif (moveMassive[11] == 1 and   ( (event.x<=-320) or (event.x>=1340) or (event.y<=-3) or (event.y>=770) )  ) then
-			permissionMove()
-		end
-
-		if ( event.phase == "ended" and (moveMassive[11] == 1)) then
+			moveMassive[6] = 0
 			permissionMove() --цифра для отмена запретов
-			return
-		else
-			return
+			moveMassive[6] = 0
+			imgPart6:removeEventListener( "touch", movePuzzle6 ) -- слушатель касания => перемещение пазла 6
 		end
+	elseif (moveMassive[6] == 1 and   ( (event.x<=-320) or (event.x>=1340) or (event.y<=-3) or (event.y>=770) )  ) then
+		permissionMove()
 	end
 
-
-	local function movePuzzle12( event ) -- функция перемещения пазла
-		if ( (event.phase == "moved") and (moveMassive[12] == 1)  and (event.x>((display.viewableContentWidth - display.viewableContentWidth)-160 )) and (event.x < (display.viewableContentWidth + 160)) and (event.y>-3) and (event.y<770)) then
-			imgPart12:toFront()	
-			changeMoveMassive(12) --меняем массив, останавливая другие пазлы
-			imgPart12.x = event.x
-			imgPart12.y = event.y
-		
-			if ( ((500) < event.x) and (event.x < 520) and (598 < event.y) and (event.y < 618) ) then --если пазла близка к своему месту
-				imgPart12.x = 510
-				imgPart12.y =  608 --около этого числа
-				summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
-				if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
-					print("ВСЕ ВСЕ ВСЕ ВСЕ ВСЕ")
-
-					composer.showOverlay("scenes.destroy_registration", {
-						isModal=true,
-						effect="fade",
-						time=400,
-					})
-
-					
-				end
-				moveMassive[12] = 0
-				permissionMove() --цифра для отмена запретов
-				moveMassive[12] = 0
-				imgPart12:removeEventListener( "touch", movePuzzle12 ) -- слушатель касания => перемещение пазла 12
-			end
-		elseif (moveMassive[12] == 1 and   ( (event.x<=-320) or (event.x>=1340) or (event.y<=-3) or (event.y>=770) )  ) then
-			permissionMove()
-		end
-
-		if ( event.phase == "ended" and (moveMassive[12] == 1)) then
-			permissionMove() --цифра для отмена запретов
-			return
-		else
-			return
-		end
+	if ( event.phase == "ended" and (moveMassive[6] == 1)) then
+		permissionMove() --цифра для отмена запретов
+		return
+	else
+		return
 	end
+end
+
+
+local function movePuzzle7( event ) -- функция перемещения пазла
+
+	if ( (event.phase == "moved") and (moveMassive[7] == 1)  and (event.x>((display.viewableContentWidth - display.viewableContentWidth)-160 )) and (event.x < (display.viewableContentWidth + 160)) and (event.y>-3) and (event.y<770)) then
+		imgPart7:toFront()	
+		changeMoveMassive(7) --меняем массив, останавливая другие пазлы
+		imgPart7.x = event.x
+		imgPart7.y = event.y
+	
+		if ( ((319) < event.x) and (event.x < 339) and (441 < event.y) and (event.y < 461)) then --если пазла близка к своему месту
+			imgPart7.x = 329
+			imgPart7.y = 451
+			summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
+			if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
+
+				composer.showOverlay("scenes.destroy_registration", {
+					isModal=true,
+					effect="fade",
+					time=400,
+				})
+				
+			end
+			moveMassive[7] = 0
+			permissionMove() --цифра для отмена запретов
+			moveMassive[7] = 0
+			imgPart7:removeEventListener( "touch", movePuzzle7 ) -- слушатель касания => перемещение пазла 7
+		end
+	elseif (moveMassive[7] == 1 and   ( (event.x<=-320) or (event.x>=1340) or (event.y<=-3) or (event.y>=770) )  ) then
+		permissionMove()
+	end
+
+	if ( event.phase == "ended" and (moveMassive[7] == 1)) then
+		permissionMove() --цифра для отмена запретов
+		return
+	else
+		return
+	end
+end
+
+
+local function movePuzzle8( event ) -- функция перемещения пазла
+
+	if ( (event.phase == "moved") and (moveMassive[8] == 1)  and (event.x>((display.viewableContentWidth - display.viewableContentWidth)-160 )) and (event.x < (display.viewableContentWidth + 160)) and (event.y>-3) and (event.y<770)) then
+		imgPart8:toFront()	
+		changeMoveMassive(8) --меняем массив, останавливая другие пазлы
+		imgPart8.x = event.x
+		imgPart8.y = event.y
+	
+		if ( ((471) < event.x) and (event.x < 491) and (441 < event.y) and (event.y < 461)) then --если пазла близка к своему месту
+			imgPart8.x = 481
+			imgPart8.y = 451
+			summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
+			if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
+
+				composer.showOverlay("scenes.destroy_registration", {
+					isModal=true,
+					effect="fade",
+					time=400,
+				})
+				
+			end
+			moveMassive[8] = 0
+			permissionMove() --цифра для отмена запретов
+			moveMassive[8] = 0
+			imgPart8:removeEventListener( "touch", movePuzzle8 ) -- слушатель касания => перемещение пазла 8
+		end
+	elseif (moveMassive[8] == 1 and   ( (event.x<=-320) or (event.x>=1340) or (event.y<=-3) or (event.y>=770) )  ) then
+		permissionMove()
+	end
+
+	if ( event.phase == "ended" and (moveMassive[8 ] == 1)) then
+		permissionMove() --цифра для отмена запретов
+		return
+	else
+		return
+	end
+end
+
+local function movePuzzle9( event ) -- функция перемещения пазла
+
+	if ( (event.phase == "moved") and (moveMassive[9] == 1)  and (event.x>((display.viewableContentWidth - display.viewableContentWidth)-160 )) and (event.x < (display.viewableContentWidth + 160)) and (event.y>-3) and (event.y<770)) then
+		imgPart9:toFront()	
+		changeMoveMassive(9) --меняем массив, останавливая другие пазлы
+		imgPart9.x = event.x
+		imgPart9.y = event.y
+	
+		if ( ((19) < event.x) and (event.x < (39)) and (575 < event.y) and (event.y < 695)) then --если пазла близка к своему месту
+			imgPart9.x = 29
+			imgPart9.y = 585 --около этого числа
+			summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
+			if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
+
+				composer.showOverlay("scenes.destroy_registration", {
+					isModal=true,
+					effect="fade",
+					time=400,
+				})
+				
+			end
+			moveMassive[9] = 0
+			permissionMove() --цифра для отмена запретов
+			moveMassive[9] = 0
+			imgPart9:removeEventListener( "touch", movePuzzle9 ) -- слушатель касания => перемещение пазла 9
+		end
+	elseif (moveMassive[9] == 1 and   ( (event.x<=-320) or (event.x>=1340) or (event.y<=-3) or (event.y>=770) )  ) then
+	permissionMove()
+	end
+
+	if ( event.phase == "ended" and (moveMassive[9] == 1)) then
+		permissionMove() --цифра для отмена запретов
+		return
+	else
+		return
+	end
+end
+
+
+local function movePuzzle10( event ) -- функция перемещения пазла
+
+	if ( (event.phase == "moved") and (moveMassive[10] == 1) and (event.x>((display.viewableContentWidth - display.viewableContentWidth)-160 )) and (event.x < (display.viewableContentWidth + 160)) and (event.y>-3) and (event.y<770) ) then
+		imgPart10:toFront()	
+		changeMoveMassive(10) --меняем массив, останавливая другие пазлы
+		imgPart10.x = event.x
+		imgPart10.y = event.y
+
+		if ( ((168) < event.x) and (event.x < 188) and (575 < event.y) and (event.y < 695) ) then --если пазла близка к своему месту
+			imgPart10.x = 178
+			imgPart10.y = 585
+			summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
+			if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
+
+				composer.showOverlay("scenes.destroy_registration", {
+					isModal=true,
+					effect="fade",
+					time=400,
+				})
+				
+			end
+			moveMassive[10] = 0
+			permissionMove() --цифра для отмена запретов
+			moveMassive[10] = 0
+			imgPart10:removeEventListener( "touch", movePuzzle10 ) -- слушатель касания => перемещение пазла 10
+		end
+	elseif (moveMassive[10] == 1 and   ( (event.x<=-320) or (event.x>=1340) or (event.y<=-3) or (event.y>=770) )  ) then
+		permissionMove()
+	end
+
+	if ( event.phase == "ended" and (moveMassive[10] == 1)) then
+		permissionMove() --цифра для отмена запретов
+		return
+	else
+		return
+	end
+end
+
+
+local function movePuzzle11( event ) -- функция перемещения пазла
+
+	if ( (event.phase == "moved") and (moveMassive[11] == 1)  and (event.x>((display.viewableContentWidth - display.viewableContentWidth)-160 )) and (event.x < (display.viewableContentWidth + 160)) and (event.y>-3) and (event.y<770)) then
+		imgPart11:toFront()	
+		changeMoveMassive(11) --меняем массив, останавливая другие пазлы
+		imgPart11.x = event.x
+		imgPart11.y = event.y
+	
+		if ( ((319) < event.x) and (event.x < 339) and (575 < event.y) and (event.y < 695) ) then --если пазла близка к своему месту
+			imgPart11.x = 329
+			imgPart11.y =  585
+			summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
+			if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
+
+				composer.showOverlay("scenes.destroy_registration", {
+					isModal=true,
+					effect="fade",
+					time=400,
+				})
+				
+			end
+			moveMassive[11] = 0
+			permissionMove() --цифра для отмена запретов
+			moveMassive[11] = 0
+			imgPart11:removeEventListener( "touch", movePuzzle11 ) -- слушатель касания => перемещение пазла 11
+		end
+	elseif (moveMassive[11] == 1 and   ( (event.x<=-320) or (event.x>=1340) or (event.y<=-3) or (event.y>=770) )  ) then
+		permissionMove()
+	end
+
+	if ( event.phase == "ended" and (moveMassive[11] == 1)) then
+		permissionMove() --цифра для отмена запретов
+		return
+	else
+		return
+	end
+end
+
+
+local function movePuzzle12( event ) -- функция перемещения пазла
+	if ( (event.phase == "moved") and (moveMassive[12] == 1)  and (event.x>((display.viewableContentWidth - display.viewableContentWidth)-160 )) and (event.x < (display.viewableContentWidth + 160)) and (event.y>-3) and (event.y<770)) then
+		imgPart12:toFront()	
+		changeMoveMassive(12) --меняем массив, останавливая другие пазлы
+		imgPart12.x = event.x
+		imgPart12.y = event.y
+	
+		if ( ((471) < event.x) and (event.x < 491) and (575 < event.y) and (event.y < 695) ) then --если пазла близка к своему месту
+			imgPart12.x = 481
+			imgPart12.y =  585
+			summaPuzzleFinish = summaPuzzleFinish + 1 -- + один пазл на месте
+			if (summaPuzzleFinish == 12) then -- проверка на собранную картинку
+
+				composer.showOverlay("scenes.destroy_registration", {
+					isModal=true,
+					effect="fade",
+					time=400,
+				})
+
+				
+			end
+			moveMassive[12] = 0
+			permissionMove() --цифра для отмена запретов
+			moveMassive[12] = 0
+			imgPart12:removeEventListener( "touch", movePuzzle12 ) -- слушатель касания => перемещение пазла 12
+		end
+	elseif (moveMassive[12] == 1 and   ( (event.x<=-320) or (event.x>=1340) or (event.y<=-3) or (event.y>=770) )  ) then
+		permissionMove()
+	end
+
+	if ( event.phase == "ended" and (moveMassive[12] == 1)) then
+		permissionMove() --цифра для отмена запретов
+		return
+	else
+		return
+	end
+end
+
 
 
 
@@ -626,15 +605,17 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 
 	sec = widget.newButton {
 		label = good_time,
-		fontSize = 40,
-		labelColor = { default={ 0.0 }, over={ 0.0 } },
-		defaultFile = "puzzles folder/dif-images/btn-soberu.png",
-		overFile = "puzzles folder/dif-images/btn-soberu.png",
+		fontSize = 42,
+		font = "fonts/geometria_medium",
+		labelColor = { default={ 1.1 }, over={ 1.1 } },
+		defaultFile = "puzzles folder/dif-images/secundomer.png",
+		overFile = "puzzles folder/dif-images/secundomer.png",
 		width = 110, height = 110,
 	}
-	sec.x = display.contentCenterX + 5
-	sec.y = display.contentHeight - 650
+	sec.x = display.contentCenterX - 35
+	sec.y = display.contentHeight - 616
 	sceneGroup:insert( sec )
+
 
 
 
