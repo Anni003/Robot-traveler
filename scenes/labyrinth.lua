@@ -1,360 +1,484 @@
--- Include the modules/libraries
 local composer = require("composer")
-local Pointer = require("scenes.labyrinth.lib.pointer")
-local Block = require("scenes.labyrinth.lib.block")
-local Stack = require("scenes.labyrinth.lib.stack")
+local widget = require("widget")
 
--- Local mutable variables
-local width = 12 + 1
-local height = 9 + 1
-local blockSize = 100
-local background = { 0.96, 0.96, 0.98 }
-local blockBackground = { 0.59, 0.26, 0.33 }
-local blockStrokeColor = { 0.56, 0.87, 0.36 }
-local blockShadowColor = { 0.24, 0.64, 0.44 }
-local controlButtonColor = { 0.93, 0.67, 0.29 }
-local borderRadius = 10
-local strokeWidth = blockSize / 5
-local pointerRadius = strokeWidth
-
--- Local immutable variables
-local labyrinth = {}
-local labyrinthWidth = width - 1 == 1 and blockSize or width - 1 == 2 and blockSize * 2 - strokeWidth or (blockSize - strokeWidth / 2) * 2 + (blockSize - strokeWidth) * (width - 3)
-local labyrinthHeight = height - 1 == 1 and blockSize or height - 1 == 2 and blockSize * 2 - strokeWidth or (blockSize - strokeWidth / 2) * 2 + (blockSize - strokeWidth) * (height - 3)
-local labyrinthStartX = (display.contentWidth - labyrinthWidth) / 2
-local labyrinthStartY = (display.contentHeight - labyrinthHeight) / 2
+-- Variables
+local grid
+local width = 15
+local height = 15
+local cellSideSize = 38
+local borderWidth = cellSideSize / 10
+local labyrinthWidth = width * cellSideSize - (width - 1) * borderWidth
+local labyrinthHeight = height * cellSideSize - (height - 1) * borderWidth
+local labyrinthStartX = (display.contentWidth - labyrinthWidth) / 2 + display.contentWidth * 0.140625
+local labyrinthStartY = (display.contentHeight - labyrinthHeight) / 2 - 3
+local numberEmptyCells = 4
+local borderRadius = 0
+local cellColor = { 1, 1, 1 }
+local borderColor = { 0, 0, 0 }
+local pointerRadius = cellSideSize / 6
+local controlButtonSize = pointerRadius / 0.8
+local gridGroup = display.newGroup()
+local controlButtonsGroup = display.newGroup()
+local scoreTimer
+local startCell
+local endCell
 local pointer
-local startBlock
-local endBlock
-local rightButton
-local leftButton
-local upButton
-local bottomButton
+local controlButtons = {
+    north = display.newImageRect(controlButtonsGroup, "scenes/labyrinth/images/arrow.png", controlButtonSize, controlButtonSize),
+    south = display.newImageRect(controlButtonsGroup, "scenes/labyrinth/images/arrow.png", controlButtonSize, controlButtonSize),
+    west = display.newImageRect(controlButtonsGroup, "scenes/labyrinth/images/arrow.png", controlButtonSize, controlButtonSize),
+    east = display.newImageRect(controlButtonsGroup, "scenes/labyrinth/images/arrow.png", controlButtonSize, controlButtonSize),
+}
+controlButtons.north:setFillColor(unpack({ 0.63, 0.53, 0.99 }))
+controlButtons.south:setFillColor(unpack({ 0.63, 0.53, 0.99 }))
+controlButtons.west:setFillColor(unpack({ 0.63, 0.53, 0.99 }))
+controlButtons.east:setFillColor(unpack({ 0.63, 0.53, 0.99 }))
+controlButtons.south:rotate(90)
+controlButtons.west:rotate(180)
+controlButtons.north:rotate(270)
 
-local function getNeighbors(block)
-    local neighbours = { right = false, left = false, up = false, bottom = false }
-    if (block.x < width and not labyrinth[block.x + 1][block.y].leftBorder) then neighbours.right = true end
-    if (block.x > 1 and not labyrinth[block.x][block.y].leftBorder) then neighbours.left = true end
-    if (block.y < height and not labyrinth[block.x][block.y + 1].topBorder) then neighbours.bottom = true end
-    if (block.y > 1 and not labyrinth[block.x][block.y].topBorder) then neighbours.up = true end
-    return neighbours
+-- Classes
+local Cell = {}
+
+function Cell:new(col, row)
+    local self = setmetatable({}, Cell)
+    self.col = col or 1
+    self.row = row or 1
+    self.x = self.col * (cellSideSize - borderWidth) - cellSideSize / 2 + borderWidth + labyrinthStartX
+    self.y = self.row * (cellSideSize - borderWidth) - cellSideSize / 2 + borderWidth + labyrinthStartY
+    self.walls = {
+        north = { x = self.x, y = self.y - cellSideSize / 2 + borderWidth / 2 },
+        south = { x = self.x, y = self.y + cellSideSize / 2 - borderWidth / 2 },
+        west = { x = self.x - cellSideSize / 2 + borderWidth / 2, y = self.y },
+        east = { x = self.x + cellSideSize / 2 - borderWidth / 2, y = self.y },
+    }
+    self.neighbours = {}
+    self.numberNeighbours = 0
+    self.visited = false
+    self.distance = 0
+    return self
 end
 
-local function getNeighborsExceptPrevious(previous, current)
-    local neighbours = { right = false, left = false, up = false, bottom = false }
-    if (current.x < width and labyrinth[current.x + 1][current.y] ~= previous and not labyrinth[current.x + 1][current.y].leftBorder) then neighbours.right = true end
-    if (current.x > 1 and labyrinth[current.x - 1][current.y] ~= previous and not labyrinth[current.x][current.y].leftBorder) then neighbours.left = true end
-    if (current.y < height and labyrinth[current.x][current.y + 1] ~= previous and not labyrinth[current.x][current.y + 1].topBorder) then neighbours.bottom = true end
-    if (current.y > 1 and labyrinth[current.x][current.y - 1] ~= previous and not labyrinth[current.x][current.y].topBorder) then neighbours.up = true end
-    return neighbours
+local Pointer = {}
+
+function Pointer.new(instance, size, block)
+    instance = display.newGroup()
+    instance.block = block or startCell
+    instance.prevBlock = nil
+    instance.x, instance.y = instance.block.x, instance.block.y
+    instance.circle = display.newImageRect(instance, "scenes/labyrinth/images/circle.png", size, size)
+    instance.circle:setFillColor(unpack({ 0.63, 0.53, 0.99 }))
+    function instance:move(current, previous)
+        local time = (math.abs(instance.block.col - current.col) + math.abs(instance.block.row - current.row)) * 150
+        transition.moveTo(instance, { x = current.x, y = current.y, time = time })
+        instance.prevBlock = previous
+        instance.block = current
+        return time
+    end
+    return instance
 end
 
-local function getTrueNeighborsNumber(neighbours)
-    local count = 0
-    if (neighbours.right) then count = count + 1 end
-    if (neighbours.left) then count = count + 1 end
-    if (neighbours.up) then count = count + 1 end
-    if (neighbours.bottom) then count = count + 1 end
-    return count
+local Timer = {}
+
+function Timer.new(instance, x, y)
+	instance.score = 0
+    instance.text = display.newText(instance.score, x, y, "scenes/labyrinth/font/geometria_bold", 36)
+
+    function instance:getScore()
+        return instance.score
+    end
+
+    local function increaseScore(event)
+		instance.score = event.count
+        instance.text.text = instance.score
+	end
+
+    function instance:start()
+        timer.performWithDelay(1000, increaseScore, 0, "timer")
+    end
+
+    function instance:pause()
+        timer.pause("timer")
+    end
+
+    function instance:resume()
+        timer.resume("timer")
+    end
+
+    function instance:cancel()
+        timer.cancel("timer")
+    end
+
+    function instance:delete()
+        display.remove(instance.text)
+    end
+
+    return instance
 end
 
-local hideAllControlButtons = function()
-    rightButton.isVisible = false
-    leftButton.isVisible = false
-    upButton.isVisible = false
-    bottomButton.isVisible = false
+-- Functions
+local function drawCell(x, y, size)
+    local cell = display.newRoundedRect(gridGroup, x, y, size, size, borderRadius)
+    cell:setFillColor(unpack(cellColor))
+end
+
+local function drawBorder(x, y, width, height)
+    local border = display.newRoundedRect(gridGroup, x, y, width, height, borderRadius)
+    border:setFillColor(unpack(borderColor))
+end
+
+local function createEmptyGrid()
+    grid = {}
+    for col = 1, width do
+        grid[col] = {}
+        for row = 1, height do
+            if ((row > height - numberEmptyCells and col <= numberEmptyCells) or (col > width - numberEmptyCells and row <= numberEmptyCells)) then
+                grid[col][row] = nil
+            else
+                grid[col][row] = Cell:new(col, row)
+            end
+        end
+    end
+end
+
+local function generateStartCell()
+    local random = math.random(2)
+	if (random == 2) then
+		startCell = grid[math.random(numberEmptyCells)][height - numberEmptyCells]
+        startCell.walls.south = nil
+	else
+		startCell = grid[numberEmptyCells + 1][height - math.random(numberEmptyCells) + 1]
+        startCell.walls.west = nil
+	end
+end
+
+local function generatePaths()
+    local current = startCell
+    local stack = {}
+    current.visited = true
+    while current ~= nil do
+        local directions = {}
+        local col, row = current.col, current.row
+        if col > 1 and grid[col - 1][row] and not grid[col - 1][row].visited then table.insert(directions, grid[col - 1][row]) end
+        if row > 1 and grid[col][row - 1] and not grid[col][row - 1].visited then table.insert(directions, grid[col][row - 1]) end
+        if col < width and grid[col + 1][row] and not grid[col + 1][row].visited then table.insert(directions, grid[col + 1][row]) end
+        if row < height and grid[col][row + 1] and not grid[col][row + 1].visited then table.insert(directions, grid[col][row + 1]) end
+        if #directions ~= 0 then
+            local chosen = directions[math.random(#directions)]
+            if (current.col == chosen.col) then
+                if (current.row > chosen.row) then
+                    current.walls.north = nil
+                    current.neighbours.north = chosen
+                    chosen.walls.south = nil
+                    chosen.neighbours.south = current
+                else
+                    current.walls.south = nil
+                    current.neighbours.south = chosen
+                    chosen.walls.north = nil
+                    chosen.neighbours.north = current
+                end
+            else
+                if (current.col > chosen.col) then
+                    current.walls.west = nil
+                    current.neighbours.west = chosen
+                    chosen.walls.east = nil
+                    chosen.neighbours.east = current
+                else
+                    current.walls.east = nil
+                    current.neighbours.east = chosen
+                    chosen.walls.west = nil
+                    chosen.neighbours.west = current
+                end
+            end
+            current.numberNeighbours = current.numberNeighbours + 1
+            chosen.numberNeighbours = chosen.numberNeighbours + 1
+            chosen.visited = true
+            table.insert(stack, chosen)
+            chosen.distance = current.distance + 1
+            current = chosen
+        else
+            current = table.remove(stack)
+        end
+    end
+end
+
+local function generateEndCell()
+    endCell = startCell
+    for col = 1, width do
+        for row = 1, height do
+            if ((row == numberEmptyCells + 1 and col > width - numberEmptyCells) or (col == width - numberEmptyCells and row < numberEmptyCells + 1)) then
+                if (grid[col][row].distance > endCell.distance) then endCell = grid[col][row] end
+            end
+        end
+    end
+    if endCell.distance < (height * width - numberEmptyCells * numberEmptyCells * 2) / 1.6 then
+        createEmptyGrid()
+        generateStartCell()
+        generatePaths()
+        generateEndCell()
+        return
+    end
+    local newEndCell
+    if (endCell.row == numberEmptyCells + 1) then
+        endCell.walls.north = nil
+        grid[endCell.col][endCell.row - 1] = Cell:new(endCell.col, endCell.row - 1)
+        newEndCell = grid[endCell.col][endCell.row - 1]
+        endCell.neighbours.north = newEndCell
+        newEndCell.neighbours.south = endCell
+    else
+        endCell.walls.east = nil
+        grid[endCell.col + 1][endCell.row] = Cell:new(endCell.col + 1, endCell.row)
+        newEndCell = grid[endCell.col + 1][endCell.row]
+        endCell.neighbours.east = newEndCell
+        newEndCell.neighbours.west = endCell
+    end
+    newEndCell.numberNeighbours = newEndCell.numberNeighbours + 1
+    endCell.numberNeighbours = endCell.numberNeighbours + 1
+    newEndCell.walls = { north = nil, south = nil, west = nil, east = nil }
+    newEndCell.distance = endCell.distance + 1
+    endCell = newEndCell
+end
+
+local function drawGrid()
+    for col = 1, width do
+        for row = 1, height do
+            local cell = grid[col][row]
+            if (cell and not (cell == endCell)) then
+                drawCell(cell.x, cell.y, cellSideSize)
+            end
+        end
+    end
+    for col = 1, width do
+        for row = 1, height do
+            local cell = grid[col][row]
+            if (cell) then
+                if (cell.walls.west) then
+                    drawBorder(cell.walls.west.x, cell.walls.west.y, borderWidth, cellSideSize)
+                end
+                if (cell.walls.east) then
+                    drawBorder(cell.walls.east.x, cell.walls.east.y, borderWidth, cellSideSize)
+                end
+                if (cell.walls.north) then
+                    drawBorder(cell.walls.north.x, cell.walls.north.y, cellSideSize, borderWidth)
+                end
+                if (cell.walls.south) then
+                    drawBorder(cell.walls.south.x, cell.walls.south.y, cellSideSize, borderWidth)
+                end
+            end
+        end
+    end
+end
+
+local function hideAllControlButtons()
+    controlButtons.north.isVisible = false
+    controlButtons.south.isVisible = false
+    controlButtons.west.isVisible = false
+    controlButtons.east.isVisible = false
 end
 
 local function controlSystem()
-    local neighbours = getNeighbors(pointer.currentBlock)
-    local block = pointer.currentBlock
-    if (neighbours.right) then
-        rightButton.x = labyrinth[block.x + 1][block.y].coordX - blockSize / 2 + strokeWidth / 2
-        rightButton.y = labyrinth[block.x + 1][block.y].coordY
-        rightButton.isVisible = true
+    local block = pointer.block
+    if (block.neighbours.north) then
+        controlButtons.north.x = block.x
+        controlButtons.north.y = block.y - (cellSideSize - pointerRadius * 2) / 2
+        controlButtons.north.isVisible = true
     end
-    if (neighbours.left) then
-        leftButton.x = labyrinth[block.x - 1][block.y].coordX + blockSize / 2 - strokeWidth / 2
-        leftButton.y = labyrinth[block.x - 1][block.y].coordY
-        leftButton.isVisible = true
+    if (block.neighbours.south) then
+        controlButtons.south.x = block.x
+        controlButtons.south.y = block.y + (cellSideSize - pointerRadius * 2) / 2
+        controlButtons.south.isVisible = true
     end
-    if (neighbours.up) then
-        upButton.x = labyrinth[block.x][block.y - 1].coordX
-        upButton.y = labyrinth[block.x][block.y - 1].coordY + blockSize / 2 - strokeWidth / 2
-        upButton.isVisible = true
+    if (block.neighbours.west) then
+        controlButtons.west.x = block.x - (cellSideSize - pointerRadius * 2) / 2
+        controlButtons.west.y = block.y
+        controlButtons.west.isVisible = true
     end
-    if (neighbours.bottom) then
-        bottomButton.x = labyrinth[block.x][block.y + 1].coordX
-        bottomButton.y = labyrinth[block.x][block.y + 1].coordY - blockSize / 2 + strokeWidth / 2
-        bottomButton.isVisible = true
+    if (block.neighbours.east) then
+        controlButtons.east.x = block.x + (cellSideSize - pointerRadius * 2) / 2
+        controlButtons.east.y = block.y
+        controlButtons.east.isVisible = true
     end
 end
 
-local directionControl = function(direction)
+local function movementSystem(direction)
     hideAllControlButtons()
-    local block, neighbours, neighboursNumber, moveTime
-    if direction == "right" then
-        block = labyrinth[pointer.currentBlock.x + 1][pointer.currentBlock.y]
-        neighbours = getNeighborsExceptPrevious(labyrinth[block.x - 1][block.y], block)
-        neighboursNumber = getTrueNeighborsNumber(neighbours)
-        while (neighboursNumber < 2 and not labyrinth[block.x + 1][block.y].leftBorder) do
-            block = labyrinth[block.x + 1][block.y]
-            neighbours = getNeighborsExceptPrevious(labyrinth[block.x - 1][block.y], block)
-            neighboursNumber = getTrueNeighborsNumber(neighbours)
-        end
-    elseif direction == "left" then
-        block = labyrinth[pointer.currentBlock.x - 1][pointer.currentBlock.y]
-        neighbours = getNeighborsExceptPrevious(labyrinth[block.x + 1][block.y], block)
-        neighboursNumber = getTrueNeighborsNumber(neighbours)
-        while (neighboursNumber < 2 and not labyrinth[block.x][block.y].leftBorder) do
-            block = labyrinth[block.x - 1][block.y]
-            neighbours = getNeighborsExceptPrevious(labyrinth[block.x + 1][block.y], block)
-            neighboursNumber = getTrueNeighborsNumber(neighbours)
-        end
-    elseif direction == "up" then
-        block = labyrinth[pointer.currentBlock.x][pointer.currentBlock.y - 1]
-        neighbours = getNeighborsExceptPrevious(labyrinth[block.x][block.y + 1], block)
-        neighboursNumber = getTrueNeighborsNumber(neighbours)
-        while (neighboursNumber < 2 and not labyrinth[block.x][block.y].topBorder) do
-            block = labyrinth[block.x][block.y - 1]
-            neighbours = getNeighborsExceptPrevious(labyrinth[block.x][block.y + 1], block)
-            neighboursNumber = getTrueNeighborsNumber(neighbours)
-        end
-    elseif direction == "down" then
-        block = labyrinth[pointer.currentBlock.x][pointer.currentBlock.y + 1]
-        neighbours = getNeighborsExceptPrevious(labyrinth[block.x][block.y - 1], block)
-        neighboursNumber = getTrueNeighborsNumber(neighbours)
-        while (neighboursNumber < 2 and not labyrinth[block.x][block.y + 1].topBorder) do
-            block = labyrinth[block.x][block.y + 1]
-            neighbours = getNeighborsExceptPrevious(labyrinth[block.x][block.y - 1], block)
-            neighboursNumber = getTrueNeighborsNumber(neighbours)
-        end
-    else
-        error("Error: Wrong direction");
+    local oppositeDirections = { north = "south", south = "north", west = "east", east = "west" }
+    local current = pointer.block.neighbours[direction]
+    while (current.numberNeighbours < 3 and current.neighbours[direction]) do
+        current = current.neighbours[direction]
     end
-    moveTime = pointer:move(labyrinth[block.x][block.y].coordX, labyrinth[block.x][block.y].coordY, labyrinth[block.x][block.y])
-    if block ~= endBlock then
-        timer.performWithDelay(moveTime, controlSystem)
-    end
-    if pointer.currentBlock == endBlock then
-        timer.performWithDelay(moveTime, function()
-            transition.to(pointer, { time = 500, alpha = 0, x = pointer.x - 10, y = pointer.y + 10, xScale = 0.1, yScale = 0.1 })
-            timer.performWithDelay(500, function()
-                composer.removeScene("scenes.labyrinth")
-                composer.gotoScene("scenes.three_doors")
-            end)
-        end)
-    end
-end
+    local time = pointer:move(current, current.neighbours[oppositeDirections[direction]])
+    timer.performWithDelay(time, function()
+        if (pointer.block == endCell) then
+            transition.to(pointer, { time = 100, alpha = 0, transition = easing.inSine })
+            scoreTimer:pause()
+            local score = scoreTimer:getScore()
+            -- local modal = display.newRoundedRect(gridGroup, display.contentWidth / 2, display.contentHeight / 2, 1, 1, 16)
+            -- modal.alpha = 0.0
+            -- modal:setFillColor(unpack({ 0.21, 0.42, 0.84 }))
+            -- modal:setStrokeColor(unpack({ 0.13, 0.16, 0.32 }))
+            -- modal.strokeWidth = 5
+            -- local text1 = display.newText(gridGroup, "Поздравляю!", display.contentWidth / 2, modal.y - 100, "scenes/labyrinth/font/geometria_bold", 46)
+            -- local text2 = display.newText(gridGroup, "Вы прошли лабиринт за " .. score .. " сек", display.contentWidth / 2, modal.y - 40, "scenes/labyrinth/font/geometria_bold", 36)
+            -- local modalButton = widget.newButton({
+            --     x = display.contentWidth / 2,
+            --     y = modal.y + 80,
+            --     label = "В меню",
+            --     width = display.contentWidth / 2,
+            --     height = 80,
+            --     shape = "roundedRect",
+            --     cornerRadius = 12,
+            --     fillColor = { default = { 0.11, 0.44, 0.72, 1.0 }, over = { 0.09, 0.36, 0.6, 1.0 } },
+            --     labelColor = { default = { 1.0, 1.0, 1.0, 1.0 }, over = { 1.0, 1.0, 1.0, 1.0 } },
+            --     strokeWidth = 3,
+            --     strokeColor = { default = { 1.0, 1.0, 1.0, 1.0 }, over = { 1.0, 1.0, 1.0, 1.0 } },
+            --     font = "scenes/labyrinth/font/geometria_bold.otf",
+            --     fontSize = 36,
+            --     onEvent = function(event)
+            --         local phase = event.phase
+            --         if (phase == "ended") then
+            --             composer.removeScene("scenes.labyrinth")
 
-local function rightButtonTap() directionControl("right") end
-local function leftButtonTap() directionControl("left") end
-local function upButtonTap() directionControl("up") end
-local function bottomButtonTap() directionControl("down") end
+            --         end
+            --     end
+            -- })
+            composer.showOverlay("scenes.destroy_registration", {
+                isModal=true,
+                effect="fade",
+                time=400,
+            })
+            -- text1.alpha = 0.0
+            -- text2.alpha = 0.0
+            -- modalButton.alpha = 0.0
+            -- gridGroup:insert(modalButton)
+            -- transition.to(modal, { time = 350, width = display.contentWidth - 80, height = 320, alpha = 1, transition = easing.inSine })
+            -- transition.to(text1, { time = 600, alpha = 1, transition = easing.inSine })
+            -- transition.to(text2, { time = 600, alpha = 1, transition = easing.inSine })
+            -- transition.to(modalButton, { time = 600, alpha = 1, transition = easing.inSine })
+            scoreTimer:delete()
+            return
+        end
+        if (pointer.block.numberNeighbours >= 3 or pointer.block.numberNeighbours == 1) then
+            controlSystem()
+            return
+        end
+        for key in pairs(pointer.block.neighbours) do
+            if (pointer.block.neighbours[key] ~= pointer.prevBlock) then
+                movementSystem(key)
+                break
+            end
+        end
+    end)
+end
 
 local function key(event)
     local phase, keyName = event.phase, event.keyName
-    if phase == "down" then
-        if keyName == "left" or keyName == "a" then
-            if (leftButton.isVisible) then directionControl("left") end
-        end
-        if keyName == "right" or keyName == "d" then
-            if (rightButton.isVisible) then directionControl("right") end
-        end
-        if keyName == "up" or keyName == "w" then
-            if (upButton.isVisible) then directionControl("up") end
-        end
-        if keyName == "down" or keyName == "s" then
-            if (bottomButton.isVisible) then directionControl("down") end
-        end
+    if (phase == "down") then
+        if ((keyName == "left" or keyName == "a") and controlButtons.west.isVisible) then movementSystem("west") end
+        if ((keyName == "right" or keyName == "d") and controlButtons.east.isVisible) then movementSystem("east") end
+        if ((keyName == "up" or keyName == "w") and controlButtons.north.isVisible) then movementSystem("north") end
+        if ((keyName == "down" or keyName == "s") and controlButtons.south.isVisible) then movementSystem("south") end
     end
 end
 
--- Create a new Composer scene
+local function northButtonTap() movementSystem("north") end
+local function southButtonTap() movementSystem("south") end
+local function westButtonTap() movementSystem("west") end
+local function eastButtonTap() movementSystem("east") end
+
 local scene = composer.newScene()
 
--- This function is called when scene is created
+
+
+bgMusicLab = audio.loadStream( "menu-folder/music/david.mp3" ) -- ПОДГРУЗКА МУЗЫКИ
+audio.reserveChannels( 1 )
+audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
+
+
+
 function scene:create(event)
-	local sceneGroup = self.view -- Group for adding scene display objects
+    local sceneGroup = self.view
 
-    -- Create a rectangle
-    local createRect = function(x, y, width, height, radius, color)
-        local rect = display.newRoundedRect(sceneGroup, x, y, width, height, radius)
-        rect:setFillColor(unpack(color))
-    end
+    local background = display.newImageRect("scenes/labyrinth/images/background.png", display.actualContentWidth, display.actualContentHeight)
+	background.x, background.y = display.contentWidth / 2, display.contentHeight / 2
+    sceneGroup:insert(background)
+	local background1 = display.newImageRect("scenes/labyrinth/images/elements.png", display.contentWidth, display.contentHeight)
+	background1.x, background1.y = display.contentWidth / 2, display.contentHeight / 2
+    sceneGroup:insert(background1)
+    local back1 = display.newImageRect("scenes/labyrinth/images/background.png", 2, display.contentHeight)
+	back1.x, back1.y = 0, display.contentHeight / 2
+    sceneGroup:insert(back1)
+    local back2 = display.newImageRect("scenes/labyrinth/images/background.png", 2, display.contentHeight)
+	back2.x, back2.y = display.contentWidth, display.contentHeight / 2
+    sceneGroup:insert(back2)
 
-    -- Generates a labyrinth matrix
-    local createLabyrinth = function()
-        for x = 1, width do
-            labyrinth[x] = {}
-            for y = 1, height do
-                labyrinth[x][y] = Block:new(x, y)
-                labyrinth[x][y].coordX = blockSize * (labyrinth[x][y].x - 0.5) - strokeWidth * (labyrinth[x][y].x - 1) + labyrinthStartX
-                labyrinth[x][y].coordY = blockSize * (labyrinth[x][y].y - 0.5) - strokeWidth * (labyrinth[x][y].y - 1) + labyrinthStartY
-            end
-        end
-        startBlock = labyrinth[math.random(width - 1)][math.random(height - 1)]
-    end
-
-    -- Generates a random labyrinth path
-    local generatePaths = function()
-        local current = startBlock
-        local stack = Stack
-        current.visited = true
-        while current ~= nil do
-            local unvisitedNeighbours = {}
-            local x = current.x
-            local y = current.y
-            if x > 1 and not labyrinth[x - 1][y].visited then table.insert(unvisitedNeighbours, labyrinth[x - 1][y]) end
-            if y > 1 and not labyrinth[x][y - 1].visited then table.insert(unvisitedNeighbours, labyrinth[x][y - 1]) end
-            if x < width - 1 and not labyrinth[x + 1][y].visited then table.insert(unvisitedNeighbours, labyrinth[x + 1][y]) end
-            if y < height - 1 and not labyrinth[x][y + 1].visited then table.insert(unvisitedNeighbours, labyrinth[x][y + 1]) end
-            if #unvisitedNeighbours ~= 0 then
-                local chosen = unvisitedNeighbours[math.random(#unvisitedNeighbours)]
-                if (current.x == chosen.x) then
-                    if (current.y > chosen.y) then
-                        current.topBorder = false
-                    else
-                        chosen.topBorder = false
-                    end
-                else
-                    if (current.x > chosen.x) then
-                        current.leftBorder = false
-                    else
-                        chosen.leftBorder = false
-                    end
-                end
-                chosen.visited = true
-                stack.push(chosen)
-                chosen.distanceFromStart = current.distanceFromStart + 1
-                current = chosen
-            else
-                current = stack.pop()
-            end
-        end
-    end
-
-    -- Creates an endpoint
-    local addExit = function()
-        local furthest = startBlock
-		for x = 1, width - 1 do
-			for y = 1, height - 1 do
-				if labyrinth[x][y].distanceFromStart > furthest.distanceFromStart then furthest = labyrinth[x][y] end
-			end
-		end
-        endBlock = furthest
-        createRect(endBlock.coordX, endBlock.coordY, pointerRadius * 2, pointerRadius * 2, 50, { 0.34, 0.16, 0.29 })
-        createRect(endBlock.coordX - 2, endBlock.coordY + 2, pointerRadius * 2, pointerRadius * 2, 50, { 0.24, 0.14, 0.28 })
-    end
-
-    -- Draws a labyrinth on the screen
-    local drawBorders = function()
-        -- Draws the background of the blocks
-        for x = 1, width do
-            for y = 1, height do
-                local block = labyrinth[x][y]
-                if y < height and x < width then
-                    createRect(block.coordX, block.coordY, blockSize, blockSize, borderRadius, blockBackground)
-                end
-            end
-        end
-        -- Draws a shadow from the borders of the block
-        for x = 1, width do
-            for y = 1, height do
-                local block = labyrinth[x][y]
-                if block.leftBorder and y < height then
-                    createRect(block.coordX - blockSize / 2 + strokeWidth / 2 - 2, block.coordY + 2, strokeWidth, blockSize, borderRadius, blockShadowColor)
-                end
-                if block.topBorder and x < width then
-                    createRect(block.coordX - 2, block.coordY - blockSize / 2 + strokeWidth / 2 + 2, blockSize, strokeWidth, borderRadius, blockShadowColor)
-                end
-            end
-        end
-        -- Draws block borders
-        for x = 1, width do
-            for y = 1, height do
-                local block = labyrinth[x][y]
-                if block.leftBorder and y < height then
-                    createRect(block.coordX - blockSize / 2 + strokeWidth / 2, block.coordY, strokeWidth, blockSize, borderRadius, blockStrokeColor)
-                end
-                if block.topBorder and x < width then
-                    createRect(block.coordX, block.coordY - blockSize / 2 + strokeWidth / 2, blockSize, strokeWidth, borderRadius, blockStrokeColor)
-                end
-            end
-        end
-    end
-
-	-- Adding background
-	display.setDefault("background", unpack(background))
-
-    -- Creating and drawing a labyrinth
-    createLabyrinth()
+    createEmptyGrid()
+    generateStartCell()
     generatePaths()
-    drawBorders()
-    addExit()
+    generateEndCell()
+    drawGrid()
 
-    -- Create pointer
-    pointer = Pointer:new(startBlock.coordX, startBlock.coordY, startBlock, pointerRadius)
-
-    -- Creating control buttons
-    rightButton = display.newImageRect("scenes/labyrinth/img/arrow.png", pointerRadius, pointerRadius)
-    leftButton = display.newImageRect("scenes/labyrinth/img/arrow.png", pointerRadius, pointerRadius)
-    upButton = display.newImageRect("scenes/labyrinth/img/arrow.png", pointerRadius, pointerRadius)
-    bottomButton = display.newImageRect("scenes/labyrinth/img/arrow.png", pointerRadius, pointerRadius)
-    leftButton.rotation = 180
-    upButton.rotation = 270
-    bottomButton.rotation = 90
-    rightButton:setFillColor(unpack(controlButtonColor))
-    leftButton:setFillColor(unpack(controlButtonColor))
-    upButton:setFillColor(unpack(controlButtonColor))
-    bottomButton:setFillColor(unpack(controlButtonColor))
+    pointer = Pointer:new(pointerRadius * 2)
 
     hideAllControlButtons()
     controlSystem()
 
+    scoreTimer = Timer:new(display.contentWidth / 2, 40)
+    scoreTimer:start()
+
+    sceneGroup:insert(gridGroup)
     sceneGroup:insert(pointer)
-    sceneGroup:insert(rightButton)
-    sceneGroup:insert(leftButton)
-    sceneGroup:insert(upButton)
-    sceneGroup:insert(bottomButton)
+    sceneGroup:insert(controlButtonsGroup)
 end
 
--- This function is called when scene comes fully on screen
 function scene:show(event)
-	local phase = event.phase
-	if (phase == "will") then
+    local phase = event.phase
+    if (phase == "will") then
 
-	elseif (phase == "did") then
-        rightButton:addEventListener("tap", rightButtonTap)
-        leftButton:addEventListener("tap", leftButtonTap)
-        upButton:addEventListener("tap", upButtonTap)
-        bottomButton:addEventListener("tap", bottomButtonTap)
+    elseif (phase == "did") then
+        controlButtons.north:addEventListener("tap", northButtonTap)
+        controlButtons.south:addEventListener("tap", southButtonTap)
+        controlButtons.west:addEventListener("tap", westButtonTap)
+        controlButtons.east:addEventListener("tap", eastButtonTap)
         Runtime:addEventListener("key", key)
-	end
+
+
+        if musicGlobal == true then
+			timer.performWithDelay( 5, function()
+				audio.play( bgMusicLab, { loops = -1, channel = 1 } ) -- НАСТРОЙКИ ПРОИГРЫВАТЕЛЯ
+			end)
+		end
+    end
 end
 
--- This function is called when scene goes fully off screen
+
+
 function scene:hide(event)
-	local phase = event.phase
-	if (phase == "will") then
-        rightButton:removeEventListener("tap", rightButtonTap)
-        leftButton:removeEventListener("tap", leftButtonTap)
-        upButton:removeEventListener("tap", upButtonTap)
-        bottomButton:removeEventListener("tap", bottomButtonTap)
+    local phase = event.phase
+    if (phase == "will") then
+        controlButtons.north:removeEventListener("tap", northButtonTap)
+        controlButtons.south:removeEventListener("tap", southButtonTap)
+        controlButtons.west:removeEventListener("tap", westButtonTap)
+        controlButtons.east:removeEventListener("tap", eastButtonTap)
         Runtime:removeEventListener("key", key)
-	elseif (phase == "did") then
-
-	end
+    elseif (phase == "did") then
+        if musicGlobal == true then
+			audio.stop(1)
+		end
+    end
 end
 
--- This function is called when scene is destroyed
-function scene:destroy(event)
+
+function scene:destroy( event )
+	local sceneGroup = self.view
+	
+	audio.dispose( bgMusicLab )
 
 end
 
-scene:addEventListener("create")
-scene:addEventListener("show")
-scene:addEventListener("hide")
-scene:addEventListener("destroy")
+scene:addEventListener("create", scene)
+scene:addEventListener("show", scene)
+scene:addEventListener("hide", scene)
+scene:addEventListener("destroy", scene)
 
 return scene

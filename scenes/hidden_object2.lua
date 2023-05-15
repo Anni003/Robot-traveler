@@ -40,14 +40,14 @@ function scene:create( event )
         roulette.x = display.contentCenterX/0.67
         roulette.y = display.contentCenterY/1.2
         hidden_object.size=hidden_object.size+1
-        roulette.text_x = display.contentCenterX/100-35;
+        roulette.text_x = display.contentCenterX/12;
         sceneGroup:insert(roulette)
 
     local knife = display.newImageRect(hidden_object, p1, 60, 46)
         knife.x = display.contentCenterX/0.59
         knife.y = display.contentCenterY/1.8
         hidden_object.size=hidden_object.size+1
-        knife.text_x = display.contentCenterX/100-35+165;
+        knife.text_x = display.contentCenterX/12+135;
         if (p1 == "img/knife.png") then
             knife.text = "Канцелярский нож"
         elseif (p1 == "img/compass.png") then
@@ -61,7 +61,7 @@ function scene:create( event )
         compass.x = display.contentCenterX/0.5
         compass.y = display.contentCenterY/1.9
         hidden_object.size=hidden_object.size+1
-        compass.text_x = display.contentCenterX/100-35+330;
+        compass.text_x = display.contentCenterX/12+270;
         if (p2 == "img/knife.png") then
             compass.text = "Канцелярский нож"
         elseif (p2 == "img/compass.png") then
@@ -75,7 +75,7 @@ function scene:create( event )
         machine.x = display.contentCenterX/1.1
         machine.y = display.contentCenterY/0.81
         hidden_object.size=hidden_object.size+1
-        machine.text_x = display.contentCenterX/100-35+495;
+        machine.text_x = display.contentCenterX/12+405;
         if (p4 == "img/machine.png") then
             machine.text = "Станок"
         elseif (p4 == "img/wrench_2.png") then
@@ -89,7 +89,7 @@ function scene:create( event )
         wrench_2.x = display.contentCenterX/100-170
         wrench_2.y = display.contentCenterY/0.73
         hidden_object.size=hidden_object.size+1
-        wrench_2.text_x = display.contentCenterX/100-35+660;
+        wrench_2.text_x = display.contentCenterX/12+540;
         if (p5 == "img/machine.png") then
             wrench_2.text = "Станок"
         elseif (p5 == "img/wrench_2.png") then
@@ -103,7 +103,7 @@ function scene:create( event )
         saw_2.x = display.contentCenterX/100-155
         saw_2.y = display.contentCenterY/5.1
         hidden_object.size=hidden_object.size+1
-        saw_2.text_x = display.contentCenterX/100-35+825;
+        saw_2.text_x = display.contentCenterX/12+675;
         if (p3 == "img/knife.png") then
             saw_2.text = "Канцелярский нож"
         elseif (p3 == "img/compass.png") then
@@ -117,14 +117,14 @@ function scene:create( event )
         microscope.x = display.contentCenterX/100-250
         microscope.y = display.contentCenterY/1.15
         hidden_object.size=hidden_object.size+1
-        microscope.text_x = display.contentCenterX/100-35+990;
+        microscope.text_x = display.contentCenterX/12+810;
         sceneGroup:insert(microscope)
 
     local pliers_2 = display.newImageRect(hidden_object, p6, 100, 90)
         pliers_2.x = display.contentCenterX/0.49
         pliers_2.y = display.contentCenterY/1.3
         hidden_object.size=hidden_object.size+1
-        pliers_2.text_x = display.contentCenterX/100-35+1155;
+        pliers_2.text_x = display.contentCenterX/12+945;
         if (p6 == "img/machine.png") then
             pliers_2.text = "Станок"
         elseif (p6 == "img/wrench_2.png") then
@@ -154,7 +154,7 @@ function scene:create( event )
     --Функция для сбора всех объектов
     local function onObjectTap( self, event )
         self:removeSelf()
-        local line = display.newLine(self.text_x-63, display.contentCenterY/0.54, self.text_x+63, display.contentCenterY/0.54)
+        local line = display.newLine(self.text_x-45, display.contentCenterY/0.54, self.text_x+45, display.contentCenterY/0.54)
         line.strokeWidth = 3
         line:setStrokeColor( 255, 255, 255, 1 )
         sceneGroup:insert(line)
@@ -166,12 +166,12 @@ function scene:create( event )
 
     --Функция для динамического вывода текста из массива на экран
     local function text_view(array_text)
-        x_text_start = display.contentCenterX/100-35
+        x_text_start = display.contentCenterX/12
         for i=1, hidden_object.size do
-            local text= display.newText(array_text[i], x_text_start, display.contentCenterY/0.54, "fonts/geometria_medium", 20)
-            text:setFillColor(255, 255, 255)
+            local text= display.newText(array_text[i], x_text_start, display.contentCenterY/0.54, "fonts/geometria_medium", 17)
+            text:setFillColor(255,255,255)
             sceneGroup:insert(text)
-            x_text_start = x_text_start+165
+            x_text_start = x_text_start+135
         end
     end
 

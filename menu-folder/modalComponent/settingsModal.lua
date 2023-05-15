@@ -6,8 +6,12 @@ function scene:create( event )
 	local sceneGroup = self.view
 
 
-    local volumeMusicText = display.newText( "Громкость музыки", 87,  160, "fonts/geometria_medium", 40 )
-    volumeMusicText:setFillColor( 0, 0, 0 )
+
+	local rect = display.newImageRect( "menu-folder/images-for-menu/fon-settings.png", display.contentWidth + 340, display.contentHeight  )
+	rect.x = display.contentCenterX
+	rect.y = display.contentCenterY
+	sceneGroup:insert( rect ) 
+
 
 
     if editVolume == false then
@@ -17,9 +21,9 @@ function scene:create( event )
     -- Ползунок звука
     local slider = widget.newSlider(
         {
-            x = display.contentCenterX - 60,
-            y = display.contentCenterY + 50,
-            width = 400,
+            x = display.contentCenterX + 10,
+            y = display.contentCenterY + 105,
+            width = 650,
 
             value = valueOfMusic,
 
@@ -29,7 +33,11 @@ function scene:create( event )
 
                 editVolume = true
                 
-                if (event.value >= 0 and event.value < 10) then 
+                if (event.value >= 0 and event.value < 4) then 
+                    volumeGlobalMusic = 0
+                    audio.setVolume( 0, { channel=1 } )
+
+                elseif (event.value >= 4 and event.value < 10) then
                     volumeGlobalMusic = 0.1
                     audio.setVolume( 0.1, { channel=1 } )
                 elseif (event.value >= 10 and event.value < 20) then
@@ -61,34 +69,22 @@ function scene:create( event )
         }
     )
 
-    
-    local title = display.newText( "Настройки", 60, 80, "fonts/geometria_bold", 60 )
-    title:setFillColor( 0, 0, 0 )
-
-
-	local rect = display.newRect(sceneGroup, display.contentCenterX,
-    display.contentCenterY, display.contentWidth + 350,
-    display.contentHeight + 150):setFillColor(255, 255, 255, 1)
-	
-
 
     local closeBtn = widget.newButton {
-        defaultFile = "menu-folder/images-for-menu/close.png",
-        overFile = "menu-folder/images-for-menu/close-over.png",
-        width = 52, height = 52,
+        defaultFile = "menu-folder/images-for-menu/close-krest-simple.png",
+        overFile = "menu-folder/images-for-menu/close-krest-simple.png",
+        width = 85, height = 85,
 
         onPress = function(event)
             composer.hideOverlay( "fade", 400 )
 		end
     }
-    closeBtn.x = display.contentWidth - 20
-	closeBtn.y = display.contentCenterY - 292
+    closeBtn.x = display.contentWidth + 40
+	closeBtn.y = display.contentCenterY + 275
 
 
-    sceneGroup:insert(title)
     sceneGroup:insert(closeBtn)
     sceneGroup:insert(slider)
-    sceneGroup:insert(volumeMusicText)
 end
 
 -- Listener setup

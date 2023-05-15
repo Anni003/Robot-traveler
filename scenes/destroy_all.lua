@@ -10,36 +10,30 @@ end
 function scene:create( event )
     local sceneGroup = self.view
     local backgroud_black = display.newRect(display.contentCenterX, display.contentCenterY, display.actualContentWidth, display.actualContentHeight)
-            backgroud_black:setFillColor(0, 0, 0, 0.8)
-    local people = display.newImageRect("img/people.png", display.contentCenterX/3, display.contentCenterY/0.6);
-        people.x = display.contentCenterX/0.6;
-        people.y = display.contentCenterY;
-    local text_facts =
-    {
-        text = "Вы собрали все предметы!\n\nА вы знали, что...Американский инженер Д. Уэксли представил \nпервого робота на Всемирной выставке 1927 года в Нью-Йорке. \nРобот мог выполнять команды человека, воспроизводя \nфразы и совершая простые движения.",
-        x = display.contentCenterX,
-        y = display.contentCenterY/1.4,
-        width = display.contentCenterX/1.1,
-        font = "fonts/geometria_medium",
-        fontSize = 25,
-        align = "center"
-    }
-    local text_all = display.newText(text_facts)
-    text_all:setFillColor(255, 255, 255)
+        backgroud_black:setFillColor(0, 0, 0, 0.67)
+    
+    local background = display.newImageRect("img/back_blue.png", display.actualContentWidth, display.actualContentHeight)
+        background.x = display.contentCenterX
+        background.y = display.contentCenterY
+
+            
+    local text = display.newImageRect("img/text_fact.png", display.actualContentWidth/1.2, display.actualContentHeight/1.4)
+        text.x = display.contentCenterX
+        text.y = display.contentCenterY
+
     nextBtn = widget.newButton {
-        shape = 'roundedRect',
-        width = display.contentCenterX/1.4, height = display.contentCenterY/5,
-        x = display.contentCenterX,
-        y = display.contentCenterY/0.7,
-        fontSize = 20, -- Размер шрифта
-        fillColor = { default={ 76 / 255 }, over={ 150 / 255 } },
-        labelColor = { default={ 1 }, over={ 0 } },
-        label = "Вернуться к выбору уровня",
+		labelColor = { default={ 0.0 }, over={ 0.0 } },
+		defaultFile = "img/button_level.png",
+		width = display.contentCenterX/0.8, 
+        height = display.contentCenterY/3,
         onRelease = onPlayBtnRelease
-    }
+    } 
+    nextBtn.x = display.contentCenterX/1.3
+    nextBtn.y = display.contentCenterY/0.68
+
+    sceneGroup:insert(background)
     sceneGroup:insert(backgroud_black)
-    sceneGroup:insert(people)
-    sceneGroup:insert(text_all)
+    sceneGroup:insert(text)
     sceneGroup:insert(nextBtn)
 end
 

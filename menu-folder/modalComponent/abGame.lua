@@ -13,14 +13,14 @@ function scene:create( event )
 
     local newRoundedRect = widget.newScrollView 
     {
-        top = 65,
+        top = 0,
         left = 0,
         right = 0,
-        width = 900,
+        width = 1400,
         horizontalScrollDisabled = true,
-        backgroundColor={250,250,250, 1},
+        backgroundColor={0,0,0, 0.9},
 
-        topPadding = 500,
+        topPadding = 1300,
         bottomPadding5= 10, 
         leftPadding = 50, 
         rightPadding = 50,
@@ -28,7 +28,6 @@ function scene:create( event )
         verticalScrollDisabled = false,
         listener = scrollListener
     }
-
 
 
 
@@ -65,11 +64,13 @@ function scene:create( event )
     для Робостанции ВДНХ\
     2022г" 
     
-    local lotsOfTextObject = display.newText( lotsOfText, 0, 0, 330, 0, "fonts/geometria_light", 20)
-    lotsOfTextObject:setTextColor( 0, 0, 0 )
-    lotsOfTextObject.x = display.contentCenterX
+    local lotsOfTextObject = display.newText( lotsOfText, 0, 0, 700, 0, "fonts/geometria_light", 40)
+    lotsOfTextObject:setTextColor( 255, 255, 255 )
+    lotsOfTextObject.x = display.contentCenterX + 50
 
+    newRoundedRect.x = display.contentCenterX
     newRoundedRect:insert(lotsOfTextObject)
+
 
     
     newRoundedRect:scrollToPosition
@@ -80,8 +81,8 @@ function scene:create( event )
 
     local okButton = widget.newButton {
         labelColor = { default={ 0, 0.5, 1 }, over={ 0, 0.5, 1 } },
-        defaultFile = "menu-folder/images-for-menu/close.png",
-        overFile = "menu-folder/images-for-menu/close-over.png",
+        defaultFile = "menu-folder/images-for-menu/close-krest-simple.png",
+        overFile = "menu-folder/images-for-menu/close-krest-simple.png",
         width = 52, height = 52,
 
         onPress = function(event)
@@ -94,8 +95,15 @@ function scene:create( event )
 
 
 
-    sceneGroup:insert(okButton)
+    local picture = display.newImageRect( "menu-folder/images-for-menu/how-play-picture.png", 250, 300 )
+
+	picture.x =  display.contentCenterX + 450
+	picture.y = display.contentCenterY + 180
+
+
     sceneGroup:insert(newRoundedRect)
+    sceneGroup:insert(picture)
+    sceneGroup:insert(okButton)
 end
 
 -- Listener setup
@@ -104,3 +112,4 @@ scene:addEventListener( "create", scene )
 -----------------------------------------------------------------------------------------
 
 return scene
+

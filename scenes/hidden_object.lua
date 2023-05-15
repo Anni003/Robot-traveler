@@ -3,6 +3,10 @@ local widget = require "widget"
 
 local scene = composer.newScene()
 
+bgMusicDoors = audio.loadStream( "menu-folder/music/resistors.mp3" ) -- ПОДГРУЗКА МУЗЫКИ
+audio.reserveChannels( 1 )
+audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
+
 function scene:create( event )
 	local sceneGroup = self.view
     display.setStatusBar(display.HiddenStatusBar)
@@ -40,14 +44,14 @@ function scene:create( event )
         saw.x = display.contentCenterX/0.99
         saw.y = display.contentCenterY/2.05
         hidden_object.size=hidden_object.size+1
-        saw.text_x = display.contentCenterX/100-35;
+        saw.text_x = display.contentCenterX/12
         sceneGroup:insert(saw)
 
     local pliers = display.newImageRect(hidden_object, p6, 65, 50)
-        pliers.x = display.contentCenterX/0.5
+        pliers.x = display.contentCenterX/0.53
         pliers.y = display.contentCenterY/0.63
         hidden_object.size=hidden_object.size+1
-        pliers.text_x = display.contentCenterX/100-35+150;
+        pliers.text_x = display.contentCenterX/12+130;
         if (p6 == "img/wrench.png") then
             pliers.text = "Гаечные ключи"
         elseif (p6 == "img/hammer.png") then
@@ -58,10 +62,10 @@ function scene:create( event )
         sceneGroup:insert(pliers)
 
     local scissors = display.newImageRect(hidden_object, p1, 60, 60)
-        scissors.x = display.contentCenterX/2.1
+        scissors.x = display.contentCenterX/1.7
         scissors.y = display.contentCenterY/0.74
         hidden_object.size=hidden_object.size+1
-        scissors.text_x = display.contentCenterX/100-35+300;
+        scissors.text_x = display.contentCenterX/12+260;
         if (p1 == "img/scissors.png") then
             scissors.text = "Ножницы"
         elseif (p1 == "img/pump.png") then
@@ -72,10 +76,10 @@ function scene:create( event )
         sceneGroup:insert(scissors)
 
     local sandpaper = display.newImageRect(hidden_object, p2, 70, 60)
-        sandpaper.x = display.contentCenterX/65
+        sandpaper.x = display.contentCenterX/4
         sandpaper.y = display.contentCenterY/0.65
         hidden_object.size=hidden_object.size+1
-        sandpaper.text_x = display.contentCenterX/100-35+450;
+        sandpaper.text_x = display.contentCenterX/12+390;
         if (p2 == "img/scissors.png") then
             sandpaper.text = "Ножницы"
         elseif (p2 == "img/pump.png") then
@@ -86,17 +90,17 @@ function scene:create( event )
         sceneGroup:insert(sandpaper)
 
     local ruler = display.newImageRect(hidden_object, "img/ruler.png", 130, 35)
-        ruler.x = display.contentCenterX/3.7
+        ruler.x = display.contentCenterX/1.9
         ruler.y = display.contentCenterY/2.35
         hidden_object.size=hidden_object.size+1
-        ruler.text_x = display.contentCenterX/100-35+600;
+        ruler.text_x = display.contentCenterX/12+520;
         sceneGroup:insert(ruler)
 
     local hammer = display.newImageRect(hidden_object, p5, 65, 55)
         hammer.x = display.contentCenterX/0.75
         hammer.y = display.contentCenterY/0.68
         hidden_object.size=hidden_object.size+1
-        hammer.text_x = display.contentCenterX/100-35+750;
+        hammer.text_x = display.contentCenterX/12+650;
         if (p5 == "img/wrench.png") then
             hammer.text = "Гаечные ключи"
         elseif (p5 == "img/hammer.png") then
@@ -107,10 +111,10 @@ function scene:create( event )
         sceneGroup:insert(hammer)
 
     local pump = display.newImageRect(hidden_object, p3,60, 60)
-        pump.x = display.contentCenterX/0.408
+        pump.x = display.contentCenterX/0.51
         pump.y = display.contentCenterY/0.73
         hidden_object.size=hidden_object.size+1
-        pump.text_x = display.contentCenterX/100-35+900;
+        pump.text_x = display.contentCenterX/12+780;
         if (p3 == "img/scissors.png") then
             pump.text = "Ножницы"
         elseif (p3 == "img/pump.png") then
@@ -124,7 +128,7 @@ function scene:create( event )
         wrench.x = display.contentCenterX/0.82
         wrench.y = display.contentCenterY/0.73
         hidden_object.size=hidden_object.size+1
-        wrench.text_x = display.contentCenterX/100-35+1050;
+        wrench.text_x = display.contentCenterX/12+910;
         if (p4 == "img/wrench.png") then
             wrench.text = "Гаечные ключи"
         elseif (p4 == "img/hammer.png") then
@@ -154,7 +158,7 @@ function scene:create( event )
     --Функция для сбора всех объектов
     local function onObjectTap( self, event )
         self:removeSelf()
-        local line = display.newLine(self.text_x-63, display.contentCenterY/0.54, self.text_x+63, display.contentCenterY/0.54)
+        local line = display.newLine(self.text_x-45, display.contentCenterY/0.54, self.text_x+45, display.contentCenterY/0.54)
         line.strokeWidth = 3
         sceneGroup:insert(line)
         sleep(0.7)
@@ -165,12 +169,12 @@ function scene:create( event )
 
     --Функция для динамического вывода текста из массива на экран
     local function text_view(array_text)
-        x_text_start = display.contentCenterX/100-35
+        x_text_start = display.contentCenterX/12
         for i=1, hidden_object.size do
-            local text= display.newText(array_text[i], x_text_start, display.contentCenterY/0.54, "fonts/geometria_medium", 20)
+            local text= display.newText(array_text[i], x_text_start, display.contentCenterY/0.54, "fonts/geometria_medium", 17)
             text:setFillColor(255,255,255)
             sceneGroup:insert(text)
-            x_text_start = x_text_start+150
+            x_text_start = x_text_start+130
         end
     end
 
@@ -193,6 +197,30 @@ function scene:create( event )
     pump:addEventListener( "tap", pump)
     wrench.tap = onObjectTap
     wrench:addEventListener( "tap", wrench)
+
+    --Таймер
+	sec = widget.newButton {
+		label = good_time,
+		fontSize = 30,
+		labelColor = { default={ 0.0 }, over={ 0.0 } },
+		defaultFile = "puzzles folder/dif-images/btn-soberu.png",
+		overFile = "puzzles folder/dif-images/btn-soberu.png",
+		width = 80, height = 80,
+	}
+	sec.x = display.contentCenterX
+	sec.y = display.contentHeight/14
+    
+	sceneGroup:insert( sec )
+    local t = {}
+    function t:timer( event )
+        local count = event.count
+        sec:setLabel( event.count )
+
+        if (hidden_object.size==0) then
+            timer.cancel( event.source )
+        end
+    end
+    timer.performWithDelay( 1000, t, 0 )
 
     --кнопка для перехода в меню
     local function goT0MenuBtn()
@@ -217,33 +245,44 @@ end
 function scene:show( event )
 	local sceneGroup = self.view
 	local phase = event.phase
-	
-	if phase == "will" then
+	if phase == "did" then
 
-	elseif phase == "did" then
-
-	end
+		if musicGlobal == true then
+			timer.performWithDelay( 5, function()
+				audio.play( bgMusicDoors, { loops = -1, channel = 1 } ) -- НАСТРОЙКИ ПРОИГРЫВАТЕЛЯ
+			end)
+		end
+	end	
 end
 
 function scene:hide( event )
 	local sceneGroup = self.view
-	
 	local phase = event.phase
 	
 	if event.phase == "will" then
 
 	elseif phase == "did" then
+		
+		if musicGlobal == true then
+			audio.stop( 1 )    -- НАСТРОИТЬ ОТКЛЮЧЕНИЕ МУЗЫКИ
+		end
 
 	end	
-	
+
 end
 
 function scene:destroy( event )
 	local sceneGroup = self.view
+	
+	audio.stop(1)  -- НАСТРОИТЬ ОТКЛЮЧЕНИЕ МУЗЫКИ
+
 end
 
-scene:addEventListener("create", scene);
+
+
+scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
 scene:addEventListener( "destroy", scene )
+
 return scene;

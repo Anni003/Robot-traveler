@@ -3,6 +3,10 @@ local widget = require "widget"
 
 local scene = composer.newScene()
 
+bgMusicDoors = audio.loadStream( "menu-folder/music/resistors.mp3" ) -- ПОДГРУЗКА МУЗЫКИ
+audio.reserveChannels( 1 )
+audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
+
 function scene:create( event )
 	local sceneGroup = self.view
     display.setStatusBar(display.HiddenStatusBar)
@@ -46,10 +50,10 @@ function scene:create( event )
         p8 = _50[math.random(#_50)]
     end
     local protractor = display.newImageRect(hidden_object, p1, 60, 60)
-        protractor.x = display.contentCenterX/0.42
+        protractor.x = display.contentCenterX/0.52
         protractor.y = display.contentCenterY/1.2
         hidden_object.size=hidden_object.size+1
-        protractor.text_x = display.contentCenterX/100-35;
+        protractor.text_x = display.contentCenterX/12;
         if (p1 == "img/screwdriver.png") then
             protractor.text = "Отвёртка"
         else
@@ -58,10 +62,10 @@ function scene:create( event )
         sceneGroup:insert(protractor)
 
     local wrench_3 = display.newImageRect(hidden_object, p5, 90, 80)
-        wrench_3.x = display.contentCenterX/0.48
+        wrench_3.x = display.contentCenterX/0.53
         wrench_3.y = display.contentCenterY/0.86
         hidden_object.size=hidden_object.size+1
-        wrench_3.text_x = display.contentCenterX/100-35+150;
+        wrench_3.text_x = display.contentCenterX/12+130;
         if (p5 == "img/drill.png") then
             wrench_3.text = "Свёрла"
         else
@@ -73,7 +77,7 @@ function scene:create( event )
         screwdriver.x = display.contentCenterX/0.62
         screwdriver.y = display.contentCenterY/0.76
         hidden_object.size=hidden_object.size+1
-        screwdriver.text_x = display.contentCenterX/100-35+300;
+        screwdriver.text_x = display.contentCenterX/12+260;
         if (p2 == "img/screwdriver.png") then
             screwdriver.text = "Отвёртка"
         else
@@ -82,10 +86,10 @@ function scene:create( event )
         sceneGroup:insert(screwdriver)
 
     local bulgarian = display.newImageRect(hidden_object, p7, 100, 90)
-        bulgarian.x = display.contentCenterX/3
+        bulgarian.x = display.contentCenterX/2
         bulgarian.y = display.contentCenterY/0.645
         hidden_object.size=hidden_object.size+1
-        bulgarian.text_x = display.contentCenterX/100-35+450;
+        bulgarian.text_x = display.contentCenterX/12+390;
         if (p7 == "img/bulgarian.png") then
             bulgarian.text = "Болгарка"
         else
@@ -97,7 +101,7 @@ function scene:create( event )
         drill.x = display.contentCenterX/2.4
         drill.y = display.contentCenterY/0.83
         hidden_object.size=hidden_object.size+1
-        drill.text_x = display.contentCenterX/100-35+600;
+        drill.text_x = display.contentCenterX/12+520;
         if (p6 == "img/drill.png") then
             drill.text = "Свёрла"
         else
@@ -106,10 +110,10 @@ function scene:create( event )
         sceneGroup:insert(drill)
 
     local saw_3 = display.newImageRect(hidden_object, p3, 80, 80)
-        saw_3.x = display.contentCenterX/0.53
-        saw_3.y = display.contentCenterY/2.5
+        saw_3.x = display.contentCenterX/0.62
+        saw_3.y = display.contentCenterY/2.4
         hidden_object.size=hidden_object.size+1
-        saw_3.text_x = display.contentCenterX/100-35+750;
+        saw_3.text_x = display.contentCenterX/12+650;
         if (p3 == "img/microscope_3.png") then
             saw_3.text = "Микроскоп"
         else
@@ -118,10 +122,10 @@ function scene:create( event )
         sceneGroup:insert(saw_3)
 
     local microscope_3 = display.newImageRect(hidden_object, p4, 80, 80)
-        microscope_3.x = display.contentCenterX/2.1
+        microscope_3.x = display.contentCenterX/1.5
         microscope_3.y = display.contentCenterY/1.22
         hidden_object.size=hidden_object.size+1
-        microscope_3.text_x = display.contentCenterX/100-35+900;
+        microscope_3.text_x = display.contentCenterX/12+780;
         if (p4 == "img/microscope_3.png") then
             microscope_3.text = "Микроскоп"
         else
@@ -130,10 +134,10 @@ function scene:create( event )
         sceneGroup:insert(microscope_3)
 
     local pliers_3 = display.newImageRect(hidden_object, p8, 100, 90)
-        pliers_3.x = display.contentCenterX/0.75
+        pliers_3.x = display.contentCenterX/0.78
         pliers_3.y = display.contentCenterY/1.17
         hidden_object.size=hidden_object.size+1
-        pliers_3.text_x = display.contentCenterX/100-35+1050;
+        pliers_3.text_x = display.contentCenterX/12+910;
         if (p8 == "img/bulgarian.png") then
             pliers_3.text = "Болгарка"
         else
@@ -161,7 +165,7 @@ function scene:create( event )
     --Функция для сбора всех объектов
     local function onObjectTap( self, event )
         self:removeSelf()
-        local line = display.newLine(self.text_x-63, display.contentCenterY/0.54, self.text_x+63, display.contentCenterY/0.54)
+        local line = display.newLine(self.text_x-45, display.contentCenterY/0.54, self.text_x+45, display.contentCenterY/0.54)
         line.strokeWidth = 3
         sceneGroup:insert(line)
         sleep(0.7)
@@ -172,12 +176,12 @@ function scene:create( event )
 
     --Функция для динамического вывода текста из массива на экран
     local function text_view(array_text)
-        x_text_start = display.contentCenterX/100-35
+        x_text_start = display.contentCenterX/12
         for i=1, hidden_object.size do
-            local text= display.newText(array_text[i], x_text_start, display.contentCenterY/0.54, "fonts/geometria_medium", 20)
-            text:setFillColor(255, 255, 255)
+            local text= display.newText(array_text[i], x_text_start, display.contentCenterY/0.54, "fonts/geometria_medium", 17)
+            text:setFillColor(255,255,255)
             sceneGroup:insert(text)
-            x_text_start = x_text_start+150
+            x_text_start = x_text_start+130
         end
     end
 
@@ -200,6 +204,30 @@ function scene:create( event )
     microscope_3:addEventListener( "tap", microscope_3)
     pliers_3.tap = onObjectTap
     pliers_3:addEventListener( "tap", pliers_3)
+
+     --Таймер
+	sec = widget.newButton {
+		label = good_time,
+		fontSize = 30,
+		labelColor = { default={ 0.0 }, over={ 0.0 } },
+		defaultFile = "puzzles folder/dif-images/btn-soberu.png",
+		overFile = "puzzles folder/dif-images/btn-soberu.png",
+		width = 80, height = 80,
+	}
+	sec.x = display.contentCenterX
+	sec.y = display.contentHeight/14
+    
+	sceneGroup:insert( sec )
+    local t = {}
+    function t:timer( event )
+        local count = event.count
+        sec:setLabel( event.count )
+
+        if (hidden_object.size==0) then
+            timer.cancel( event.source )
+        end
+    end
+    timer.performWithDelay( 1000, t, 0 )
 
     --кнопка для перехода в меню
     local function goT0MenuBtn()
@@ -224,35 +252,44 @@ end
 function scene:show( event )
 	local sceneGroup = self.view
 	local phase = event.phase
-	
-	if phase == "will" then
+	if phase == "did" then
 
-	elseif phase == "did" then
-
-	end
+		if musicGlobal == true then
+			timer.performWithDelay( 5, function()
+				audio.play( bgMusicDoors, { loops = -1, channel = 1 } ) -- НАСТРОЙКИ ПРОИГРЫВАТЕЛЯ
+			end)
+		end
+	end	
 end
 
 function scene:hide( event )
 	local sceneGroup = self.view
-	
 	local phase = event.phase
 	
 	if event.phase == "will" then
 
 	elseif phase == "did" then
+		
+		if musicGlobal == true then
+			audio.stop( 1 )    -- НАСТРОИТЬ ОТКЛЮЧЕНИЕ МУЗЫКИ
+		end
 
 	end	
-	
+
 end
 
 function scene:destroy( event )
-
 	local sceneGroup = self.view
+	
+	audio.stop(1)  -- НАСТРОИТЬ ОТКЛЮЧЕНИЕ МУЗЫКИ
 
 end
 
-scene:addEventListener("create", scene)
+
+
+scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
 scene:addEventListener( "destroy", scene )
+
 return scene;
