@@ -64,8 +64,8 @@ function scene:create( event )
             composer.hideOverlay( "fade", 400 )
 		end
     }
-    closeBtn.x = display.contentWidth + 40
-	closeBtn.y = display.contentCenterY + 275
+    closeBtn.x = display.contentWidth - 300
+	closeBtn.y = display.contentCenterY - 250
 
 
     sceneGroup:insert(textHowPlay)

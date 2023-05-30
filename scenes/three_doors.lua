@@ -20,7 +20,7 @@ function scene:create( event )
     local doors = display.newGroup()
         sceneGroup:insert(doors)
 
-    local door_1 = display.newImageRect(doors, "img/door-3.png", 340, 520)
+    local door_1 = display.newImageRect(doors, "img/door-3.png", 500, 800)
         door_1.x = display.contentCenterX
         door_1.y = display.contentCenterY/0.83
         sceneGroup:insert(door_1)

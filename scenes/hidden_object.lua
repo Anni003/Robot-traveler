@@ -40,18 +40,18 @@ function scene:create( event )
         p6 = _25[math.random(#_25)]
     end
 
-    local saw = display.newImageRect(hidden_object, "img/saw.png", 70, 50)
+    local saw = display.newImageRect(hidden_object, "img/saw.png", 100, 80)
         saw.x = display.contentCenterX/0.99
         saw.y = display.contentCenterY/2.05
         hidden_object.size=hidden_object.size+1
         saw.text_x = display.contentCenterX/12
         sceneGroup:insert(saw)
 
-    local pliers = display.newImageRect(hidden_object, p6, 65, 50)
+    local pliers = display.newImageRect(hidden_object, p6, 95, 80)
         pliers.x = display.contentCenterX/0.53
         pliers.y = display.contentCenterY/0.63
         hidden_object.size=hidden_object.size+1
-        pliers.text_x = display.contentCenterX/12+130;
+        pliers.text_x = display.contentCenterX/12+237;
         if (p6 == "img/wrench.png") then
             pliers.text = "Гаечные ключи"
         elseif (p6 == "img/hammer.png") then
@@ -61,11 +61,11 @@ function scene:create( event )
         end
         sceneGroup:insert(pliers)
 
-    local scissors = display.newImageRect(hidden_object, p1, 60, 60)
+    local scissors = display.newImageRect(hidden_object, p1, 90, 90)
         scissors.x = display.contentCenterX/1.7
         scissors.y = display.contentCenterY/0.74
         hidden_object.size=hidden_object.size+1
-        scissors.text_x = display.contentCenterX/12+260;
+        scissors.text_x = display.contentCenterX/12+474;
         if (p1 == "img/scissors.png") then
             scissors.text = "Ножницы"
         elseif (p1 == "img/pump.png") then
@@ -75,11 +75,11 @@ function scene:create( event )
         end
         sceneGroup:insert(scissors)
 
-    local sandpaper = display.newImageRect(hidden_object, p2, 70, 60)
+    local sandpaper = display.newImageRect(hidden_object, p2, 100, 90)
         sandpaper.x = display.contentCenterX/4
         sandpaper.y = display.contentCenterY/0.65
         hidden_object.size=hidden_object.size+1
-        sandpaper.text_x = display.contentCenterX/12+390;
+        sandpaper.text_x = display.contentCenterX/12+711;
         if (p2 == "img/scissors.png") then
             sandpaper.text = "Ножницы"
         elseif (p2 == "img/pump.png") then
@@ -89,18 +89,18 @@ function scene:create( event )
         end
         sceneGroup:insert(sandpaper)
 
-    local ruler = display.newImageRect(hidden_object, "img/ruler.png", 130, 35)
+    local ruler = display.newImageRect(hidden_object, "img/ruler.png", 160, 65)
         ruler.x = display.contentCenterX/1.9
         ruler.y = display.contentCenterY/2.35
         hidden_object.size=hidden_object.size+1
-        ruler.text_x = display.contentCenterX/12+520;
+        ruler.text_x = display.contentCenterX/12+948;
         sceneGroup:insert(ruler)
 
-    local hammer = display.newImageRect(hidden_object, p5, 65, 55)
+    local hammer = display.newImageRect(hidden_object, p5, 95, 85)
         hammer.x = display.contentCenterX/0.75
         hammer.y = display.contentCenterY/0.68
         hidden_object.size=hidden_object.size+1
-        hammer.text_x = display.contentCenterX/12+650;
+        hammer.text_x = display.contentCenterX/12+1185;
         if (p5 == "img/wrench.png") then
             hammer.text = "Гаечные ключи"
         elseif (p5 == "img/hammer.png") then
@@ -110,11 +110,11 @@ function scene:create( event )
         end
         sceneGroup:insert(hammer)
 
-    local pump = display.newImageRect(hidden_object, p3,60, 60)
+    local pump = display.newImageRect(hidden_object, p3,90, 90)
         pump.x = display.contentCenterX/0.51
         pump.y = display.contentCenterY/0.73
         hidden_object.size=hidden_object.size+1
-        pump.text_x = display.contentCenterX/12+780;
+        pump.text_x = display.contentCenterX/12+1422;
         if (p3 == "img/scissors.png") then
             pump.text = "Ножницы"
         elseif (p3 == "img/pump.png") then
@@ -124,11 +124,11 @@ function scene:create( event )
         end
         sceneGroup:insert(pump)
 
-    local wrench = display.newImageRect(hidden_object, p4, 65, 60)
+    local wrench = display.newImageRect(hidden_object, p4, 95, 90)
         wrench.x = display.contentCenterX/0.82
         wrench.y = display.contentCenterY/0.73
         hidden_object.size=hidden_object.size+1
-        wrench.text_x = display.contentCenterX/12+910;
+        wrench.text_x = display.contentCenterX/12+1659;
         if (p4 == "img/wrench.png") then
             wrench.text = "Гаечные ключи"
         elseif (p4 == "img/hammer.png") then
@@ -138,15 +138,9 @@ function scene:create( event )
         end
         sceneGroup:insert(wrench)
 
-    --Функция задержки времени для более плавного перехода
-    local function sleep(n)
-        if n > 0 then os.execute("ping -n " .. tonumber(n+1) .. " localhost > NUL") end
-    end
-
     --Функция после удаления для всех объектов с экрана
     local function countDestroy()
         if hidden_object.size==0 then
-            sleep(0.9)
             composer.showOverlay("scenes.destroy_all", {
                 isModal=true,
                 effect="fade",
@@ -158,10 +152,9 @@ function scene:create( event )
     --Функция для сбора всех объектов
     local function onObjectTap( self, event )
         self:removeSelf()
-        local line = display.newLine(self.text_x-45, display.contentCenterY/0.54, self.text_x+45, display.contentCenterY/0.54)
-        line.strokeWidth = 3
+        local line = display.newLine(self.text_x-90, display.contentCenterY/0.538, self.text_x+90, display.contentCenterY/0.538)
+        line.strokeWidth = 7
         sceneGroup:insert(line)
-        sleep(0.7)
         hidden_object.size=hidden_object.size-1
         countDestroy()
         return true
@@ -171,10 +164,10 @@ function scene:create( event )
     local function text_view(array_text)
         x_text_start = display.contentCenterX/12
         for i=1, hidden_object.size do
-            local text= display.newText(array_text[i], x_text_start, display.contentCenterY/0.54, "fonts/geometria_medium", 17)
+            local text= display.newText(array_text[i], x_text_start, display.contentCenterY/0.54, "fonts/geometria_medium", 34)
             text:setFillColor(255,255,255)
             sceneGroup:insert(text)
-            x_text_start = x_text_start+130
+            x_text_start = x_text_start+237
         end
     end
 
@@ -217,6 +210,7 @@ function scene:create( event )
         sec:setLabel( event.count )
 
         if (hidden_object.size==0) then
+            time_1 = event.count
             timer.cancel( event.source )
         end
     end

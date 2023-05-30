@@ -79,7 +79,7 @@ function scene:create( event )
             composer.hideOverlay( "fade", 400 )
 		end
     }
-    closeBtn.x = display.contentWidth + 40
+    closeBtn.x = display.contentWidth-250
 	closeBtn.y = display.contentCenterY + 275
 
 

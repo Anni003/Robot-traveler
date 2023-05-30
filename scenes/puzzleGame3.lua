@@ -625,6 +625,7 @@ end
 		sec:setLabel( event.count )
 
 		if (summaPuzzleFinish == 12) then
+			time_2 = event.count
 			timer.cancel( event.source ) -- after 3rd invocation, cancel timer
 		end
 	end

@@ -24,7 +24,7 @@ function scene:create( event )
     nextBtn = widget.newButton {
 		labelColor = { default={ 0.0 }, over={ 0.0 } },
 		defaultFile = "img/button_level.png",
-		width = display.contentCenterX/0.8, 
+		width = display.contentCenterX/1.2, 
         height = display.contentCenterY/3,
         onRelease = onPlayBtnRelease
     } 
