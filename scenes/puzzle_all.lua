@@ -3,7 +3,7 @@ local scene = composer.newScene()
 local widget = require "widget"
 
 local function onPlayBtnRelease()
-    composer.gotoScene( "scenes.refresh_reg", { params = { hero_x = 280, hero_y = 800, isClosed = true } }, "fade", 400 )
+    composer.gotoScene( "scenes.refresh_puzzle", { params = { hero_x = 280, hero_y = 800, isClosed = true } }, "fade", 400 )
 	return true
 end
 
@@ -24,7 +24,7 @@ function scene:create( event )
     nextBtn = widget.newButton {
 		labelColor = { default={ 0.0 }, over={ 0.0 } },
 		defaultFile = "img/button_level.png",
-		width = display.contentCenterX/0.8, 
+		width = display.contentCenterX/1.2, 
         height = display.contentCenterY/3,
         onRelease = onPlayBtnRelease
     } 

@@ -12,7 +12,7 @@ function scene:create( event )
         display.setStatusBar(display.HiddenStatusBar)
         display.setDefault("fillColor", 255, 255, 255)
 
-    local background = display.newImageRect("img/back_door_3.png", display.actualContentWidth, display.actualContentHeight)
+    local background = display.newImageRect("img/back_door_1.png", display.actualContentWidth, display.actualContentHeight)
         background.x = display.contentCenterX
         background.y = display.contentCenterY
         sceneGroup:insert(background)
@@ -20,18 +20,20 @@ function scene:create( event )
     local doors = display.newGroup()
         sceneGroup:insert(doors)
 
-    local door_1 = display.newImageRect(doors, "img/door-3.png", 500, 800)
+    local door_1 = display.newImageRect(doors, "img/door-1.png", 500, 800)
         door_1.x = display.contentCenterX
         door_1.y = display.contentCenterY/0.83
         sceneGroup:insert(door_1)
 
     
+    local list = {"scenes.hidden_object3", "scenes.hidden_object"}
+
     local function open_door_1()
-        composer.gotoScene("scenes.labyrinth")
+        local array = list[math.random(#list)]
+        composer.gotoScene(array)
     end
 
-    
-    door_1:addEventListener( "tap", open_door_1)
+    door_1:addEventListener( "tap", open_door_1 )
 end
 
 

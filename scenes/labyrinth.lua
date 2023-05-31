@@ -3,9 +3,9 @@ local widget = require("widget")
 
 -- Variables
 local grid
-local width = 15
+local width = 19
 local height = 15
-local cellSideSize = 38
+local cellSideSize = 58
 local borderWidth = cellSideSize / 10
 local labyrinthWidth = width * cellSideSize - (width - 1) * borderWidth
 local labyrinthHeight = height * cellSideSize - (height - 1) * borderWidth
@@ -16,7 +16,7 @@ local borderRadius = 0
 local cellColor = { 1, 1, 1 }
 local borderColor = { 0, 0, 0 }
 local pointerRadius = cellSideSize / 6
-local controlButtonSize = pointerRadius / 0.8
+local controlButtonSize = pointerRadius / 0.3
 local gridGroup = display.newGroup()
 local controlButtonsGroup = display.newGroup()
 local scoreTimer
@@ -89,6 +89,7 @@ function Timer.new(instance, x, y)
     end
 
     local function increaseScore(event)
+        time_3 = event.count
 		instance.score = event.count
         instance.text.text = instance.score
 	end
@@ -280,21 +281,21 @@ local function controlSystem()
     local block = pointer.block
     if (block.neighbours.north) then
         controlButtons.north.x = block.x
-        controlButtons.north.y = block.y - (cellSideSize - pointerRadius * 2) / 2
+        controlButtons.north.y = block.y - cellSideSize+15
         controlButtons.north.isVisible = true
     end
     if (block.neighbours.south) then
         controlButtons.south.x = block.x
-        controlButtons.south.y = block.y + (cellSideSize - pointerRadius * 2) / 2
+        controlButtons.south.y = block.y + cellSideSize-15
         controlButtons.south.isVisible = true
     end
     if (block.neighbours.west) then
-        controlButtons.west.x = block.x - (cellSideSize - pointerRadius * 2) / 2
+        controlButtons.west.x = block.x - cellSideSize+15
         controlButtons.west.y = block.y
         controlButtons.west.isVisible = true
     end
     if (block.neighbours.east) then
-        controlButtons.east.x = block.x + (cellSideSize - pointerRadius * 2) / 2
+        controlButtons.east.x = block.x + cellSideSize-15
         controlButtons.east.y = block.y
         controlButtons.east.isVisible = true
     end
@@ -313,48 +314,11 @@ local function movementSystem(direction)
             transition.to(pointer, { time = 100, alpha = 0, transition = easing.inSine })
             scoreTimer:pause()
             local score = scoreTimer:getScore()
-            -- local modal = display.newRoundedRect(gridGroup, display.contentWidth / 2, display.contentHeight / 2, 1, 1, 16)
-            -- modal.alpha = 0.0
-            -- modal:setFillColor(unpack({ 0.21, 0.42, 0.84 }))
-            -- modal:setStrokeColor(unpack({ 0.13, 0.16, 0.32 }))
-            -- modal.strokeWidth = 5
-            -- local text1 = display.newText(gridGroup, "Поздравляю!", display.contentWidth / 2, modal.y - 100, "scenes/labyrinth/font/geometria_bold", 46)
-            -- local text2 = display.newText(gridGroup, "Вы прошли лабиринт за " .. score .. " сек", display.contentWidth / 2, modal.y - 40, "scenes/labyrinth/font/geometria_bold", 36)
-            -- local modalButton = widget.newButton({
-            --     x = display.contentWidth / 2,
-            --     y = modal.y + 80,
-            --     label = "В меню",
-            --     width = display.contentWidth / 2,
-            --     height = 80,
-            --     shape = "roundedRect",
-            --     cornerRadius = 12,
-            --     fillColor = { default = { 0.11, 0.44, 0.72, 1.0 }, over = { 0.09, 0.36, 0.6, 1.0 } },
-            --     labelColor = { default = { 1.0, 1.0, 1.0, 1.0 }, over = { 1.0, 1.0, 1.0, 1.0 } },
-            --     strokeWidth = 3,
-            --     strokeColor = { default = { 1.0, 1.0, 1.0, 1.0 }, over = { 1.0, 1.0, 1.0, 1.0 } },
-            --     font = "scenes/labyrinth/font/geometria_bold.otf",
-            --     fontSize = 36,
-            --     onEvent = function(event)
-            --         local phase = event.phase
-            --         if (phase == "ended") then
-            --             composer.removeScene("scenes.labyrinth")
-
-            --         end
-            --     end
-            -- })
-            composer.showOverlay("scenes.destroy_all", {
+            composer.showOverlay("scenes.labyrinth_all", {
                 isModal=true,
                 effect="fade",
                 time=400,
             })
-            -- text1.alpha = 0.0
-            -- text2.alpha = 0.0
-            -- modalButton.alpha = 0.0
-            -- gridGroup:insert(modalButton)
-            -- transition.to(modal, { time = 350, width = display.contentWidth - 80, height = 320, alpha = 1, transition = easing.inSine })
-            -- transition.to(text1, { time = 600, alpha = 1, transition = easing.inSine })
-            -- transition.to(text2, { time = 600, alpha = 1, transition = easing.inSine })
-            -- transition.to(modalButton, { time = 600, alpha = 1, transition = easing.inSine })
             scoreTimer:delete()
             return
         end

@@ -9,7 +9,7 @@ audio.reserveChannels( 1 )
 audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
 
 local function onPlayBtnRelease()
-	composer.gotoScene( "scenes.three_doors", "fade", 400 )
+	composer.gotoScene( "scenes.one_doors", "fade", 400 )
 	return true	-- indicates successful touch
 end
 
@@ -31,10 +31,10 @@ function scene:create( event )
 		labelColor = { default={ 0.0 }, over={ 0.0 } },
 		defaultFile = "menu-folder/images-for-menu/start-game.png",
 		overFile = "menu-folder/images-for-menu/start-game.png",
-		width = 420, height = 100,
+		width = 800, height = 200,
 		onRelease = onPlayBtnRelease
 	}
-	playBtn.x = display.contentCenterX - 350
+	playBtn.x = display.contentCenterX - 500
 	playBtn.y = display.contentCenterY - 80
 
 
@@ -45,7 +45,7 @@ function scene:create( event )
 		labelColor = { default={ 0.0 }, over={ 0.0 } },
 		defaultFile = "menu-folder/images-for-menu/settings.png",
 		overFile = "menu-folder/images-for-menu/settings.png",
-		width = 320, height = 90,
+		width = 800, height = 200,
 		onPress = function(event)
 			composer.showOverlay("menu-folder.modalComponent.settingsModal", {
 				isModal = true,
@@ -54,8 +54,8 @@ function scene:create( event )
 			})
 		end
 	}
-	settingsBtn.x = display.contentCenterX - 350
-	settingsBtn.y = display.contentCenterY + 40
+	settingsBtn.x = display.contentCenterX - 500
+	settingsBtn.y = display.contentCenterY + 130
 
 
 
@@ -68,7 +68,7 @@ function scene:create( event )
 		labelColor = { default={ 0.0 }, over={ 0.0 } },
 		defaultFile = "menu-folder/images-for-menu/reference.png",
 		overFile = "menu-folder/images-for-menu/reference.png",
-		width = 320, height = 90,
+		width = 800, height = 200,
 		onPress = function(event)
 			composer.showOverlay("menu-folder.modalComponent.referenceModal", {
 				isModal = true,
@@ -77,38 +77,13 @@ function scene:create( event )
 			})
 		end
 	}
-	referenceBtn.x = display.contentCenterX - 350
-	referenceBtn.y = display.contentCenterY + 160
-
-
-
-	local ratingBtn = widget.newButton{
-		label = "",
-		font = "fonts/geometria_medium",
-		fontSize = 30,
-		labelColor = { default={ 0.0 }, over={ 0.0 } },
-		defaultFile = "menu-folder/images-for-menu/rating-btn.png",
-		overFile = "menu-folder/images-for-menu/rating-btn.png",
-		width = 320, height = 105,
-		onPress = function(event)
-			composer.showOverlay("menu-folder.modalComponent.ratingModal", {
-				isModal = true,
-				effect = "fade",
-				time = 400,
-			})
-		end
-	}
-	ratingBtn.x = display.contentCenterX - 350
-	ratingBtn.y = display.contentCenterY + 280
-
-
+	referenceBtn.x = display.contentCenterX - 500
+	referenceBtn.y = display.contentCenterY + 325
 
 	sceneGroup:insert( background )
 	sceneGroup:insert( playBtn )
 	sceneGroup:insert( settingsBtn )
 	sceneGroup:insert( referenceBtn )
-	sceneGroup:insert( ratingBtn )
-
 end
 
 

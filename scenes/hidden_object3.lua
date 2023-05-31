@@ -3,6 +3,10 @@ local widget = require "widget"
 
 local scene = composer.newScene()
 
+bgMusicDoors = audio.loadStream( "menu-folder/music/resistors.mp3" ) -- ПОДГРУЗКА МУЗЫКИ
+audio.reserveChannels( 1 )
+audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
+
 function scene:create( event )
 	local sceneGroup = self.view
     display.setStatusBar(display.HiddenStatusBar)
@@ -45,11 +49,11 @@ function scene:create( event )
     while p8==p7 do
         p8 = _50[math.random(#_50)]
     end
-    local protractor = display.newImageRect(hidden_object, p1, 60, 60)
-        protractor.x = display.contentCenterX/0.52
+    local protractor = display.newImageRect(hidden_object, p1, 90, 90)
+        protractor.x = display.contentCenterX/0.535
         protractor.y = display.contentCenterY/1.2
         hidden_object.size=hidden_object.size+1
-        protractor.text_x = display.contentCenterX/12;
+        protractor.text_x = display.contentCenterX/8;
         if (p1 == "img/screwdriver.png") then
             protractor.text = "Отвёртка"
         else
@@ -57,11 +61,11 @@ function scene:create( event )
         end
         sceneGroup:insert(protractor)
 
-    local wrench_3 = display.newImageRect(hidden_object, p5, 90, 80)
-        wrench_3.x = display.contentCenterX/0.53
+    local wrench_3 = display.newImageRect(hidden_object, p5, 120, 110)
+        wrench_3.x = display.contentCenterX/0.6
         wrench_3.y = display.contentCenterY/0.86
         hidden_object.size=hidden_object.size+1
-        wrench_3.text_x = display.contentCenterX/12+130;
+        wrench_3.text_x = display.contentCenterX/8+237;
         if (p5 == "img/drill.png") then
             wrench_3.text = "Свёрла"
         else
@@ -69,11 +73,11 @@ function scene:create( event )
         end
         sceneGroup:insert(wrench_3)
 
-    local screwdriver = display.newImageRect(hidden_object, p2, 60, 60)
-        screwdriver.x = display.contentCenterX/0.62
+    local screwdriver = display.newImageRect(hidden_object, p2, 120, 120)
+        screwdriver.x = display.contentCenterX/0.73
         screwdriver.y = display.contentCenterY/0.76
         hidden_object.size=hidden_object.size+1
-        screwdriver.text_x = display.contentCenterX/12+260;
+        screwdriver.text_x = display.contentCenterX/8+474;
         if (p2 == "img/screwdriver.png") then
             screwdriver.text = "Отвёртка"
         else
@@ -81,11 +85,11 @@ function scene:create( event )
         end
         sceneGroup:insert(screwdriver)
 
-    local bulgarian = display.newImageRect(hidden_object, p7, 100, 90)
+    local bulgarian = display.newImageRect(hidden_object, p7, 130, 120)
         bulgarian.x = display.contentCenterX/2
         bulgarian.y = display.contentCenterY/0.645
         hidden_object.size=hidden_object.size+1
-        bulgarian.text_x = display.contentCenterX/12+390;
+        bulgarian.text_x = display.contentCenterX/8+711;
         if (p7 == "img/bulgarian.png") then
             bulgarian.text = "Болгарка"
         else
@@ -93,11 +97,11 @@ function scene:create( event )
         end
         sceneGroup:insert(bulgarian)
 
-    local drill = display.newImageRect(hidden_object, p6, 90, 80)
-        drill.x = display.contentCenterX/2.4
+    local drill = display.newImageRect(hidden_object, p6, 120, 110)
+        drill.x = display.contentCenterX/1.6
         drill.y = display.contentCenterY/0.83
         hidden_object.size=hidden_object.size+1
-        drill.text_x = display.contentCenterX/12+520;
+        drill.text_x = display.contentCenterX/8+948;
         if (p6 == "img/drill.png") then
             drill.text = "Свёрла"
         else
@@ -105,11 +109,11 @@ function scene:create( event )
         end
         sceneGroup:insert(drill)
 
-    local saw_3 = display.newImageRect(hidden_object, p3, 80, 80)
-        saw_3.x = display.contentCenterX/0.62
+    local saw_3 = display.newImageRect(hidden_object, p3, 110, 110)
+        saw_3.x = display.contentCenterX/0.64
         saw_3.y = display.contentCenterY/2.4
         hidden_object.size=hidden_object.size+1
-        saw_3.text_x = display.contentCenterX/12+650;
+        saw_3.text_x = display.contentCenterX/8+1185;
         if (p3 == "img/microscope_3.png") then
             saw_3.text = "Микроскоп"
         else
@@ -117,11 +121,11 @@ function scene:create( event )
         end
         sceneGroup:insert(saw_3)
 
-    local microscope_3 = display.newImageRect(hidden_object, p4, 80, 80)
-        microscope_3.x = display.contentCenterX/1.5
+    local microscope_3 = display.newImageRect(hidden_object, p4, 110, 110)
+        microscope_3.x = display.contentCenterX/1.3
         microscope_3.y = display.contentCenterY/1.22
         hidden_object.size=hidden_object.size+1
-        microscope_3.text_x = display.contentCenterX/12+780;
+        microscope_3.text_x = display.contentCenterX/8+1422;
         if (p4 == "img/microscope_3.png") then
             microscope_3.text = "Микроскоп"
         else
@@ -129,11 +133,11 @@ function scene:create( event )
         end
         sceneGroup:insert(microscope_3)
 
-    local pliers_3 = display.newImageRect(hidden_object, p8, 100, 90)
-        pliers_3.x = display.contentCenterX/0.78
+    local pliers_3 = display.newImageRect(hidden_object, p8, 130, 120)
+        pliers_3.x = display.contentCenterX/0.8
         pliers_3.y = display.contentCenterY/1.17
         hidden_object.size=hidden_object.size+1
-        pliers_3.text_x = display.contentCenterX/12+910;
+        pliers_3.text_x = display.contentCenterX/8+1659;
         if (p8 == "img/bulgarian.png") then
             pliers_3.text = "Болгарка"
         else
@@ -141,15 +145,9 @@ function scene:create( event )
         end
         sceneGroup:insert(pliers_3)
 
-    --Функция задержки времени для более плавного перехода
-    local function sleep(n)
-        if n > 0 then os.execute("ping -n " .. tonumber(n+1) .. " localhost > NUL") end
-    end
-
     --Функция после удаления для всех объектов с экрана
     local function countDestroy()
         if hidden_object.size==0 then
-            sleep(0.9)
             composer.showOverlay("scenes.destroy_all", {
                 isModal=true,
                 effect="fade",
@@ -161,10 +159,9 @@ function scene:create( event )
     --Функция для сбора всех объектов
     local function onObjectTap( self, event )
         self:removeSelf()
-        local line = display.newLine(self.text_x-45, display.contentCenterY/0.54, self.text_x+45, display.contentCenterY/0.54)
-        line.strokeWidth = 3
+        local line = display.newLine(self.text_x-90, display.contentCenterY/0.538, self.text_x+90, display.contentCenterY/0.538)
+        line.strokeWidth = 7
         sceneGroup:insert(line)
-        sleep(0.7)
         hidden_object.size=hidden_object.size-1
         countDestroy()
         return true
@@ -172,12 +169,12 @@ function scene:create( event )
 
     --Функция для динамического вывода текста из массива на экран
     local function text_view(array_text)
-        x_text_start = display.contentCenterX/12
+        x_text_start = display.contentCenterX/8
         for i=1, hidden_object.size do
-            local text= display.newText(array_text[i], x_text_start, display.contentCenterY/0.54, "fonts/geometria_medium", 17)
+            local text= display.newText(array_text[i], x_text_start, display.contentCenterY/0.54, "fonts/geometria_medium", 34)
             text:setFillColor(255,255,255)
             sceneGroup:insert(text)
-            x_text_start = x_text_start+130
+            x_text_start = x_text_start+237
         end
     end
 
@@ -220,6 +217,7 @@ function scene:create( event )
         sec:setLabel( event.count )
 
         if (hidden_object.size==0) then
+            time_1 = event.count
             timer.cancel( event.source )
         end
     end
@@ -248,35 +246,44 @@ end
 function scene:show( event )
 	local sceneGroup = self.view
 	local phase = event.phase
-	
-	if phase == "will" then
+	if phase == "did" then
 
-	elseif phase == "did" then
-
-	end
+		if musicGlobal == true then
+			timer.performWithDelay( 5, function()
+				audio.play( bgMusicDoors, { loops = -1, channel = 1 } ) -- НАСТРОЙКИ ПРОИГРЫВАТЕЛЯ
+			end)
+		end
+	end	
 end
 
 function scene:hide( event )
 	local sceneGroup = self.view
-	
 	local phase = event.phase
 	
 	if event.phase == "will" then
 
 	elseif phase == "did" then
+		
+		if musicGlobal == true then
+			audio.stop( 1 )    -- НАСТРОИТЬ ОТКЛЮЧЕНИЕ МУЗЫКИ
+		end
 
 	end	
-	
+
 end
 
 function scene:destroy( event )
-
 	local sceneGroup = self.view
+	
+	audio.stop(1)  -- НАСТРОИТЬ ОТКЛЮЧЕНИЕ МУЗЫКИ
 
 end
 
-scene:addEventListener("create", scene)
+
+
+scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
 scene:addEventListener( "destroy", scene )
+
 return scene;

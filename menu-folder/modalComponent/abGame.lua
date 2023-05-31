@@ -66,7 +66,7 @@ function scene:create( event )
     
     local lotsOfTextObject = display.newText( lotsOfText, 0, 0, 700, 0, "fonts/geometria_light", 40)
     lotsOfTextObject:setTextColor( 255, 255, 255 )
-    lotsOfTextObject.x = display.contentCenterX + 50
+    lotsOfTextObject.x = display.contentCenterX/1.5
 
     newRoundedRect.x = display.contentCenterX
     newRoundedRect:insert(lotsOfTextObject)
@@ -90,8 +90,8 @@ function scene:create( event )
 		end
     }
 
-    okButton.x = display.contentWidth - 20
-	okButton.y = display.contentCenterY - 292
+    okButton.x = display.contentWidth-320
+	okButton.y = display.contentCenterY - 430
 
 
 

@@ -73,7 +73,7 @@ end
 
     local lotsOfTextObject = display.newText( lotsOfText, 0, 0, 700, 0, "fonts/geometria_light", 40)
     lotsOfTextObject:setTextColor( 255, 255, 255, 1 )
-    lotsOfTextObject.x = display.contentCenterX + 250
+    lotsOfTextObject.x = display.contentCenterX/1.5
 
     newRoundedRect:insert(lotsOfTextObject)
     newRoundedRect.x = display.contentCenterX
@@ -89,8 +89,8 @@ end
 		end
     }
 
-    okButton.x = display.contentWidth - 20
-	okButton.y = display.contentCenterY - 292
+    okButton.x = display.contentWidth-300
+	okButton.y = display.contentCenterY - 430
 
 
 
