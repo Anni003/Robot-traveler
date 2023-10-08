@@ -4,8 +4,9 @@ local scene = composer.newScene()
 
 bgMusicDoors = audio.loadStream( "menu-folder/music/adventure.mp3" ) -- ПОДГРУЗКА МУЗЫКИ
 audio.reserveChannels( 1 )
+if(musicGlobal) then
 audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
-
+end
 
 function scene:create( event )
     local sceneGroup = self.view

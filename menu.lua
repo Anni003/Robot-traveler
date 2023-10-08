@@ -6,7 +6,7 @@ local playBtn
 bgMusic = audio.loadStream( "menu-folder/music/menu-bg.mp3" ) -- ПОДГРУЗКА МУЗЫКИ
 audio.reserveChannels( 1 )
 
-audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
+--audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
 
 local function onPlayBtnRelease()
 	composer.gotoScene( "scenes.one_doors", "fade", 400 )
@@ -90,22 +90,14 @@ end
 function scene:show( event )
 	local sceneGroup = self.view
 	local phase = event.phase
-	if musicGlobal == true then
-
-	end
 	if phase == "will" then
 
 	elseif phase == "did" then
 
 		print("это фаза show")
-
-		if musicGlobal == true then
-			timer.performWithDelay( 5, function()
-				audio.play( bgMusic, { loops = -1, channel = 1 } ) -- НАСТРОЙКИ ПРОИГРЫВАТЕЛЯ
+		audio.play( bgMusic, { loops = -1, channel = 1 } )
+				 -- НАСТРОЙКИ ПРОИГРЫВАТЕЛЯ
 				-- audio.fade({ channel = 1, time = 100, volume = 0.1 } )
-
-			end)
-		end
 	end	
 end
 

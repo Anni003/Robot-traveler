@@ -7,14 +7,18 @@ local widget = require("widget")
 bgMusicPuz1 = audio.loadStream( "menu-folder/music/jumpshot.mp3" ) -- ПОДГРУЗКА МУЗЫКИ
 audio.reserveChannels( 1 )
 
-audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
-
+if(musicGlobal) then
+	audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
+end
 
 function scene:create( event )
 
 
 	local sceneGroup = self.view
 
+	
+	-- Кнопка Звука
+	
 	-- просто задний фон
 	local background = display.newImageRect( "puzzles folder/dif-images/puzzles-fon.jpg", display.actualContentWidth, display.actualContentHeight )
 	background.anchorX = 0
@@ -22,10 +26,22 @@ function scene:create( event )
 	background.x = 0 + display.screenOriginX 
 	background.y = 0 + display.screenOriginY
 	sceneGroup:insert( background )
-
-
-
-
+	
+	menubtn = widget.newButton({
+        label = "",
+        --font = "fonts/geometria_medium",
+        labelColor = { default={ 0.0 }, over={ 0.0 } },
+        defaultFile = "img/menu.png",
+        overFile = "img/menu.png",
+        width = 200, height = 200,
+        x = display.viewableContentWidth-100,
+        y = 150,
+        fontSize = 18,
+        onRelease=function(event)
+            composer.gotoScene( "menu", "fade", 400 )
+        end	
+    }) 
+    sceneGroup:insert(menubtn)
 	local myText = display.newText( "Собери картинку!", display.contentCenterX - 348, display.contentHeight - 620, "fonts/geometria_medium", 46 )
 	myText:setFillColor( 1, 1, 1 )
 	sceneGroup:insert( myText )
@@ -35,8 +51,6 @@ function scene:create( event )
 	desk.x = 255
 	desk.y = 452 --доска для пазлов
 	sceneGroup:insert( desk ) 
-
-
 -- 1 строка
 local imgPart1 = display.newImageRect( "puzzles folder/img-parts-for-puz-1/image_part_001.jpg", 152.5, 133.6 )
 imgPart1.x = 832.5
@@ -602,7 +616,7 @@ local summaPuzzleFinish = 0 --сумма пазлов, которые на св�
 
 
 
-
+	
 --секундомер
 
 sec = widget.newButton {

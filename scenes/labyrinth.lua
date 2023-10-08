@@ -366,6 +366,22 @@ function scene:create(event)
     local background = display.newImageRect("scenes/labyrinth/images/background.png", display.actualContentWidth, display.actualContentHeight)
 	background.x, background.y = display.contentWidth / 2, display.contentHeight / 2
     sceneGroup:insert(background)
+    menubtn = widget.newButton({
+		label = "",
+		--font = "fonts/geometria_medium",
+		labelColor = { default={ 0.0 }, over={ 0.0 } },
+		defaultFile = "img/menu.png",
+		overFile = "img/menu.png",
+		width = 200, height = 200,
+		x = display.viewableContentWidth-100,
+		y = 150,
+		fontSize = 18,
+		onRelease=function(event)
+			composer.gotoScene("menu")
+		end	
+	}) 
+	sceneGroup:insert(menubtn)
+
 	local background1 = display.newImageRect("scenes/labyrinth/images/elements.png", display.contentWidth, display.contentHeight)
 	background1.x, background1.y = display.contentWidth / 2, display.contentHeight / 2
     sceneGroup:insert(background1)
