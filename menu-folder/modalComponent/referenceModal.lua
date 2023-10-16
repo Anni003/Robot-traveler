@@ -58,14 +58,14 @@ function scene:create( event )
     local closeBtn = widget.newButton {
         defaultFile = "menu-folder/images-for-menu/close-krest-simple.png",
         overFile = "menu-folder/images-for-menu/close-krest-simple.png",
-        width = 85, height = 85,
+        width = 100, height = 100,
 
         onPress = function(event)
             composer.hideOverlay( "fade", 400 )
 		end
     }
-    closeBtn.x = display.contentWidth - 300
-	closeBtn.y = display.contentCenterY - 250
+    closeBtn.x = display.contentWidth - 150
+	closeBtn.y = display.contentHeight - 200
 
 
     sceneGroup:insert(textHowPlay)

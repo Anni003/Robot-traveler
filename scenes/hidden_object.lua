@@ -220,6 +220,35 @@ function scene:create( event )
     timer.performWithDelay( 1000, t, 0 )
 
     --кнопка для перехода в меню
+    local function goT0MenuBtn()
+	
+		composer.gotoScene( "menu", "fade", 400 )
+		
+		return true	-- indicates successful touch
+	end
+	menuBtn = widget.newButton {
+		defaultFile = "menu-folder/images-for-menu/burger-menu.png",
+		overFile = "menu-folder/images-for-menu/burger-menu-over.png",
+		width = 80, height = 62,
+		onRelease = goT0MenuBtn	-- event listener function
+	}
+	sec.x = display.contentCenterX
+	sec.y = display.contentHeight/14
+    
+	sceneGroup:insert( sec )
+    local t = {}
+    function t:timer( event )
+        local count = event.count
+        sec:setLabel( event.count )
+
+        if (hidden_object.size==0) then
+            time_1 = event.count
+            timer.cancel( event.source )
+        end
+    end
+    timer.performWithDelay( 1000, t, 0 )
+
+    --кнопка для перехода в меню
     menubtn = widget.newButton({
         label = "",
         --font = "fonts/geometria_medium",

@@ -5,9 +5,8 @@ local scene = composer.newScene()
 
 bgMusicDoors = audio.loadStream( "menu-folder/music/resistors.mp3" ) -- ПОДГРУЗКА МУЗЫКИ
 audio.reserveChannels( 1 )
-if(musicGlobal) then
-	audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
-end
+audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
+
 function scene:create( event )
 	local sceneGroup = self.view
     display.setStatusBar(display.HiddenStatusBar)
@@ -222,6 +221,35 @@ function scene:create( event )
 		defaultFile = "puzzles folder/dif-images/btn-soberu.png",
 		overFile = "puzzles folder/dif-images/btn-soberu.png",
 		width = 80, height = 80,
+	}
+	sec.x = display.contentCenterX
+	sec.y = display.contentHeight/14
+    
+	sceneGroup:insert( sec )
+    local t = {}
+    function t:timer( event )
+        local count = event.count
+        sec:setLabel( event.count )
+
+        if (hidden_object.size==0) then
+            time_1 = event.count
+            timer.cancel( event.source )
+        end
+    end
+    timer.performWithDelay( 1000, t, 0 )
+
+    --кнопка для перехода в меню
+    local function goT0MenuBtn()
+	
+		composer.gotoScene( "menu", "fade", 400 )
+		
+		return true	-- indicates successful touch
+	end
+	menuBtn = widget.newButton {
+		defaultFile = "menu-folder/images-for-menu/burger-menu.png",
+		overFile = "menu-folder/images-for-menu/burger-menu-over.png",
+		width = 80, height = 62,
+		onRelease = goT0MenuBtn	-- event listener function
 	}
 	sec.x = display.contentCenterX
 	sec.y = display.contentHeight/14

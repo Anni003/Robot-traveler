@@ -392,6 +392,16 @@ function scene:create(event)
 	back2.x, back2.y = display.contentWidth, display.contentHeight / 2
     sceneGroup:insert(back2)
 
+	local background1 = display.newImageRect("scenes/labyrinth/images/elements.png", display.contentWidth, display.contentHeight)
+	background1.x, background1.y = display.contentWidth / 2, display.contentHeight / 2
+    sceneGroup:insert(background1)
+    local back1 = display.newImageRect("scenes/labyrinth/images/background.png", 2, display.contentHeight)
+	back1.x, back1.y = 0, display.contentHeight / 2
+    sceneGroup:insert(back1)
+    local back2 = display.newImageRect("scenes/labyrinth/images/background.png", 2, display.contentHeight)
+	back2.x, back2.y = display.contentWidth, display.contentHeight / 2
+    sceneGroup:insert(back2)
+
     createEmptyGrid()
     generateStartCell()
     generatePaths()
