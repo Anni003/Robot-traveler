@@ -16,4 +16,4 @@ end
 
 native.setProperty("windowMode", "fullscreen")
  
-composer.gotoScene( "scenes.hidden_object" )
+composer.gotoScene( "scenes.puzzleGame3" )
