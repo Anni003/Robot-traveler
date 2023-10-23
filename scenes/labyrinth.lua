@@ -142,14 +142,22 @@ local function createEmptyGrid()
     end
 end
 
+startcoordX,startcoordY,finishcoordX,finishcoordY=10,10,110,110
 local function generateStartCell()
-    local random = math.random(2)
-	if (random == 2) then
-		startCell = grid[math.random(numberEmptyCells)][height - numberEmptyCells]
+    random1 = math.random(2)
+	if (random1 == 2) then
+       local number = math.random(numberEmptyCells)
+		startCell = grid[number][height - numberEmptyCells]
         startCell.walls.south = nil
+        startcoordY=labyrinthStartY+(height - numberEmptyCells-1)*cellSideSize
+        startcoordX=labyrinthStartX+cellSideSize/2+(cellSideSize-borderWidth)*(number-1)
 	else
-		startCell = grid[numberEmptyCells + 1][height - math.random(numberEmptyCells) + 1]
+        local number = math.random(numberEmptyCells)
+		startCell = grid[numberEmptyCells + 1][height - number + 1]
         startCell.walls.west = nil
+        startcoordX=labyrinthStartX+numberEmptyCells*cellSideSize
+        startcoordY=labyrinthStartY+(height-numberEmptyCells)*cellSideSize
+
 	end
 end
 
@@ -382,6 +390,7 @@ function scene:create(event)
 	}) 
 	sceneGroup:insert(menubtn)
 
+
 	local background1 = display.newImageRect("scenes/labyrinth/images/elements.png", display.contentWidth, display.contentHeight)
 	background1.x, background1.y = display.contentWidth / 2, display.contentHeight / 2
     sceneGroup:insert(background1)
@@ -416,9 +425,29 @@ function scene:create(event)
     scoreTimer = Timer:new(display.contentWidth / 2, 40)
     scoreTimer:start()
 
+
+    imgsize=28
+    local startImg = display.newImageRect("scenes/labyrinth/images/startingImg.png", imgsize,imgsize)
+    --if random==2 then--вниз
+	--    startImg.x, startImg.y = startCell.x,startCell.y+cellSideSize/2
+--else--влево
+    --startImg.x, startImg.y = startCell.x-cellSideSize/2,startCell.y
+---end
+    startImg.x, startImg.y = startCell.x,startCell.y
+    local finishImg = display.newImageRect("scenes/labyrinth/images/endingimg.png", imgsize,imgsize)
+    --if random==1 then--влево
+	--    finishImg.x, finishImg.y = endCell.x-cellSideSize/2,endCell.y
+  --  else--вниз
+  --      finishImg.x, finishImg.y = endCell.x+cellSideSize/2,endCell.y
+  --  end
+    finishImg.x, finishImg.y = endCell.x,endCell.y
     sceneGroup:insert(gridGroup)
     sceneGroup:insert(pointer)
     sceneGroup:insert(controlButtonsGroup)
+    
+    
+    sceneGroup:insert(startImg)
+    sceneGroup:insert(finishImg)
 end
 
 function scene:show(event)
