@@ -5,9 +5,10 @@ local scene = composer.newScene()
 
 bgMusicDoors = audio.loadStream( "menu-folder/music/resistors.mp3" ) -- ПОДГРУЗКА МУЗЫКИ
 audio.reserveChannels( 1 )
-if(musicGlobal) then
+--if(musicGlobal) then
 	audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
-end
+--end
+
 function scene:create( event )
 	local sceneGroup = self.view
     display.setStatusBar(display.HiddenStatusBar)
@@ -220,18 +221,13 @@ function scene:create( event )
     timer.performWithDelay( 1000, t, 0 )
 
     --кнопка для перехода в меню
-    local function goT0MenuBtn()
+    function goT0MenuBtn()
 	
 		composer.gotoScene( "menu", "fade", 400 )
 		
 		return true	-- indicates successful touch
 	end
-	menuBtn = widget.newButton {
-		defaultFile = "menu-folder/images-for-menu/burger-menu.png",
-		overFile = "menu-folder/images-for-menu/burger-menu-over.png",
-		width = 80, height = 62,
-		onRelease = goT0MenuBtn	-- event listener function
-	}
+	
 	sec.x = display.contentCenterX
 	sec.y = display.contentHeight/14
     
@@ -249,21 +245,9 @@ function scene:create( event )
     timer.performWithDelay( 1000, t, 0 )
 
     --кнопка для перехода в меню
-    menubtn = widget.newButton({
-        label = "",
-        --font = "fonts/geometria_medium",
-        labelColor = { default={ 0.0 }, over={ 0.0 } },
-        defaultFile = "img/menu.png",
-        overFile = "img/menu.png",
-        width = 200, height = 200,
-        x = display.viewableContentWidth-100,
-        y = 150,
-        fontSize = 18,
-        onRelease=function(event)
-            composer.gotoScene( "menu", "fade", 400 )
-        end	
-    }) 
-    sceneGroup:insert(menubtn)
+   
+    sceneGroup:insert(ThoseMenuBtn)
+    sceneGroup:insert(MyMenubtn)
 end
 
 function scene:show( event )
@@ -289,7 +273,7 @@ function scene:hide( event )
 		
 		if musicGlobal == true then
 			audio.stop( 1 )    -- НАСТРОИТЬ ОТКЛЮЧЕНИЕ МУЗЫКИ
-		end
+	    end
 
 	end	
 

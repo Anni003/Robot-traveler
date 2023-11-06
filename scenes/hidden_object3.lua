@@ -5,8 +5,9 @@ local scene = composer.newScene()
 
 bgMusicDoors = audio.loadStream( "menu-folder/music/resistors.mp3" ) -- ПОДГРУЗКА МУЗЫКИ
 audio.reserveChannels( 1 )
-audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
-
+--if(musicGlobal) then
+	audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
+--end
 function scene:create( event )
 	local sceneGroup = self.view
     display.setStatusBar(display.HiddenStatusBar)
@@ -16,22 +17,6 @@ function scene:create( event )
         background.x = display.contentCenterX
         background.y = display.contentCenterY
         sceneGroup:insert(background)
-        menubtn = widget.newButton({
-            label = "",
-            --font = "fonts/geometria_medium",
-            labelColor = { default={ 0.0 }, over={ 0.0 } },
-            defaultFile = "img/menu.png",
-            overFile = "img/menu.png",
-            width = 200, height = 200,
-            x = display.viewableContentWidth-100,
-            y = 150,
-            fontSize = 18,
-            onRelease=function(event)
-                composer.gotoScene("menu")
-            end	
-        }) 
-        sceneGroup:insert(menubtn)
-
     local hidden_object = display.newGroup()
     hidden_object.size = 0
     sceneGroup:insert(hidden_object)
@@ -245,12 +230,12 @@ function scene:create( event )
 		
 		return true	-- indicates successful touch
 	end
-	menuBtn = widget.newButton {
-		defaultFile = "menu-folder/images-for-menu/burger-menu.png",
-		overFile = "menu-folder/images-for-menu/burger-menu-over.png",
-		width = 80, height = 62,
-		onRelease = goT0MenuBtn	-- event listener function
-	}
+--	menuBtn = widget.newButton {
+---		defaultFile = "menu-folder/images-for-menu/burger-menu.png",
+--		overFile = "menu-folder/images-for-menu/burger-menu-over.png",
+--		width = 80, height = 62,
+--		onRelease = goT0MenuBtn	-- event listener function
+--	}
 	sec.x = display.contentCenterX
 	sec.y = display.contentHeight/14
     
@@ -268,21 +253,8 @@ function scene:create( event )
     timer.performWithDelay( 1000, t, 0 )
 
     --кнопка для перехода в меню
-    menubtn = widget.newButton({
-        label = "",
-        --font = "fonts/geometria_medium",
-        labelColor = { default={ 0.0 }, over={ 0.0 } },
-        defaultFile = "img/menu.png",
-        overFile = "img/menu.png",
-        width = 200, height = 200,
-        x = display.viewableContentWidth-100,
-        y = 150,
-        fontSize = 18,
-        onRelease=function(event)
-            composer.gotoScene( "menu", "fade", 400 )
-        end	
-    }) 
-    sceneGroup:insert(menubtn)
+    sceneGroup:insert(ThoseMenuBtn)
+    sceneGroup:insert(MyMenubtn)
 
 end
 

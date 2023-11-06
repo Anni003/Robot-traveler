@@ -79,7 +79,21 @@ function scene:create( event )
 	}
 	referenceBtn.x = display.contentCenterX - 500
 	referenceBtn.y = display.contentCenterY + 325
-
+	menubtn = widget.newButton({
+        label = "",
+        --font = "fonts/geometria_medium",
+        labelColor = { default={ 0.0 }, over={ 0.0 } },
+        defaultFile = "img/menu.png",
+        overFile = "img/menu.png",
+        width = 200, height = 200,
+        x = display.viewableContentWidth-100,
+        y = 150,
+        fontSize = 18,
+        onRelease=function(event)
+            composer.gotoScene( "menu", "fade", 400 )
+        end	
+    }) 
+    sceneGroup:insert(menubtn)
 	sceneGroup:insert( background )
 	sceneGroup:insert( playBtn )
 	sceneGroup:insert( settingsBtn )

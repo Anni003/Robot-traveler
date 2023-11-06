@@ -16,9 +16,4 @@ end
 
 native.setProperty("windowMode", "fullscreen")
  
-composer.gotoScene( "scenes.puzzleGame3" )
-composer.showOverlay("scenes.puzzle_all", {
-    isModal=true,
-    effect="fade",
-    time=400,
-})
+composer.gotoScene( "scenes.puzzleGame1" )

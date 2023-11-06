@@ -22,21 +22,8 @@ function scene:create( event )
 	background.x = 0 + display.screenOriginX 
 	background.y = 0 + display.screenOriginY
 	sceneGroup:insert( background )
-menubtn = widget.newButton({
-		label = "",
-		--font = "fonts/geometria_medium",
-		labelColor = { default={ 0.0 }, over={ 0.0 } },
-		defaultFile = "img/menu.png",
-		overFile = "img/menu.png",
-		width = 200, height = 200,
-		x = display.viewableContentWidth-100,
-		y = 150,
-		fontSize = 18,
-		onRelease=function(event)
-			composer.gotoScene( "menu", "fade", 400 )
-		end	
-	}) 
-	sceneGroup:insert(menubtn)
+	sceneGroup:insert(ThoseMenuBtn)
+    sceneGroup:insert(MyMenubtn)
 
 	local myText = display.newText( "Собери картинку!", display.contentCenterX - 100, display.contentCenterY - 400, "fonts/geometria_medium", 50 )
 	myText:setFillColor( 1, 1, 1 )

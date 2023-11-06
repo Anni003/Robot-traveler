@@ -3,6 +3,12 @@ local widget = require "widget"
 
 local scene = composer.newScene()
 
+bgMusicDoors = audio.loadStream( "menu-folder/music/resistors.mp3" ) -- ПОДГРУЗКА МУЗЫКИ
+audio.reserveChannels( 1 )
+--if(musicGlobal) then
+	audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
+--end
+
 function scene:create( event )
 	local sceneGroup = self.view
     display.setStatusBar(display.HiddenStatusBar)
@@ -196,34 +202,33 @@ function scene:create( event )
     pliers_2:addEventListener( "tap", pliers_2)
 
     --кнопка для перехода в меню
-    local function goT0MenuBtn()
-	
-		composer.gotoScene( "menu", "fade", 400 )
-		
-		return true	-- indicates successful touch
-	end
 	menuBtn = widget.newButton {
 		defaultFile = "menu-folder/images-for-menu/burger-menu.png",
 		overFile = "menu-folder/images-for-menu/burger-menu-over.png",
 		width = 80, height = 62,
-		onRelease = goT0MenuBtn	-- event listener function
+	onRelease = goT0MenuBtn	-- event listener function
 	}
 	menuBtn.x = display.contentWidth/0.82
 	menuBtn.y = display.contentHeight/15
     --кнопка для перехода в меню
-    sceneGroup:insert(menuBtn) --добавлена кнопка для перехода в меню
+    sceneGroup:insert(ThoseMenuBtnmenuBtn)
+    sceneGroup:insert(MyMenubtn)
+    
+     --добавлена кнопка для перехода в меню
 
 end
 
 function scene:show( event )
 	local sceneGroup = self.view
 	local phase = event.phase
-	
-	if phase == "will" then
+	if phase == "did" then
 
-	elseif phase == "did" then
-
-	end
+		if musicGlobal == true then
+			timer.performWithDelay( 5, function()
+				audio.play( bgMusicDoors, { loops = -1, channel = 1 } ) -- НАСТРОЙКИ ПРОИГРЫВАТЕЛЯ
+			end)
+		end
+	end	
 end
 
 function scene:hide( event )
