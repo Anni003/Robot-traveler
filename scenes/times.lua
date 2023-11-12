@@ -5,8 +5,9 @@ local scene = composer.newScene()
 
 bgMusicDoors = audio.loadStream( "menu-folder/music/adventure.mp3" ) -- ПОДГРУЗКА МУЗЫКИ
 audio.reserveChannels( 1 )
-audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
-
+if(musicGlobal) then
+	audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
+end
 local function inMenu()
     composer.removeScene("scenes.hidden_object")
     composer.removeScene("scenes.hidden_object3")

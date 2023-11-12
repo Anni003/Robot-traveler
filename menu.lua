@@ -6,7 +6,7 @@ local playBtn
 bgMusic = audio.loadStream( "menu-folder/music/menu-bg.mp3" ) -- ПОДГРУЗКА МУЗЫКИ
 audio.reserveChannels( 1 )
 
-audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
+--audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
 
 local function onPlayBtnRelease()
 	composer.gotoScene( "scenes.one_doors", "fade", 400 )
@@ -79,7 +79,21 @@ function scene:create( event )
 	}
 	referenceBtn.x = display.contentCenterX - 500
 	referenceBtn.y = display.contentCenterY + 325
-
+	menubtn = widget.newButton({
+        label = "",
+        --font = "fonts/geometria_medium",
+        labelColor = { default={ 0.0 }, over={ 0.0 } },
+        defaultFile = "img/menu.png",
+        overFile = "img/menu.png",
+        width = 200, height = 200,
+        x = display.viewableContentWidth-100,
+        y = 150,
+        fontSize = 18,
+        onRelease=function(event)
+            composer.gotoScene( "menu", "fade", 400 )
+        end	
+    }) 
+    sceneGroup:insert(menubtn)
 	sceneGroup:insert( background )
 	sceneGroup:insert( playBtn )
 	sceneGroup:insert( settingsBtn )
@@ -90,22 +104,14 @@ end
 function scene:show( event )
 	local sceneGroup = self.view
 	local phase = event.phase
-	if musicGlobal == true then
-
-	end
 	if phase == "will" then
 
 	elseif phase == "did" then
 
 		print("это фаза show")
-
-		if musicGlobal == true then
-			timer.performWithDelay( 5, function()
-				audio.play( bgMusic, { loops = -1, channel = 1 } ) -- НАСТРОЙКИ ПРОИГРЫВАТЕЛЯ
+		audio.play( bgMusic, { loops = -1, channel = 1 } )
+				 -- НАСТРОЙКИ ПРОИГРЫВАТЕЛЯ
 				-- audio.fade({ channel = 1, time = 100, volume = 0.1 } )
-
-			end)
-		end
 	end	
 end
 

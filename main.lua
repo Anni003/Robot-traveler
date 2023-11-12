@@ -16,4 +16,4 @@ end
 
 native.setProperty("windowMode", "fullscreen")
  
-composer.gotoScene( "menu" )
+composer.gotoScene( "scenes.puzzleGame1" )

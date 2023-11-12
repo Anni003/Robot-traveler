@@ -5,8 +5,9 @@ local scene = composer.newScene()
 
 bgMusicDoors = audio.loadStream( "menu-folder/music/resistors.mp3" ) -- ПОДГРУЗКА МУЗЫКИ
 audio.reserveChannels( 1 )
-audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
-
+--if(musicGlobal) then
+	audio.setVolume( volumeGlobalMusic, { channel=1 } ) -- Громкость звука
+--end
 function scene:create( event )
 	local sceneGroup = self.view
     display.setStatusBar(display.HiddenStatusBar)
@@ -16,7 +17,6 @@ function scene:create( event )
         background.x = display.contentCenterX
         background.y = display.contentCenterY
         sceneGroup:insert(background)
-
     local hidden_object = display.newGroup()
     hidden_object.size = 0
     sceneGroup:insert(hidden_object)
@@ -230,16 +230,31 @@ function scene:create( event )
 		
 		return true	-- indicates successful touch
 	end
-	menuBtn = widget.newButton {
-		defaultFile = "menu-folder/images-for-menu/burger-menu.png",
-		overFile = "menu-folder/images-for-menu/burger-menu-over.png",
-		width = 80, height = 62,
-		onRelease = goT0MenuBtn	-- event listener function
-	}
-	menuBtn.x = display.contentWidth/0.82
-	menuBtn.y = display.contentHeight/15
+--	menuBtn = widget.newButton {
+---		defaultFile = "menu-folder/images-for-menu/burger-menu.png",
+--		overFile = "menu-folder/images-for-menu/burger-menu-over.png",
+--		width = 80, height = 62,
+--		onRelease = goT0MenuBtn	-- event listener function
+--	}
+	sec.x = display.contentCenterX
+	sec.y = display.contentHeight/14
+    
+	sceneGroup:insert( sec )
+    local t = {}
+    function t:timer( event )
+        local count = event.count
+        sec:setLabel( event.count )
+
+        if (hidden_object.size==0) then
+            time_1 = event.count
+            timer.cancel( event.source )
+        end
+    end
+    timer.performWithDelay( 1000, t, 0 )
+
     --кнопка для перехода в меню
-    sceneGroup:insert(menuBtn) --добавлена кнопка для перехода в меню
+    sceneGroup:insert(ThoseMenuBtn)
+    sceneGroup:insert(MyMenubtn)
 
 end
 
